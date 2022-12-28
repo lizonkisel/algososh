@@ -10,6 +10,11 @@ import { ElementStates } from "../../types/element-states";
 
 export const StringComponent: React.FC = () => {
 
+  // const testRef = React.useRef('');
+  // React.useEffect(() => {
+  //   testRef.current = lettersState;
+  // }, [lettersState])
+
   const initialState = { 
     text: '',
     isRotateStarted: false,
@@ -19,11 +24,22 @@ export const StringComponent: React.FC = () => {
   const [lettersState, setLettersState] = React.useState<{letter: string, state: ElementStates}[]>([]);
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
+  React.useEffect(() => {
+    const lettersArray = state.text.split('');
+    const newlettersArray = lettersArray.map((letter: string) => {
+      return {letter: letter, state: ElementStates.Default}
+    });
+    setLettersState([...newlettersArray]);
+  }, [state.text]);
+
+  React.useEffect(() => {
+    if (state.isRotateStarted) {
+      reverseString(lettersState);
+    }
+  }, [state.isRotateStarted]);
+
   function reducer(state: any, action: any) {
     switch (action.type) {
-
-      
-
       case 'add_letters':
         return {
           ...state,
@@ -39,9 +55,6 @@ export const StringComponent: React.FC = () => {
 
         }
       case 'start':
-
-        console.log(reverseString(lettersState));
-
         return {
           ...state,
           isRotateStarted: true,
@@ -72,29 +85,33 @@ export const StringComponent: React.FC = () => {
 
   function reverseString(lettersState: any) {
     // const initialArray = initialString.split('');
-    console.log(lettersState);
 
     let i = 0;
     let j = lettersState.length - 1;
-    while (i < j ) {
+
+    let intr = setInterval(function() {
+      console.log('cycle');
       let start = lettersState[i];
-      console.log(start);
       let end = lettersState[j];
-
-      setTimeout(start.state = ElementStates.Changing, 2000);
-      setTimeout(end.state = ElementStates.Changing, 2000);
-
+      console.log('1');
+      start.state = ElementStates.Changing;
+      end.state = ElementStates.Changing;
+      console.log('2');
       lettersState[i] = end;
       lettersState[j] = start;
 
-      setTimeout(start.state = ElementStates.Modified, 2000);
-      setTimeout(end.state = ElementStates.Modified, 2000);
+      start.state = ElementStates.Modified;
+      end.state = ElementStates.Modified;
+      console.log('Modified');
 
       i++;
       j--;
-    }
-
-    return lettersState;
+      
+      if (i >= j) clearInterval(intr);
+    }, 1000);
+    // console.log('azaza');
+    // console.log(lettersState);
+    // return lettersState;
   };
 
 
@@ -102,18 +119,16 @@ export const StringComponent: React.FC = () => {
     e.preventDefault();
     console.log('Submit');
 
-    const lettersArray = state.text.split('');
-    const newlettersArray = lettersArray.map((letter: string) => {
-      return {letter: letter, state: ElementStates.Default}
-    });
+    // const lettersArray = state.text.split('');
+    // const newlettersArray = lettersArray.map((letter: string) => {
+    //   return {letter: letter, state: ElementStates.Default}
+    // });
 
-    setLettersState([...newlettersArray]);
+    // setLettersState([...newlettersArray]);
 
     dispatch({ type: 'start' });
 
-    // console.log(reverseString(state.text));
-
-    // console.log(reverseString(lettersState));
+    // reverseString(lettersState);
 
   };
 
@@ -135,8 +150,8 @@ export const StringComponent: React.FC = () => {
       {
         state.isRotateStarted && 
         <section className={styles.bubbles}>
-          {lettersState.map((letter: any) => {
-            return <Circle letter={letter.letter} state={letter.state}/>
+          {lettersState.map((letter: any, i) => {
+            return <Circle letter={letter.letter} state={letter.state} key={i}/>
           })}
           {/* <div>{state.text}</div> */}
         </section>
