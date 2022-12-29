@@ -64,55 +64,113 @@ export const StringComponent: React.FC = () => {
     }
   };
 
-  // function reverseString(initialString: string) {
-  //   const initialArray = initialString.split('');
-  //   let i = 0;
-  //   let j = initialArray.length - 1;
-  //   while (i < j ) {
-  //     let start = initialArray[i];
-  //     let end = initialArray[j];
-
-
-  //     initialArray[i] = end;
-  //     initialArray[j] = start;
-
-  //     i++;
-  //     j--;
-  //   }
-
-  //   return initialArray.join('');
-  // };
-
   function reverseString(lettersState: any) {
-    // const initialArray = initialString.split('');
-
+    let copyArr = lettersState.slice(0);
     let i = 0;
-    let j = lettersState.length - 1;
+    let j = copyArr.length - 1;
 
     let intr = setInterval(function() {
-      console.log('cycle');
-      let start = lettersState[i];
-      let end = lettersState[j];
-      console.log('1');
-      start.state = ElementStates.Changing;
-      end.state = ElementStates.Changing;
-      console.log('2');
-      lettersState[i] = end;
-      lettersState[j] = start;
+      let start = copyArr[i];
+      let end = copyArr[j];
+      let temp = null;
+      console.log(1);
+      console.log(i, j);
 
-      start.state = ElementStates.Modified;
-      end.state = ElementStates.Modified;
-      console.log('Modified');
+      setTimeout((i: number, j: number) => {
+        console.log(2);
+        console.log(i, j);
+        start.state = ElementStates.Changing;
+        end.state = ElementStates.Changing;
+        console.log(start);
+        console.log(end);
+        setLettersState([...copyArr]);
+
+        setTimeout((i: number, j: number) => {
+          console.log(3);
+          console.log(i, j);
+          // copyArr[i] = {letter: end.letter, state: end.state};
+          // copyArr[j] = {letter: start.letter, state: start.state};
+          
+          temp = copyArr[i];
+          copyArr[i] = copyArr[j];
+          copyArr[j] = temp;
+          // copyArr[i] = end;
+          // copyArr[j] = start;
+          console.log('change');
+          console.log(start);
+          console.log(end);
+          console.log(copyArr);
+          setLettersState([...copyArr]);
+          
+          setTimeout(() => {
+            start.state = ElementStates.Modified;
+            end.state = ElementStates.Modified;
+            console.log(copyArr);
+            setLettersState([...copyArr]);
+          }, 1000, i, j)
+        }, 1000, i, j);
+      }, 1000, i, j);
+
+      // setTimeout((i: number, j: number) => {
+      //   console.log(3);
+      //   console.log(copyArr);
+      //   copyArr[i] = end;
+      //   copyArr[j] = start;
+
+      //   start.state = ElementStates.Modified;
+      //   end.state = ElementStates.Modified;
+      //   console.log(copyArr);
+      //   setLettersState([...copyArr]);
+      // }, 1000);
+
+      // setTimeout((i: number, j: number) => {
+      //   console.log(3);
+      //   lettersState[i] = end;
+      //   lettersState[j] = start;
+
+      //   start.state = ElementStates.Modified;
+      //   end.state = ElementStates.Modified;
+      //   setLettersState(lettersState);
+      // }, 1000);
 
       i++;
       j--;
-      
+
       if (i >= j) clearInterval(intr);
-    }, 1000);
-    // console.log('azaza');
-    // console.log(lettersState);
-    // return lettersState;
+    }, 1000)
   };
+
+  // function reverseString(lettersState: any) {
+  //   // const initialArray = initialString.split('');
+
+  //   let i = 0;
+  //   let j = lettersState.length - 1;
+
+  //   let intr = setInterval(function() {
+  //     console.log('cycle');
+  //     let start = lettersState[i];
+  //     let end = lettersState[j];
+  //     console.log('1');
+  //     start.state = ElementStates.Changing;
+  //     end.state = ElementStates.Changing;
+  //     console.log('2');
+  //     lettersState[i] = end;
+  //     lettersState[j] = start;
+
+  //     start.state = ElementStates.Modified;
+  //     end.state = ElementStates.Modified;
+  //     console.log('Modified');
+
+  //     i++;
+  //     j--;
+      
+  //     if (i >= j) clearInterval(intr);
+  //   }, 1000);
+
+  //   // console.log('azaza');
+  //   // console.log(lettersState);
+  //   // return lettersState;
+  // };
 
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
