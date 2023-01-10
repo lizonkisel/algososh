@@ -69,109 +69,50 @@ export const StringComponent: React.FC = () => {
     let i = 0;
     let j = copyArr.length - 1;
 
-    let intr = setInterval(function() {
-      let start = copyArr[i];
-      let end = copyArr[j];
-      let temp = null;
-      console.log(1);
-      console.log(i, j);
+    if (copyArr.length === 1) {
+      copyArr[0].state = ElementStates.Modified;
+      setLettersState([...copyArr]);
+    } else {
+      setTimeout(function test() {
+        console.log('1');
+        let start = copyArr[i];
+        let end = copyArr[j];
+        let temp = null;
 
-      setTimeout((i: number, j: number) => {
-        console.log(2);
-        console.log(i, j);
-        start.state = ElementStates.Changing;
-        end.state = ElementStates.Changing;
-        console.log(start);
-        console.log(end);
-        setLettersState([...copyArr]);
-
-        setTimeout((i: number, j: number) => {
-          console.log(3);
-          console.log(i, j);
-          // copyArr[i] = {letter: end.letter, state: end.state};
-          // copyArr[j] = {letter: start.letter, state: start.state};
-          
-          temp = copyArr[i];
-          copyArr[i] = copyArr[j];
-          copyArr[j] = temp;
-          // copyArr[i] = end;
-          // copyArr[j] = start;
-          console.log('change');
-          console.log(start);
-          console.log(end);
-          console.log(copyArr);
+        // setTimeout((i: number, j: number) => {
+          console.log('2');
+          start.state = ElementStates.Changing;
+          end.state = ElementStates.Changing;
           setLettersState([...copyArr]);
-          
-          setTimeout(() => {
-            start.state = ElementStates.Modified;
-            end.state = ElementStates.Modified;
-            console.log(copyArr);
+
+          setTimeout((i: number, j: number) => {
+            console.log('3');
+            // copyArr[i] = {letter: end.letter, state: end.state};
+            // copyArr[j] = {letter: start.letter, state: start.state};
+            
+            temp = copyArr[i];
+            copyArr[i] = copyArr[j];
+            copyArr[j] = temp;
+            // copyArr[i] = end;
+            // copyArr[j] = start;
             setLettersState([...copyArr]);
-          }, 1000, i, j)
-        }, 1000, i, j);
-      }, 1000, i, j);
-
-      // setTimeout((i: number, j: number) => {
-      //   console.log(3);
-      //   console.log(copyArr);
-      //   copyArr[i] = end;
-      //   copyArr[j] = start;
-
-      //   start.state = ElementStates.Modified;
-      //   end.state = ElementStates.Modified;
-      //   console.log(copyArr);
-      //   setLettersState([...copyArr]);
-      // }, 1000);
-
-      // setTimeout((i: number, j: number) => {
-      //   console.log(3);
-      //   lettersState[i] = end;
-      //   lettersState[j] = start;
-
-      //   start.state = ElementStates.Modified;
-      //   end.state = ElementStates.Modified;
-      //   setLettersState(lettersState);
-      // }, 1000);
-
-      i++;
-      j--;
-
-      if (i >= j) clearInterval(intr);
-    }, 1000)
+            
+            setTimeout(() => {
+              console.log('4');
+              start.state = ElementStates.Modified;
+              end.state = ElementStates.Modified;
+              setLettersState([...copyArr]);
+              if (i < j) {
+                setTimeout(test, 1000);
+              }
+            }, 1000, i, j)
+          }, 1000, i, j);
+        // }, 1000, i, j);
+        i++;
+        j--;
+      }, 1000)
+    }
   };
-
-  // function reverseString(lettersState: any) {
-  //   // const initialArray = initialString.split('');
-
-  //   let i = 0;
-  //   let j = lettersState.length - 1;
-
-  //   let intr = setInterval(function() {
-  //     console.log('cycle');
-  //     let start = lettersState[i];
-  //     let end = lettersState[j];
-  //     console.log('1');
-  //     start.state = ElementStates.Changing;
-  //     end.state = ElementStates.Changing;
-  //     console.log('2');
-  //     lettersState[i] = end;
-  //     lettersState[j] = start;
-
-  //     start.state = ElementStates.Modified;
-  //     end.state = ElementStates.Modified;
-  //     console.log('Modified');
-
-  //     i++;
-  //     j--;
-      
-  //     if (i >= j) clearInterval(intr);
-  //   }, 1000);
-
-  //   // console.log('azaza');
-  //   // console.log(lettersState);
-  //   // return lettersState;
-  // };
-
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
