@@ -151,7 +151,6 @@ export const StringComponent: React.FC = () => {
           {lettersState.map((letter: any, i) => {
             return <Circle letter={letter.letter} state={letter.state} key={i}/>
           })}
-          {/* <div>{state.text}</div> */}
         </section>
       }
 
