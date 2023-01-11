@@ -1,0 +1,11 @@
+.inputField__wrapper {
+    display: flex;
+    flex-direction: row;
+    column-gap: 12px;
+
+    justify-content: center;
+}
+
+.inputField__input {
+    max-width: 377px;
+}
