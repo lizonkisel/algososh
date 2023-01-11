@@ -74,19 +74,19 @@ export const StringComponent: React.FC = () => {
       setLettersState([...copyArr]);
     } else {
       setTimeout(function test() {
-        console.log('1');
-        let start = copyArr[i];
-        let end = copyArr[j];
-        let temp = null;
+        if (copyArr.length % 2 !== 0 && i === j) {
+          copyArr[i].state = ElementStates.Modified;
+          setLettersState([...copyArr]);
+        } else {
+          let start = copyArr[i];
+          let end = copyArr[j];
+          let temp = null;
 
-        // setTimeout((i: number, j: number) => {
-          console.log('2');
           start.state = ElementStates.Changing;
           end.state = ElementStates.Changing;
           setLettersState([...copyArr]);
-
+  
           setTimeout((i: number, j: number) => {
-            console.log('3');
             // copyArr[i] = {letter: end.letter, state: end.state};
             // copyArr[j] = {letter: start.letter, state: start.state};
             
@@ -98,16 +98,15 @@ export const StringComponent: React.FC = () => {
             setLettersState([...copyArr]);
             
             setTimeout(() => {
-              console.log('4');
               start.state = ElementStates.Modified;
               end.state = ElementStates.Modified;
               setLettersState([...copyArr]);
-              if (i < j) {
+              if (i < j - 1) {
                 setTimeout(test, 1000);
               }
             }, 1000, i, j)
           }, 1000, i, j);
-        // }, 1000, i, j);
+        }
         i++;
         j--;
       }, 1000)
