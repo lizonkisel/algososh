@@ -16,7 +16,49 @@ export const FibonacciPage: React.FC = () => {
 
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
+  const [arr, setArr] = React.useState<number[]>([]);
+
   const {num, areCalculationsStarted, isCalculated} = state;
+
+  React.useEffect(() => {
+    if (areCalculationsStarted) {
+      getFibonacciRow(num);
+    }
+  }, [areCalculationsStarted]);
+
+
+  const [count, setCount] = React.useState(0);
+
+  // React.useEffect(() => {
+  //   let counter = count;
+  //   const interval = setInterval(() => {
+  //     if (counter >= arr.length) {
+  //       clearInterval(interval);
+  //     } else {
+  //       setCount(count => count + 1);
+  //       counter++; // local variable that this closure will see
+  //     }
+  //   }, 500);
+  //   return () => clearInterval(interval);
+  // }, [arr]);
+
+  React.useEffect(() => {
+    let counter = count;
+    setTimeout(function test() {
+      if (counter < arr.length) {
+        setCount(count => count + 1);
+        counter++; // local variable that this closure will see
+        console.log(count);
+        setTimeout(test, 500);
+      }
+    }, 500);
+  }, [arr]);
+
+  let playersDraftedList = arr.slice(0, count).map((value, i) => {
+    return (
+      <Circle letter={value.toString()} key={i}/>
+    )
+  });
 
   function reducer(state: any, action: any) {
     switch (action.type) {
@@ -37,22 +79,51 @@ export const FibonacciPage: React.FC = () => {
   };
 
   function getFibonacciRow(n: number): number[] {
-    console.log(num);
-    console.log(n);
     const arr = [1, 1];
-    console.log('azaza');
     if (n === 1) {
       return arr;
     }
     for (let i = 2; i <= n; i++) {
-      console.log(i);
-      console.log(n);
       const value = arr[i - 2] + arr[i - 1];
       arr.push(value);
-      console.log(i);
     }
-    console.log(arr);
+    setArr(arr);
     return arr;
+  };
+
+  function showFibonacciRow() {
+    setTimeout(function test() {
+      const fibonacciArray = getFibonacciRow(num);
+      let i = 0;
+
+      if (i <= fibonacciArray.length) {
+        return <Circle letter={fibonacciArray[i].toString()} key={i}/>
+      }
+      i++;
+      setTimeout(test, 500);
+
+      // const value = fibonacciArray[i];
+      // console.log('number');
+      // return <Circle letter={value.toString()} key={i}/>
+      // i++;
+      // if (i <= fibonacciArray.length) {
+      //   setTimeout(test, 500);
+      // }
+    })
+    // const fibonacciArray = getFibonacciRow(num);
+    // // for (let i = 0; i < fibonacciArray.length; i++) {
+    // //   const value = fibonacciArray[i];
+    // //   setTimeout(() => {
+    // //     console.log('number');
+    // //     return <Circle letter={value.toString()} key={i}/>
+    // //   }, 500)
+    // // }
+    // fibonacciArray.map((value, i) => {
+    //   setTimeout(() => {
+    //     console.log('number');
+    //     return <Circle letter={value.toString()} key={i}/>
+    //   }, 500)
+    // })
   };
 
   function handleChange(e: React.FormEvent<HTMLInputElement>): void {
@@ -76,9 +147,11 @@ export const FibonacciPage: React.FC = () => {
       {
         areCalculationsStarted && 
         <section className={styles.bubbles}>
-          {getFibonacciRow(num).map((value, i) => {
+          {/* {arr.map((value, i) => {
             return <Circle letter={value.toString()} key={i}/>
-          })}
+          })} */}
+          {playersDraftedList}
+          {/* {showFibonacciRow()}; */}
         </section>
       }
     </SolutionLayout>
