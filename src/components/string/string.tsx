@@ -151,7 +151,7 @@ export const StringComponent: React.FC = () => {
     <SolutionLayout title="Строка">
 
       <form className={styles.inputField__wrapper} onSubmit={handleSubmit}>
-        <Input isLimitText={true} maxLength={11} extraClass={styles.inputField__input} onChange={handleChange}/>
+        <Input isLimitText={true} maxLength={11} extraClass={styles.inputField__input} onChange={handleChange} disabled={state.calculating}/>
         <Button text='Развернуть' type='submit' isLoader={state.calculating}/>
       </form>
 
