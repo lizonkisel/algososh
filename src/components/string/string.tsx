@@ -18,6 +18,7 @@ export const StringComponent: React.FC = () => {
   const initialState = { 
     text: '',
     isRotateStarted: false,
+    calculating: false,
     isRotated: false
   };
 
@@ -34,6 +35,7 @@ export const StringComponent: React.FC = () => {
 
   React.useEffect(() => {
     if (state.isRotateStarted) {
+      dispatch({type: 'calculating'});
       reverseString(lettersState);
     }
   }, [state.isRotateStarted]);
@@ -46,18 +48,24 @@ export const StringComponent: React.FC = () => {
           text: action.value,
           isRotateStarted: false
         };
-      case 'set_changing':
-        return {
-          
-        }
-      case 'set_modified':
-        return {
-
-        }
       case 'start':
         return {
           ...state,
           isRotateStarted: true,
+        }
+      case 'calculating':
+        console.log('calculating');
+        return {
+          ...state,
+          calculating: true
+        }
+      case 'end':
+        console.log('end');
+        return {
+          ...state,
+          isRotateStarted: false,
+          calculating: false,
+          isRotated: true
         }
       default:
         throw new Error(`Wrong type of action: ${action.type}`);
@@ -103,6 +111,8 @@ export const StringComponent: React.FC = () => {
               setLettersState([...copyArr]);
               if (i < j - 1) {
                 setTimeout(test, 1000);
+              } else {
+                dispatch({type: 'end'});
               }
             }, 1000, i, j)
           }, 1000, i, j);
@@ -141,12 +151,12 @@ export const StringComponent: React.FC = () => {
     <SolutionLayout title="Строка">
 
       <form className={styles.inputField__wrapper} onSubmit={handleSubmit}>
-        <Input isLimitText={true} maxLength={11} extraClass={styles.inputField__input} onChange={handleChange}/>
-        <Button text='Развернуть' type='submit'/>
+        <Input isLimitText={true} maxLength={11} extraClass={styles.inputField__input} onChange={handleChange} disabled={state.calculating}/>
+        <Button text='Развернуть' type='submit' isLoader={state.calculating}/>
       </form>
 
       {
-        state.isRotateStarted && 
+        (state.isRotateStarted  || state.isRotated) && 
         <section className={styles.bubbles}>
           {lettersState.map((letter: any, i) => {
             return <Circle letter={letter.letter} state={letter.state} key={i}/>
