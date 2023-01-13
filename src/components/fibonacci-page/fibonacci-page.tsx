@@ -12,6 +12,7 @@ export const FibonacciPage: React.FC = () => {
   const initialState = {
     num: null,
     areCalculationsStarted: false,
+    calculating: false,
     isCalculated: false
   };
 
@@ -19,7 +20,7 @@ export const FibonacciPage: React.FC = () => {
 
   const [arr, setArr] = React.useState<number[]>([]);
 
-  const {num, areCalculationsStarted, isCalculated} = state;
+  const {num, areCalculationsStarted, calculating, isCalculated} = state;
 
   React.useEffect(() => {
     if (areCalculationsStarted) {
@@ -54,11 +55,22 @@ export const FibonacciPage: React.FC = () => {
         setCount((a) => a + 1);
         counter++;
         setTimeout(test, 500);
+      } else {
+        dispatch({type: 'end'});
       }
     }, 500);
     setCount(0);
     counter = 0;
   }, [arr]);
+
+  React.useEffect(() => {
+    if (areCalculationsStarted === true) {
+      dispatch({type: 'calculating'});
+    };
+    // if () {
+    //   dispatch({type: 'end'});
+    // }
+  }, [areCalculationsStarted]);
 
   // let fibNumbers = 5;
 
@@ -82,9 +94,24 @@ export const FibonacciPage: React.FC = () => {
           areCalculationsStarted: false
         };
       case 'start':
+        console.log('start');
         return {
           ...state,
           areCalculationsStarted: true,
+        }
+      case 'calculating':
+        console.log('calculating');
+        return {
+          ...state,
+          calculating: true
+        }
+      case 'end':
+        console.log('end');
+        return {
+          ...state,
+          areCalculationsStarted: false,
+          calculating: false,
+          isCalculated: true
         }
       default:
         throw new Error(`Wrong type of action: ${action.type}`);
@@ -119,11 +146,12 @@ export const FibonacciPage: React.FC = () => {
     <SolutionLayout title="Последовательность Фибоначчи">
      <form className={styles.inputField__wrapper} onSubmit={handleSubmit}>
         <Input isLimitText={true} max={19} min={1} extraClass={styles.inputField__input} type='number' onChange={handleChange}/>
-        <Button text='Развернуть' type='submit'/>
+
+        <Button text='Развернуть' type='submit' isLoader={calculating}/>
       </form>
 
       {
-        areCalculationsStarted && 
+        (areCalculationsStarted || isCalculated) && 
         <section className={styles.bubbles}>
           {/* {arr.map((value, i) => {
             return <Circle letter={value.toString()} key={i}/>
