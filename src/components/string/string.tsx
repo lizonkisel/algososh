@@ -85,6 +85,7 @@ export const StringComponent: React.FC = () => {
         if (copyArr.length % 2 !== 0 && i === j) {
           copyArr[i].state = ElementStates.Modified;
           setLettersState([...copyArr]);
+          dispatch({type: 'end'});
         } else {
           let start = copyArr[i];
           let end = copyArr[j];
