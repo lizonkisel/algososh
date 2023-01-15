@@ -10,6 +10,31 @@ import { Column } from "../ui/column/column";
 
 export const SortingPage: React.FC = () => {
 
+  const initialState = {
+    arr: null
+  };
+
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+
+  function reducer(state: any, action: any) {
+    switch (action.type) {
+      case 'changeArray':
+        console.log('changeArray');
+        return {
+          ...state,
+          arr: action.arr
+        }
+      default:
+        throw new Error(`Wrong type of action: ${action.type}`);
+    }
+  };
+
+  const [arr, setArr] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    dispatch({type: 'changeArray', action: getColumns(arr)})
+  }, [arr])
+
   function randomArr() {
     let arr = [];
 
@@ -18,21 +43,30 @@ export const SortingPage: React.FC = () => {
     for (let j = 0; j < i; j++) {
       let num = Math.floor(Math.random() * (100 - 0 + 1) + 0);
       arr.push(num);
-    }
+    };
+
+    setArr(arr);
 
     return arr;
   };
 
-  const finishingArr = randomArr().map((value, i) => {
-    return (
-      <Column index={value} key={i}/>
-    )
-  });
+  // function getColumns() {
+  //   const startingArr = randomArr();
 
-  function getColumns() {
-    const startingArr = randomArr();
+  //   const finishingArr = startingArr.map((value, i) => {
+  //     return (
+  //       <Column index={value} key={i}/>
+  //     )
+  //   });
 
-    const finishingArr = startingArr.map((value, i) => {
+  //   // setArr(finishingArr);
+
+  //   return finishingArr;
+  // };
+
+  function getColumns(arr: any) {
+    
+    const finishingArr = arr.map((value: number, i: number) => {
       return (
         <Column index={value} key={i}/>
       )
@@ -41,12 +75,18 @@ export const SortingPage: React.FC = () => {
     return finishingArr;
   };
 
+  const test = arr.map((value: number, i: number) => {
+    return (
+      <Column index={value} key={i}/>
+    )
+  });
+
   function changeArr() {
     console.log('azaza');
-    getColumns();
+    // getColumns();
   };
 
-  console.log(randomArr());
+  // console.log(randomArr());
   // setInterval(randomArr, 300);
 
   return (
@@ -62,7 +102,7 @@ export const SortingPage: React.FC = () => {
           <Button text='По убыванию' type='button' sorting={Direction.Descending} name='orderOfSorting'/>
         </fieldset>
 
-        <Button text='Новый массив' type='button' onClick={changeArr}/>
+        <Button text='Новый массив' type='button' onClick={randomArr}/>
       </form>
 
       <section className={styles.visualArray}>
@@ -70,7 +110,9 @@ export const SortingPage: React.FC = () => {
         <Column index={60}/>
         <Column index={30}/> */}
         {/* {finishingArr} */}
-        {getColumns()}
+        {/* {getColumns()} */}
+        {test}
+
       </section>
     </SolutionLayout>
   );
