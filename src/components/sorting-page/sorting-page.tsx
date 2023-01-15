@@ -10,7 +10,44 @@ import { Column } from "../ui/column/column";
 
 export const SortingPage: React.FC = () => {
 
-  
+  function randomArr() {
+    let arr = [];
+
+    let i = Math.floor(Math.random() * (17 - 3 + 1) + 3);
+
+    for (let j = 0; j < i; j++) {
+      let num = Math.floor(Math.random() * (100 - 0 + 1) + 0);
+      arr.push(num);
+    }
+
+    return arr;
+  };
+
+  const finishingArr = randomArr().map((value, i) => {
+    return (
+      <Column index={value} key={i}/>
+    )
+  });
+
+  function getColumns() {
+    const startingArr = randomArr();
+
+    const finishingArr = startingArr.map((value, i) => {
+      return (
+        <Column index={value} key={i}/>
+      )
+    });
+
+    return finishingArr;
+  };
+
+  function changeArr() {
+    console.log('azaza');
+    getColumns();
+  };
+
+  console.log(randomArr());
+  // setInterval(randomArr, 300);
 
   return (
     <SolutionLayout title="Сортировка массива">
@@ -25,13 +62,15 @@ export const SortingPage: React.FC = () => {
           <Button text='По убыванию' type='button' sorting={Direction.Descending} name='orderOfSorting'/>
         </fieldset>
 
-        <Button text='Новый массив' type='button'/>
+        <Button text='Новый массив' type='button' onClick={changeArr}/>
       </form>
 
       <section className={styles.visualArray}>
-        <Column index={1}/>
+        {/* <Column index={1}/>
         <Column index={60}/>
-        <Column index={30}/>
+        <Column index={30}/> */}
+        {/* {finishingArr} */}
+        {getColumns()}
       </section>
     </SolutionLayout>
   );
