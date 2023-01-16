@@ -10,11 +10,15 @@ import { Column } from "../ui/column/column";
 
 export const SortingPage: React.FC = () => {
 
+  type TSortingTypes = {
+    sortingType: 'selection' | 'bubble'
+  };
+
   const [arr, setArr] = React.useState<any[]>([]);
+  const [sortingType, setSortingType] = React.useState<TSortingTypes>();
 
   function setRandomArr() {
     let arr = [];
-
     let i = Math.floor(Math.random() * (17 - 3 + 1) + 3);
 
     for (let j = 0; j < i; j++) {
@@ -23,7 +27,6 @@ export const SortingPage: React.FC = () => {
     };
 
     setArr(arr);
-
     console.log(arr);
     return arr;
   };
@@ -34,6 +37,47 @@ export const SortingPage: React.FC = () => {
     )
   });
 
+  const swap = (arr: number[], firstIndex: number, secondIndex: number): void => {
+    const temp = arr[firstIndex];
+    arr[firstIndex] = arr[secondIndex];
+    arr[secondIndex] = temp;
+    console.log(arr);
+  };
+
+  function selectionSortDescending() {
+    let copyArr = arr.slice(0);
+    for (let i = 0; i < copyArr.length - 1; i++) {
+      let maxInd = i;
+      for (let j = i; j < copyArr.length - 1; j++) {
+        if (copyArr[maxInd] < copyArr[j+1]) {
+          maxInd = j + 1;
+        }
+      }
+      swap(copyArr, i, maxInd);
+    };
+    setArr(copyArr);
+  };
+
+  function selectionSortAscending() {
+    let copyArr = arr.slice(0);
+    for (let i = 0; i < copyArr.length - 1; i++) {
+      let minInd = i;
+      for (let j = i; j < copyArr.length - 1; j++) {
+        if (copyArr[minInd] > copyArr[j+1]) {
+          minInd = j + 1;
+        }
+      }
+      swap(copyArr, i, minInd);
+    }
+    setArr(copyArr);
+  };
+
+  // React.useEffect(() => {
+  //   console.log('azaza');
+  //   console.log(arr);
+  // }, [arr]);
+
+
   return (
     <SolutionLayout title="Сортировка массива">
       <form action="" className={styles.form}>
@@ -43,8 +87,8 @@ export const SortingPage: React.FC = () => {
         </fieldset>
 
         <fieldset className={`${styles.form__fieldset} ${styles.form__fieldset_type_button}`} id='orderOfSorting'>
-          <Button text='По возрастанию' type='button' sorting={Direction.Ascending} name='orderOfSorting'/>
-          <Button text='По убыванию' type='button' sorting={Direction.Descending} name='orderOfSorting'/>
+          <Button text='По возрастанию' type='button' sorting={Direction.Ascending} name='orderOfSorting' onClick={selectionSortAscending}/>
+          <Button text='По убыванию' type='button' sorting={Direction.Descending} name='orderOfSorting' onClick={selectionSortDescending}/>
         </fieldset>
 
         <Button text='Новый массив' type='button' onClick={setRandomArr}/>
