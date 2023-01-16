@@ -10,12 +10,13 @@ import { Column } from "../ui/column/column";
 
 export const SortingPage: React.FC = () => {
 
-  type TSortingTypes = {
-    sortingType: 'selection' | 'bubble'
-  };
+  // type TSortingTypes = {
+  //   sortingType: 'selection' | 'bubble'
+  // };
 
   const [arr, setArr] = React.useState<any[]>([]);
-  const [sortingType, setSortingType] = React.useState<TSortingTypes>();
+  const [sortingType, setSortingType] = React.useState<'selection' | 'bubble'>('selection'); 
+  // const [sortingType, setSortingType] = React.useState<string>('selection'); // Разобраться, как сделать так, чтобы работала верхняя строчка
 
   function setRandomArr() {
     let arr = [];
@@ -42,6 +43,46 @@ export const SortingPage: React.FC = () => {
     arr[firstIndex] = arr[secondIndex];
     arr[secondIndex] = temp;
     console.log(arr);
+  };
+
+  function ascendingSort() {
+    if (sortingType === 'selection') {
+      selectionSortAscending();
+    } else {
+      bubbleSortAscending();
+    }
+  };
+
+  function descendingSort() {
+    if (sortingType === 'selection') {
+      selectionSortDescending();
+    } else {
+      bubbleSortDescending();
+    }
+  };
+
+  function bubbleSortAscending() {
+    let copyArr = arr.slice(0);
+    for (let i = 0; i < copyArr.length - 1; i++) {
+      for (let j = 0; j < copyArr.length - i - 1; j++) {
+        if (copyArr[j] < copyArr[j + 1]) {
+          swap(copyArr, j, j + 1);
+        }
+      }
+    }
+    setArr(copyArr);
+  };
+
+  function bubbleSortDescending() {
+    let copyArr = arr.slice(0);
+    for (let i = 0; i < copyArr.length - 1; i++) {
+      for (let j = 0; j < copyArr.length - i - 1; j++) {
+        if (copyArr[j] > copyArr[j + 1]) {
+          swap(copyArr, j, j + 1);
+        }
+      }
+    }
+    setArr(copyArr);
   };
 
   function selectionSortDescending() {
@@ -72,23 +113,28 @@ export const SortingPage: React.FC = () => {
     setArr(copyArr);
   };
 
+  function changeAlgorithm(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.currentTarget.value === 'selection' || e.currentTarget.value === 'bubble') {
+      setSortingType(e.currentTarget.value);
+    }
+  };
+
   // React.useEffect(() => {
   //   console.log('azaza');
   //   console.log(arr);
   // }, [arr]);
 
-
   return (
     <SolutionLayout title="Сортировка массива">
       <form action="" className={styles.form}>
         <fieldset className={`${styles.form__fieldset} ${styles.form__fieldset_type_radio}`} id='typeOfSorting'>
-          <RadioInput label='Выбор' name='typeOfSorting' checked/>
-          <RadioInput label='Пузырёк' name='typeOfSorting' />
+          <RadioInput label='Выбор' name='typeOfSorting' value='selection' onChange={changeAlgorithm} checked={sortingType === 'selection'} />
+          <RadioInput label='Пузырёк' name='typeOfSorting' value='bubble' onChange={changeAlgorithm} checked={sortingType === 'bubble'} />
         </fieldset>
 
         <fieldset className={`${styles.form__fieldset} ${styles.form__fieldset_type_button}`} id='orderOfSorting'>
-          <Button text='По возрастанию' type='button' sorting={Direction.Ascending} name='orderOfSorting' onClick={selectionSortAscending}/>
-          <Button text='По убыванию' type='button' sorting={Direction.Descending} name='orderOfSorting' onClick={selectionSortDescending}/>
+          <Button text='По возрастанию' type='button' sorting={Direction.Ascending} name='orderOfSorting' onClick={ascendingSort}/>
+          <Button text='По убыванию' type='button' sorting={Direction.Descending} name='orderOfSorting' onClick={descendingSort}/>
         </fieldset>
 
         <Button text='Новый массив' type='button' onClick={setRandomArr}/>
