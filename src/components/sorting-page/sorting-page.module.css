@@ -28,6 +28,7 @@
 
 .visualArray {
     margin: 48px 0 0 0;
+    min-height: 320px;
 
     display: flex;
     flex-direction: row;

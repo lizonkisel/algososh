@@ -10,32 +10,9 @@ import { Column } from "../ui/column/column";
 
 export const SortingPage: React.FC = () => {
 
-  const initialState = {
-    arr: null
-  };
-
-  const [state, dispatch] = React.useReducer(reducer, initialState);
-
-  function reducer(state: any, action: any) {
-    switch (action.type) {
-      case 'changeArray':
-        console.log('changeArray');
-        return {
-          ...state,
-          arr: action.arr
-        }
-      default:
-        throw new Error(`Wrong type of action: ${action.type}`);
-    }
-  };
-
   const [arr, setArr] = React.useState<any[]>([]);
 
-  React.useEffect(() => {
-    dispatch({type: 'changeArray', action: getColumns(arr)})
-  }, [arr])
-
-  function randomArr() {
+  function setRandomArr() {
     let arr = [];
 
     let i = Math.floor(Math.random() * (17 - 3 + 1) + 3);
@@ -47,47 +24,15 @@ export const SortingPage: React.FC = () => {
 
     setArr(arr);
 
+    console.log(arr);
     return arr;
   };
 
-  // function getColumns() {
-  //   const startingArr = randomArr();
-
-  //   const finishingArr = startingArr.map((value, i) => {
-  //     return (
-  //       <Column index={value} key={i}/>
-  //     )
-  //   });
-
-  //   // setArr(finishingArr);
-
-  //   return finishingArr;
-  // };
-
-  function getColumns(arr: any) {
-    
-    const finishingArr = arr.map((value: number, i: number) => {
-      return (
-        <Column index={value} key={i}/>
-      )
-    });
-
-    return finishingArr;
-  };
-
-  const test = arr.map((value: number, i: number) => {
+  const setColumns = arr.map((value: number, i: number) => {
     return (
       <Column index={value} key={i}/>
     )
   });
-
-  function changeArr() {
-    console.log('azaza');
-    // getColumns();
-  };
-
-  // console.log(randomArr());
-  // setInterval(randomArr, 300);
 
   return (
     <SolutionLayout title="Сортировка массива">
@@ -102,17 +47,11 @@ export const SortingPage: React.FC = () => {
           <Button text='По убыванию' type='button' sorting={Direction.Descending} name='orderOfSorting'/>
         </fieldset>
 
-        <Button text='Новый массив' type='button' onClick={randomArr}/>
+        <Button text='Новый массив' type='button' onClick={setRandomArr}/>
       </form>
 
       <section className={styles.visualArray}>
-        {/* <Column index={1}/>
-        <Column index={60}/>
-        <Column index={30}/> */}
-        {/* {finishingArr} */}
-        {/* {getColumns()} */}
-        {test}
-
+        {setColumns}
       </section>
     </SolutionLayout>
   );
