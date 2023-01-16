@@ -7,6 +7,8 @@ import { Button } from "../ui/button/button";
 import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
 
+import { ElementStates } from "../../types/element-states";
+
 
 export const SortingPage: React.FC = () => {
 
@@ -17,6 +19,55 @@ export const SortingPage: React.FC = () => {
   const [arr, setArr] = React.useState<any[]>([]);
   const [sortingType, setSortingType] = React.useState<'selection' | 'bubble'>('selection'); 
   // const [sortingType, setSortingType] = React.useState<string>('selection'); // Разобраться, как сделать так, чтобы работала верхняя строчка
+  const [numbersState, setNumbersState] = React.useState<{num: number, state: ElementStates}[]>([]);
+
+  const initialState = { 
+    isSortingStarted: false,
+    sorting: false,
+    isSorted: false
+  };
+
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+
+  const {isSortingStarted, sorting, isSorted} = state;
+
+  function reducer(state: any, action: any) {
+    switch (action.type) {
+      case 'start':
+        console.log('start');
+        return {
+          ...state,
+          isSortingStarted: true,
+        }
+      case 'sorting':
+        console.log('sorting');
+        return {
+          ...state,
+          sorting: true
+        }
+      case 'end':
+        console.log('end');
+        return {
+          ...state,
+          isSortingStarted: false,
+          sorting: false,
+          isSorted: true
+        }
+      default:
+        throw new Error(`Wrong type of action: ${action.type}`);
+    }
+  };
+
+
+  React.useEffect(() => {
+    const newNumbersArray = arr.map((num: number) => {
+      return {num: num, state: ElementStates.Default}
+    });
+    setNumbersState([...newNumbersArray]);
+  }, []);
+
+
+
 
   function setRandomArr() {
     let arr = [];
@@ -24,25 +75,27 @@ export const SortingPage: React.FC = () => {
 
     for (let j = 0; j < i; j++) {
       let num = Math.floor(Math.random() * (100 - 0 + 1) + 0);
-      arr.push(num);
+      // arr.push(num);
+      arr.push({num: num, state: ElementStates.Default});
     };
 
-    setArr(arr);
+    // setArr(arr);
+    setNumbersState(arr);
     console.log(arr);
     return arr;
   };
 
-  const setColumns = arr.map((value: number, i: number) => {
+  // const setColumns = arr.map((value: number, i: number) => {
+  const setColumns = numbersState.map((value, i) => {
     return (
-      <Column index={value} key={i}/>
+      <Column index={value.num} state={value.state} key={i}/>
     )
   });
 
-  const swap = (arr: number[], firstIndex: number, secondIndex: number): void => {
+  const swap = (arr: {num: number, state: ElementStates}[], firstIndex: number, secondIndex: number): void => {
     const temp = arr[firstIndex];
     arr[firstIndex] = arr[secondIndex];
     arr[secondIndex] = temp;
-    console.log(arr);
   };
 
   function ascendingSort() {
@@ -62,55 +115,62 @@ export const SortingPage: React.FC = () => {
   };
 
   function bubbleSortAscending() {
-    let copyArr = arr.slice(0);
+    let copyArr = numbersState.slice(0);
     for (let i = 0; i < copyArr.length - 1; i++) {
       for (let j = 0; j < copyArr.length - i - 1; j++) {
-        if (copyArr[j] < copyArr[j + 1]) {
+        copyArr[j].state = ElementStates.Modified;
+        copyArr[j + 1].state = ElementStates.Modified;
+        setNumbersState([...copyArr]);
+        if (copyArr[j].num < copyArr[j + 1].num) {
           swap(copyArr, j, j + 1);
         }
       }
     }
-    setArr(copyArr);
+    // setArr(copyArr);
+    setNumbersState([...copyArr]);
   };
 
   function bubbleSortDescending() {
-    let copyArr = arr.slice(0);
+    let copyArr = numbersState.slice(0);
     for (let i = 0; i < copyArr.length - 1; i++) {
       for (let j = 0; j < copyArr.length - i - 1; j++) {
-        if (copyArr[j] > copyArr[j + 1]) {
+        if (copyArr[j].num > copyArr[j + 1].num) {
           swap(copyArr, j, j + 1);
         }
       }
     }
-    setArr(copyArr);
+    // setArr(copyArr);
+    setNumbersState([...copyArr]);
   };
 
   function selectionSortDescending() {
-    let copyArr = arr.slice(0);
+    let copyArr = numbersState.slice(0);
     for (let i = 0; i < copyArr.length - 1; i++) {
       let maxInd = i;
       for (let j = i; j < copyArr.length - 1; j++) {
-        if (copyArr[maxInd] < copyArr[j+1]) {
+        if (copyArr[maxInd].num < copyArr[j+1].num) {
           maxInd = j + 1;
         }
       }
       swap(copyArr, i, maxInd);
     };
-    setArr(copyArr);
+    // setArr(copyArr);
+    setNumbersState(copyArr);
   };
 
   function selectionSortAscending() {
-    let copyArr = arr.slice(0);
+    let copyArr = numbersState.slice(0);
     for (let i = 0; i < copyArr.length - 1; i++) {
       let minInd = i;
       for (let j = i; j < copyArr.length - 1; j++) {
-        if (copyArr[minInd] > copyArr[j+1]) {
+        if (copyArr[minInd].num > copyArr[j+1].num) {
           minInd = j + 1;
         }
       }
       swap(copyArr, i, minInd);
     }
-    setArr(copyArr);
+    // setArr(copyArr);
+    setNumbersState(copyArr);
   };
 
   function changeAlgorithm(e: React.ChangeEvent<HTMLInputElement>) {
@@ -118,11 +178,6 @@ export const SortingPage: React.FC = () => {
       setSortingType(e.currentTarget.value);
     }
   };
-
-  // React.useEffect(() => {
-  //   console.log('azaza');
-  //   console.log(arr);
-  // }, [arr]);
 
   return (
     <SolutionLayout title="Сортировка массива">
