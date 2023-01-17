@@ -98,6 +98,9 @@ export const SortingPage: React.FC = () => {
     arr[secondIndex] = temp;
   };
 
+  const delay = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
   function ascendingSort() {
     if (sortingType === 'selection') {
       selectionSortAscending();
@@ -118,12 +121,27 @@ export const SortingPage: React.FC = () => {
     let copyArr = numbersState.slice(0);
     for (let i = 0; i < copyArr.length - 1; i++) {
       for (let j = 0; j < copyArr.length - i - 1; j++) {
-        copyArr[j].state = ElementStates.Modified;
-        copyArr[j + 1].state = ElementStates.Modified;
-        setNumbersState([...copyArr]);
-        if (copyArr[j].num < copyArr[j + 1].num) {
-          swap(copyArr, j, j + 1);
-        }
+        setTimeout(function start() {
+          copyArr[j].state = ElementStates.Changing;
+          copyArr[j + 1].state = ElementStates.Changing;
+          setNumbersState([...copyArr]);
+          setTimeout(() => {
+            if (copyArr[j].num > copyArr[j + 1].num) {
+              setTimeout(() => {
+                console.log(j);
+                swap(copyArr, j, j + 1);
+                setNumbersState([...copyArr]);
+              }, 1000)
+            } else {
+              setTimeout(() => {
+                copyArr[j].state = ElementStates.Default;
+                copyArr[j + 1].state = ElementStates.Default;
+                setNumbersState([...copyArr]);
+              }, 1000)
+            }
+          }, 1000)
+          setTimeout(start, 1000);
+        }, 1000)
       }
     }
     // setArr(copyArr);
@@ -134,7 +152,7 @@ export const SortingPage: React.FC = () => {
     let copyArr = numbersState.slice(0);
     for (let i = 0; i < copyArr.length - 1; i++) {
       for (let j = 0; j < copyArr.length - i - 1; j++) {
-        if (copyArr[j].num > copyArr[j + 1].num) {
+        if (copyArr[j].num < copyArr[j + 1].num) {
           swap(copyArr, j, j + 1);
         }
       }
@@ -143,33 +161,53 @@ export const SortingPage: React.FC = () => {
     setNumbersState([...copyArr]);
   };
 
-  function selectionSortDescending() {
+ const selectionSortDescending = async() => {
     let copyArr = numbersState.slice(0);
     for (let i = 0; i < copyArr.length - 1; i++) {
       let maxInd = i;
       for (let j = i; j < copyArr.length - 1; j++) {
+        copyArr[i].state = ElementStates.Changing;
+        copyArr[j + 1].state = ElementStates.Changing;
+        setNumbersState([...copyArr]);
+        await delay(500);
+
         if (copyArr[maxInd].num < copyArr[j+1].num) {
           maxInd = j + 1;
         }
+        copyArr[j+1].state = ElementStates.Default;
+        setNumbersState([...copyArr]);
       }
       swap(copyArr, i, maxInd);
+      copyArr[maxInd].state = ElementStates.Default;
+      copyArr[i].state = ElementStates.Modified;
     };
     // setArr(copyArr);
+    copyArr[copyArr.length-1].state = ElementStates.Modified;
     setNumbersState(copyArr);
   };
 
-  function selectionSortAscending() {
+  const selectionSortAscending = async () => {
     let copyArr = numbersState.slice(0);
     for (let i = 0; i < copyArr.length - 1; i++) {
       let minInd = i;
       for (let j = i; j < copyArr.length - 1; j++) {
+        copyArr[i].state = ElementStates.Changing;
+        copyArr[j + 1].state = ElementStates.Changing;
+        setNumbersState([...copyArr]);
+        await delay(500);
+
         if (copyArr[minInd].num > copyArr[j+1].num) {
           minInd = j + 1;
         }
+        copyArr[j+1].state = ElementStates.Default;
+        setNumbersState([...copyArr]);
       }
       swap(copyArr, i, minInd);
+      copyArr[minInd].state = ElementStates.Default;
+      copyArr[i].state = ElementStates.Modified;
     }
     // setArr(copyArr);
+    copyArr[copyArr.length-1].state = ElementStates.Modified;
     setNumbersState(copyArr);
   };
 
