@@ -117,47 +117,53 @@ export const SortingPage: React.FC = () => {
     }
   };
 
-  function bubbleSortAscending() {
+  const bubbleSortAscending = async() => {
     let copyArr = numbersState.slice(0);
     for (let i = 0; i < copyArr.length - 1; i++) {
       for (let j = 0; j < copyArr.length - i - 1; j++) {
-        setTimeout(function start() {
-          copyArr[j].state = ElementStates.Changing;
-          copyArr[j + 1].state = ElementStates.Changing;
+        copyArr[j].state = ElementStates.Changing;
+        copyArr[j + 1].state = ElementStates.Changing;
+        setNumbersState([...copyArr]);
+        await delay(500);
+        if (copyArr[j].num > copyArr[j + 1].num) {
+          swap(copyArr, j, j + 1);
+          copyArr[j].state = ElementStates.Default;
+          copyArr[j + 1].state = ElementStates.Default;
+        } else {
+          copyArr[j].state = ElementStates.Default;
+          copyArr[j + 1].state = ElementStates.Default;
           setNumbersState([...copyArr]);
-          setTimeout(() => {
-            if (copyArr[j].num > copyArr[j + 1].num) {
-              setTimeout(() => {
-                console.log(j);
-                swap(copyArr, j, j + 1);
-                setNumbersState([...copyArr]);
-              }, 1000)
-            } else {
-              setTimeout(() => {
-                copyArr[j].state = ElementStates.Default;
-                copyArr[j + 1].state = ElementStates.Default;
-                setNumbersState([...copyArr]);
-              }, 1000)
-            }
-          }, 1000)
-          setTimeout(start, 1000);
-        }, 1000)
+        }
       }
+      copyArr[copyArr.length - i - 1].state = ElementStates.Modified;
     }
     // setArr(copyArr);
+    copyArr[0].state = ElementStates.Modified;
     setNumbersState([...copyArr]);
   };
 
-  function bubbleSortDescending() {
+  const bubbleSortDescending = async() => {
     let copyArr = numbersState.slice(0);
     for (let i = 0; i < copyArr.length - 1; i++) {
       for (let j = 0; j < copyArr.length - i - 1; j++) {
+        copyArr[j].state = ElementStates.Changing;
+        copyArr[j + 1].state = ElementStates.Changing;
+        setNumbersState([...copyArr]);
+        await delay(500);
         if (copyArr[j].num < copyArr[j + 1].num) {
           swap(copyArr, j, j + 1);
+          copyArr[j].state = ElementStates.Default;
+          copyArr[j + 1].state = ElementStates.Default;
+        } else {
+          copyArr[j].state = ElementStates.Default;
+          copyArr[j + 1].state = ElementStates.Default;
+          setNumbersState([...copyArr]);
         }
       }
+      copyArr[copyArr.length - i - 1].state = ElementStates.Modified;
     }
     // setArr(copyArr);
+    copyArr[0].state = ElementStates.Modified;
     setNumbersState([...copyArr]);
   };
 
