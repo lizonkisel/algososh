@@ -19,26 +19,19 @@ export const SortingPage: React.FC = () => {
   const [arr, setArr] = React.useState<any[]>([]);
   const [sortingType, setSortingType] = React.useState<'selection' | 'bubble'>('selection'); 
   // const [sortingType, setSortingType] = React.useState<string>('selection'); // Разобраться, как сделать так, чтобы работала верхняя строчка
+  const [sortingDirection, setSortingDirection] = React.useState<'ascending' | 'descending'>(); 
   const [numbersState, setNumbersState] = React.useState<{num: number, state: ElementStates}[]>([]);
 
   const initialState = { 
-    isSortingStarted: false,
-    sorting: false,
-    isSorted: false
+    sorting: false
   };
 
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
-  const {isSortingStarted, sorting, isSorted} = state;
+  const { sorting } = state;
 
   function reducer(state: any, action: any) {
     switch (action.type) {
-      case 'start':
-        console.log('start');
-        return {
-          ...state,
-          isSortingStarted: true,
-        }
       case 'sorting':
         console.log('sorting');
         return {
@@ -49,9 +42,7 @@ export const SortingPage: React.FC = () => {
         console.log('end');
         return {
           ...state,
-          isSortingStarted: false,
-          sorting: false,
-          isSorted: true
+          sorting: false
         }
       default:
         throw new Error(`Wrong type of action: ${action.type}`);
@@ -65,9 +56,6 @@ export const SortingPage: React.FC = () => {
     });
     setNumbersState([...newNumbersArray]);
   }, []);
-
-
-
 
   function setRandomArr() {
     let arr = [];
@@ -102,6 +90,10 @@ export const SortingPage: React.FC = () => {
   new Promise((resolve) => setTimeout(resolve, ms));
 
   function ascendingSort() {
+    dispatch({ type: 'sorting' });
+
+    setSortingDirection('ascending');
+
     if (sortingType === 'selection') {
       selectionSortAscending();
     } else {
@@ -110,6 +102,10 @@ export const SortingPage: React.FC = () => {
   };
 
   function descendingSort() {
+    dispatch({ type: 'sorting' });
+
+    setSortingDirection('descending');
+
     if (sortingType === 'selection') {
       selectionSortDescending();
     } else {
@@ -140,6 +136,8 @@ export const SortingPage: React.FC = () => {
     // setArr(copyArr);
     copyArr[0].state = ElementStates.Modified;
     setNumbersState([...copyArr]);
+
+    dispatch({ type: 'end' });
   };
 
   const bubbleSortDescending = async() => {
@@ -165,6 +163,8 @@ export const SortingPage: React.FC = () => {
     // setArr(copyArr);
     copyArr[0].state = ElementStates.Modified;
     setNumbersState([...copyArr]);
+
+    dispatch({ type: 'end' });
   };
 
  const selectionSortDescending = async() => {
@@ -190,6 +190,8 @@ export const SortingPage: React.FC = () => {
     // setArr(copyArr);
     copyArr[copyArr.length-1].state = ElementStates.Modified;
     setNumbersState(copyArr);
+
+    dispatch({ type: 'end' });
   };
 
   const selectionSortAscending = async () => {
@@ -215,6 +217,8 @@ export const SortingPage: React.FC = () => {
     // setArr(copyArr);
     copyArr[copyArr.length-1].state = ElementStates.Modified;
     setNumbersState(copyArr);
+
+    dispatch({ type: 'end' });
   };
 
   function changeAlgorithm(e: React.ChangeEvent<HTMLInputElement>) {
@@ -227,16 +231,16 @@ export const SortingPage: React.FC = () => {
     <SolutionLayout title="Сортировка массива">
       <form action="" className={styles.form}>
         <fieldset className={`${styles.form__fieldset} ${styles.form__fieldset_type_radio}`} id='typeOfSorting'>
-          <RadioInput label='Выбор' name='typeOfSorting' value='selection' onChange={changeAlgorithm} checked={sortingType === 'selection'} />
-          <RadioInput label='Пузырёк' name='typeOfSorting' value='bubble' onChange={changeAlgorithm} checked={sortingType === 'bubble'} />
+          <RadioInput label='Выбор' name='typeOfSorting' value='selection' onChange={changeAlgorithm} checked={sortingType === 'selection'} disabled={sorting}/>
+          <RadioInput label='Пузырёк' name='typeOfSorting' value='bubble' onChange={changeAlgorithm} checked={sortingType === 'bubble'} disabled={sorting}/>
         </fieldset>
 
         <fieldset className={`${styles.form__fieldset} ${styles.form__fieldset_type_button}`} id='orderOfSorting'>
-          <Button text='По возрастанию' type='button' sorting={Direction.Ascending} name='orderOfSorting' onClick={ascendingSort}/>
-          <Button text='По убыванию' type='button' sorting={Direction.Descending} name='orderOfSorting' onClick={descendingSort}/>
+          <Button extraClass={styles.form__button} text='По возрастанию' type='button' sorting={Direction.Ascending} name='orderOfSorting' onClick={ascendingSort} isLoader={sorting && sortingDirection === 'ascending'} disabled={sorting && sortingDirection === 'descending'}/>
+          <Button extraClass={styles.form__button} text='По убыванию' type='button' sorting={Direction.Descending} name='orderOfSorting' onClick={descendingSort} isLoader={sorting && sortingDirection === 'descending'} disabled={sorting && sortingDirection === 'ascending'}/>
         </fieldset>
 
-        <Button text='Новый массив' type='button' onClick={setRandomArr}/>
+        <Button text='Новый массив' type='button' onClick={setRandomArr} disabled={sorting}/>
       </form>
 
       <section className={styles.visualArray}>
