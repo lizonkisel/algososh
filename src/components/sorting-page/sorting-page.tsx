@@ -12,13 +12,7 @@ import { ElementStates } from "../../types/element-states";
 
 export const SortingPage: React.FC = () => {
 
-  // type TSortingTypes = {
-  //   sortingType: 'selection' | 'bubble'
-  // };
-
-  const [arr, setArr] = React.useState<any[]>([]);
   const [sortingType, setSortingType] = React.useState<'selection' | 'bubble'>('selection'); 
-  // const [sortingType, setSortingType] = React.useState<string>('selection'); // Разобраться, как сделать так, чтобы работала верхняя строчка
   const [sortingDirection, setSortingDirection] = React.useState<'ascending' | 'descending'>(); 
   const [numbersState, setNumbersState] = React.useState<{num: number, state: ElementStates}[]>([]);
 
@@ -49,31 +43,19 @@ export const SortingPage: React.FC = () => {
     }
   };
 
-
-  React.useEffect(() => {
-    const newNumbersArray = arr.map((num: number) => {
-      return {num: num, state: ElementStates.Default}
-    });
-    setNumbersState([...newNumbersArray]);
-  }, []);
-
   function setRandomArr() {
     let arr = [];
     let i = Math.floor(Math.random() * (17 - 3 + 1) + 3);
 
     for (let j = 0; j < i; j++) {
       let num = Math.floor(Math.random() * (100 - 0 + 1) + 0);
-      // arr.push(num);
       arr.push({num: num, state: ElementStates.Default});
     };
 
-    // setArr(arr);
     setNumbersState(arr);
-    console.log(arr);
     return arr;
   };
 
-  // const setColumns = arr.map((value: number, i: number) => {
   const setColumns = numbersState.map((value, i) => {
     return (
       <Column index={value.num} state={value.state} key={i}/>
@@ -133,7 +115,6 @@ export const SortingPage: React.FC = () => {
       }
       copyArr[copyArr.length - i - 1].state = ElementStates.Modified;
     }
-    // setArr(copyArr);
     copyArr[0].state = ElementStates.Modified;
     setNumbersState([...copyArr]);
 
@@ -160,7 +141,6 @@ export const SortingPage: React.FC = () => {
       }
       copyArr[copyArr.length - i - 1].state = ElementStates.Modified;
     }
-    // setArr(copyArr);
     copyArr[0].state = ElementStates.Modified;
     setNumbersState([...copyArr]);
 
@@ -187,7 +167,6 @@ export const SortingPage: React.FC = () => {
       copyArr[maxInd].state = ElementStates.Default;
       copyArr[i].state = ElementStates.Modified;
     };
-    // setArr(copyArr);
     copyArr[copyArr.length-1].state = ElementStates.Modified;
     setNumbersState(copyArr);
 
@@ -214,7 +193,6 @@ export const SortingPage: React.FC = () => {
       copyArr[minInd].state = ElementStates.Default;
       copyArr[i].state = ElementStates.Modified;
     }
-    // setArr(copyArr);
     copyArr[copyArr.length-1].state = ElementStates.Modified;
     setNumbersState(copyArr);
 
