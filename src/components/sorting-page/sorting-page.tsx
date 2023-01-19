@@ -43,6 +43,10 @@ export const SortingPage: React.FC = () => {
     }
   };
 
+  React.useEffect(() => {
+    setRandomArr();
+  }, []);
+
   function setRandomArr() {
     let arr = [];
     let i = Math.floor(Math.random() * (17 - 3 + 1) + 3);
