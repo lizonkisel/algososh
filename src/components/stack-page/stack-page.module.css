@@ -17,3 +17,23 @@
 .form__button:last-child {
     margin: 0 0 0 68px;
 }
+
+.stackArea {
+    margin: 22px auto 0 auto;
+
+    /* display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    column-gap: 16px; */
+
+    max-width: calc(944/1280 * 100vw);
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 80px); 
+    column-gap: 16px;
+    row-gap: 48px;
+
+    justify-content: center;
+
+}
