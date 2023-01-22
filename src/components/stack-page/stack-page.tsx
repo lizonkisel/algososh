@@ -14,38 +14,8 @@ const stack = new Stack<number | string>();
 
 export const StackPage: React.FC = () => {
 
-  // const stack = new Stack<number | string>();
-
   const [currentLetter, setCurrentLetter] = React.useState<number | string >('');
   const [currentStack, setCurrentStack] = React.useState<{letter: number | string, state: ElementStates, index: number, isTop: boolean}[]>([]);
-
-
-  const initialState = { 
-    sorting: false
-  };
-
-  const [state, dispatch] = React.useReducer(reducer, initialState);
-
-  const { sorting } = state;
-
-  function reducer(state: any, action: any) {
-    switch (action.type) {
-      case 'sorting':
-        console.log('sorting');
-        return {
-          ...state,
-          sorting: true
-        }
-      case 'end':
-        console.log('end');
-        return {
-          ...state,
-          sorting: false
-        }
-      default:
-        throw new Error(`Wrong type of action: ${action.type}`);
-    }
-  };
 
   const delay = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
@@ -110,9 +80,9 @@ export const StackPage: React.FC = () => {
       <form action="" className={styles.form} onSubmit={addToStack}>
         <fieldset className={styles.form__fieldset} id='stack'>
           <Input extraClass={styles.form__input} type="text" maxLength={4} isLimitText={true} value={currentLetter} onChange={(e) => setCurrentLetter(e.currentTarget.value)}/>
-          <Button extraClass={styles.form__button} text='Добавить' type='submit' name='add'/>
-          <Button extraClass={styles.form__button} text='Удалить' type='button' name='delete' onClick={deleteFromStack}/>
-          <Button extraClass={styles.form__button} text='Очистить' type='button' name='clear' onClick={clearStack}/>
+          <Button extraClass={styles.form__button} text='Добавить' type='submit' name='add' disabled={currentLetter === ''}/>
+          <Button extraClass={styles.form__button} text='Удалить' type='button' name='delete' onClick={deleteFromStack} disabled={currentStack.length === 0}/>
+          <Button extraClass={styles.form__button} text='Очистить' type='button' name='clear' onClick={clearStack} disabled={currentStack.length === 0}/>
         </fieldset>
 
         <section className={styles.stackArea}>
