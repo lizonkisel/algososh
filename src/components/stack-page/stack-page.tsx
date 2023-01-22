@@ -22,7 +22,7 @@ export const StackPage: React.FC = () => {
   function addToStack(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (currentLetter !== null && currentLetter !== undefined) {
+    if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
       stack.push(currentLetter);
       setCurrentStack([...stack.getStack().map((value, i) => {
         return {letter: value, index: i, isTop: i + 1 === stack.getSize() ? true : false}
@@ -33,11 +33,21 @@ export const StackPage: React.FC = () => {
   };
 
   function deleteFromStack() {
-    console.log(currentStack);
+    stack.pop();
+    setCurrentStack([...stack.getStack().map((value, i) => {
+      return {letter: value, index: i, isTop: i + 1 === stack.getSize() ? true : false}
+    })]);
+
+    setCurrentLetter('');
   };
 
   function clearStack() {
-    
+    stack.clear();
+    setCurrentStack([...stack.getStack().map((value, i) => {
+      return {letter: value, index: i, isTop: i + 1 === stack.getSize() ? true : false}
+    })]);
+
+    setCurrentLetter('');
   };
 
   const renderStack = currentStack.map((value, i) => {
@@ -57,7 +67,7 @@ export const StackPage: React.FC = () => {
           <Input extraClass={styles.form__input} type="text" maxLength={4} isLimitText={true} value={currentLetter} onChange={(e) => setCurrentLetter(e.currentTarget.value)}/>
           <Button extraClass={styles.form__button} text='Добавить' type='submit' name='add'/>
           <Button extraClass={styles.form__button} text='Удалить' type='button' name='delete' onClick={deleteFromStack}/>
-          <Button extraClass={styles.form__button} text='Очистить' type='button' name='clear'/>
+          <Button extraClass={styles.form__button} text='Очистить' type='button' name='clear' onClick={clearStack}/>
         </fieldset>
 
         <section className={styles.stackArea}>
