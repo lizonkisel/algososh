@@ -17,25 +17,69 @@ export const StackPage: React.FC = () => {
   // const stack = new Stack<number | string>();
 
   const [currentLetter, setCurrentLetter] = React.useState<number | string >('');
-  const [currentStack, setCurrentStack] = React.useState<{letter: number | string, index: number, isTop: boolean}[]>([])
+  const [currentStack, setCurrentStack] = React.useState<{letter: number | string, state: ElementStates, index: number, isTop: boolean}[]>([]);
 
-  function addToStack(e: React.FormEvent<HTMLFormElement>) {
+
+  const initialState = { 
+    sorting: false
+  };
+
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+
+  const { sorting } = state;
+
+  function reducer(state: any, action: any) {
+    switch (action.type) {
+      case 'sorting':
+        console.log('sorting');
+        return {
+          ...state,
+          sorting: true
+        }
+      case 'end':
+        console.log('end');
+        return {
+          ...state,
+          sorting: false
+        }
+      default:
+        throw new Error(`Wrong type of action: ${action.type}`);
+    }
+  };
+
+  const delay = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
+  const addToStack = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
       stack.push(currentLetter);
       setCurrentStack([...stack.getStack().map((value, i) => {
-        return {letter: value, index: i, isTop: i + 1 === stack.getSize() ? true : false}
+        return {letter: value, state: i + 1 === stack.getSize() ? ElementStates.Changing : ElementStates.Default, index: i, isTop: i + 1 === stack.getSize() ? true : false}
       })]);
     }
+
+    await delay(500);
+
+    setCurrentStack([...stack.getStack().map((value, i) => {
+      return {letter: value, state: ElementStates.Default, index: i, isTop: i + 1 === stack.getSize() ? true : false}
+    })]);
 
     setCurrentLetter('');
   };
 
-  function deleteFromStack() {
-    stack.pop();
+  const deleteFromStack = async() => {
     setCurrentStack([...stack.getStack().map((value, i) => {
-      return {letter: value, index: i, isTop: i + 1 === stack.getSize() ? true : false}
+      return {letter: value, state: i + 1 === stack.getSize() ? ElementStates.Changing : ElementStates.Default, index: i, isTop: i + 1 === stack.getSize() ? true : false}
+    })]);
+
+    await delay(500);
+
+    stack.pop();
+
+    setCurrentStack([...stack.getStack().map((value, i) => {
+      return {letter: value, state: ElementStates.Default, index: i, isTop: i + 1 === stack.getSize() ? true : false}
     })]);
 
     setCurrentLetter('');
@@ -44,17 +88,18 @@ export const StackPage: React.FC = () => {
   function clearStack() {
     stack.clear();
     setCurrentStack([...stack.getStack().map((value, i) => {
-      return {letter: value, index: i, isTop: i + 1 === stack.getSize() ? true : false}
+      return {letter: value, state: ElementStates.Default, index: i, isTop: i + 1 === stack.getSize() ? true : false}
     })]);
 
     setCurrentLetter('');
   };
 
   const renderStack = currentStack.map((value, i) => {
+    
     return (
-      <div className={styles.stackArea__stack}>
+      <div className={styles.stackArea__stack} key={i}>
         <span className={styles.stack__top}>{value.isTop ? 'top' : ''}</span>
-        <Circle letter={value.letter.toString()} key={i}/>
+        <Circle letter={value.letter.toString()} state={value.state}/>
         <span>{value.index}</span>
       </div>
     )
