@@ -35,5 +35,14 @@
     row-gap: 48px;
 
     justify-content: center;
+}
 
+.stackArea__stack {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+}
+
+.stack__top {
+    height: 22px;
 }
