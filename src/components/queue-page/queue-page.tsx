@@ -15,63 +15,155 @@ const queue = new Queue<number | string>(7);
 export const QueuePage: React.FC = () => {
 
   const [currentLetter, setCurrentLetter] = React.useState<number | string >('');
-  const [currentStack, setCurrentStack] = React.useState<{letter: number | string, state: ElementStates, index: number, isTop: boolean}[]>([]);
+  const [currentQueue, setCurrentQueue] = React.useState<{
+    letter: number | string,
+    state: ElementStates, 
+    index: number, 
+    isHead: boolean,
+    isTail: boolean
+  }[]>([]);
 
   const delay = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
+  React.useEffect(() => {
+    console.log(currentQueue);
+    console.log(queue.getQueue());
+    initializeQueue();
+  }, []);
+
+  function initializeQueue() {
+    console.log(queue.getQueueLength());
+    const tempArr = [];
+    for (let i = 0; i < queue.getQueueLength(); i++) {
+      tempArr.push({
+        letter: '',
+        state: ElementStates.Default,
+        index: i,
+        isHead: false,
+        isTail: false
+        // isHead: i === queue.getHeadIndex() ? true : false,
+        // isTail: i === queue.getTailIndex() ? true : false
+      });
+      // queue.enqueue(''); 
+    }
+    setCurrentQueue(tempArr);
+  };
+
   const addToQueue = async(e: React.FormEvent<HTMLFormElement>) => {
-    // e.preventDefault();
+    e.preventDefault();
 
     // if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
-    //   stack.push(currentLetter);
-    //   setCurrentStack([...stack.getStack().map((value, i) => {
-    //     return {letter: value, state: i + 1 === stack.getSize() ? ElementStates.Changing : ElementStates.Default, index: i, isTop: i + 1 === stack.getSize() ? true : false}
-    //   })]);
-    // }
+    if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
+      queue.enqueue(currentLetter);
+      console.log(queue.getQueue());
 
-    // await delay(500);
+      setCurrentQueue([...queue.getQueue().map((value, i) => {
+        console.log(value);
+        console.log(i);
+        console.log(currentQueue);
+        console.log(queue.getTailIndex());
+        return {
+          letter: value, 
+          state: i + 1 === queue.getTailIndex() ? ElementStates.Changing : ElementStates.Default, 
+          index: i, 
+          isHead: i === queue.getHeadIndex() ? true : false, 
+          isTail: i + 1 === queue.getTailIndex() ? true : false
+        }
+      })]);
+    }
 
-    // setCurrentStack([...stack.getStack().map((value, i) => {
-    //   return {letter: value, state: ElementStates.Default, index: i, isTop: i + 1 === stack.getSize() ? true : false}
-    // })]);
+    await delay(500);
 
-    // setCurrentLetter('');
+    setCurrentQueue([...queue.getQueue().map((value, i) => {
+      return {
+        letter: value, 
+        state: ElementStates.Default, 
+        index: i, 
+        isHead: i === queue.getHeadIndex() ? true : false, 
+        isTail: i + 1 === queue.getTailIndex() ? true : false
+      }
+    })]);
+
+    setCurrentLetter('');
   };
 
   const deleteFromQueue = async() => {
-    // setCurrentStack([...stack.getStack().map((value, i) => {
-    //   return {letter: value, state: i + 1 === stack.getSize() ? ElementStates.Changing : ElementStates.Default, index: i, isTop: i + 1 === stack.getSize() ? true : false}
-    // })]);
 
-    // await delay(500);
+    setCurrentQueue([...queue.getQueue().map((value, i) => {
+      console.log(value);
+      console.log(i);
+      return {
+        letter: value, 
+        state: i === queue.getHeadIndex() ? ElementStates.Changing : ElementStates.Default, 
+        index: i, 
+        isHead: i === queue.getHeadIndex() ? true : false, 
+        isTail: i + 1 === queue.getTailIndex() ? true : false
+      }
+    })]);
 
-    // stack.pop();
+    queue.dequeue();
 
-    // setCurrentStack([...stack.getStack().map((value, i) => {
-    //   return {letter: value, state: ElementStates.Default, index: i, isTop: i + 1 === stack.getSize() ? true : false}
-    // })]);
+    await delay(500);
+    
+    setCurrentQueue([...queue.getQueue().map((value, i) => {
+      return {
+        letter: value, 
+        state: ElementStates.Default, 
+        index: i, 
+        isHead: i === queue.getHeadIndex() ? true : false, 
+        isTail: i + 1 === queue.getTailIndex() ? true : false
+      }
+    })]);
 
-    // setCurrentLetter('');
   };
 
   function clearQueue() {
-    // stack.clear();
-    // setCurrentStack([...stack.getStack().map((value, i) => {
-    //   return {letter: value, state: ElementStates.Default, index: i, isTop: i + 1 === stack.getSize() ? true : false}
-    // })]);
+    queue.clear();
+    console.log(queue.getQueue());
 
-    // setCurrentLetter('');
+    setCurrentQueue([...queue.getQueue().map((value, i) => {
+      console.log(value);
+      return {
+        letter: value, 
+        state: i + 1 === queue.getSize() ? ElementStates.Changing : ElementStates.Default, 
+        index: i, 
+        isHead: i === queue.getHeadIndex() ? true : false, 
+        isTail: i + 1 === queue.getTailIndex() ? true : false
+      }
+    })]);
   };
 
-  const renderQueue = currentStack.map((value, i) => {
-    
+  const renderQueue = currentQueue.map((value, i) => {
+    if (value === undefined) {
+      return (
+        <Circle 
+          letter={''} 
+          state={ElementStates.Default} 
+          index={i} 
+          head={''} 
+          tail={''} 
+        />
+      )
+    } else {
+      return (
+        <Circle 
+          letter={value.letter.toString()} 
+          state={value.state} 
+          index={value.index} 
+          head={value.isHead ? 'head' : ''} 
+          tail={value.isTail ? 'tail' : ''} 
+        />
+      )
+    }
     // return (
-    //   <div className={styles.stackArea__stack} key={i}>
-    //     <span className={styles.stack__top}>{value.isTop ? 'top' : ''}</span>
-    //     <Circle letter={value.letter.toString()} state={value.state}/>
-    //     <span>{value.index}</span>
-    //   </div>
+    //   <Circle 
+    //     letter={value.letter.toString()} 
+    //     state={value.state} 
+    //     index={value.index} 
+    //     head={value.isHead ? 'head' : ''} 
+    //     tail={value.isTail ? 'tail' : ''} 
+    //   />
     // )
   });
 
@@ -81,12 +173,13 @@ export const QueuePage: React.FC = () => {
         <fieldset className={styles.form__fieldset} id='stack'>
           <Input extraClass={styles.form__input} type="text" maxLength={4} isLimitText={true} value={currentLetter} onChange={(e) => setCurrentLetter(e.currentTarget.value)}/>
           <Button extraClass={styles.form__button} text='Добавить' type='submit' name='add' disabled={currentLetter === ''}/>
-          <Button extraClass={styles.form__button} text='Удалить' type='button' name='delete' onClick={deleteFromQueue} disabled={currentStack.length === 0}/>
-          <Button extraClass={styles.form__button} text='Очистить' type='button' name='clear' onClick={clearQueue} disabled={currentStack.length === 0}/>
+          <Button extraClass={styles.form__button} text='Удалить' type='button' name='delete' onClick={deleteFromQueue} disabled={currentQueue.length === 0}/>
+          <Button extraClass={styles.form__button} text='Очистить' type='button' name='clear' onClick={clearQueue} disabled={currentQueue.length === 0}/>
         </fieldset>
 
         <section className={styles.stackArea}>
           {renderQueue}
+          {/* <Circle letter={'t'} head={'head'} index={0} tail={'tail'}/> */}
         </section>
       </form>
     </SolutionLayout>

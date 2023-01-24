@@ -1,11 +1,18 @@
 interface IQueue<T> {
     enqueue: (item: T) => void;
     dequeue: () => void;
+    getQueue: () => (T | null)[];
+    getQueueLength: () => number;
+    getHeadIndex: () => number;
+    getTailIndex: () => number;
+    getSize: () => number;
     // peak: () => T | null;
+    clear: () => void;
 }
   
 export class Queue<T> implements IQueue<T> {
-    private container: (T | null)[] = [];
+    // private container: (T | null)[] = [];
+    private container: (T)[] = [];
     private head = 0;
     private tail = 0;
     private readonly size: number = 0;
@@ -14,9 +21,12 @@ export class Queue<T> implements IQueue<T> {
     constructor(size: number) {
         this.size = size;
         this.container = Array(size);
+        // this.container = [...Array(size)].map(() => null);
     }
 
     enqueue = (item: T) => {
+        console.log(this.length);
+        
         if (this.length >= this.size) {
             throw new Error("Maximum length exceeded");
         } else {
@@ -40,4 +50,30 @@ export class Queue<T> implements IQueue<T> {
     };
 
     isEmpty = () => this.length === 0;
+
+    getQueue = () => {
+        return this.container;
+    }
+
+    getQueueLength = () => {
+        return this.container.length;
+    }
+
+    getHeadIndex = () => {
+        return this.head;
+    };
+
+    getTailIndex = () => {
+        return this.tail;
+    };
+
+    getSize = () => {
+        return this.size;
+    };
+
+    clear = () => {
+        this.container = Array(this.size);
+        this.head = 0;
+        this.tail = 0;
+    }
 }
