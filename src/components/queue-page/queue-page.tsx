@@ -56,13 +56,8 @@ export const QueuePage: React.FC = () => {
     // if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
     if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
       queue.enqueue(currentLetter);
-      console.log(queue.getQueue());
 
       setCurrentQueue([...queue.getQueue().map((value, i) => {
-        console.log(value);
-        console.log(i);
-        console.log(currentQueue);
-        console.log(queue.getTailIndex());
         return {
           letter: value, 
           state: i + 1 === queue.getTailIndex() ? ElementStates.Changing : ElementStates.Default, 
@@ -91,27 +86,32 @@ export const QueuePage: React.FC = () => {
   const deleteFromQueue = async() => {
 
     setCurrentQueue([...queue.getQueue().map((value, i) => {
-      console.log(value);
-      console.log(i);
       return {
         letter: value, 
         state: i === queue.getHeadIndex() ? ElementStates.Changing : ElementStates.Default, 
         index: i, 
-        isHead: i === queue.getHeadIndex() ? true : false, 
+        isHead: i === queue.getHeadIndex() ? true : false,
         isTail: i + 1 === queue.getTailIndex() ? true : false
       }
     })]);
 
     queue.dequeue();
+    console.log(queue.getHeadIndex());
+    console.log(queue.getQueueLength());
+    console.log(queue.getQueue());
 
     await delay(500);
     
     setCurrentQueue([...queue.getQueue().map((value, i) => {
+      // console.log(queue.getQueue());
+      console.log('azaza');
       return {
         letter: value, 
         state: ElementStates.Default, 
-        index: i, 
-        isHead: i === queue.getHeadIndex() ? true : false, 
+        index: i,
+        isHead: (i === queue.getHeadIndex()) ? true : false, 
+        // isHead: (i === queue.getHeadIndex() || queue.getHeadIndex() === queue.getQueueLength()) ? true : false, 
+        // isHead: queue.getSize() === queue.getHeadIndex() ? true : false, 
         isTail: i + 1 === queue.getTailIndex() ? true : false
       }
     })]);
@@ -123,19 +123,33 @@ export const QueuePage: React.FC = () => {
     console.log(queue.getQueue());
 
     setCurrentQueue([...queue.getQueue().map((value, i) => {
-      console.log(value);
       return {
         letter: value, 
-        state: i + 1 === queue.getSize() ? ElementStates.Changing : ElementStates.Default, 
+        state: ElementStates.Default, 
         index: i, 
-        isHead: i === queue.getHeadIndex() ? true : false, 
-        isTail: i + 1 === queue.getTailIndex() ? true : false
+        isHead: false, 
+        isTail: false
+        // isHead: i === queue.getHeadIndex() ? true : false, 
+        // isTail: i + 1 === queue.getTailIndex() ? true : false
       }
     })]);
   };
 
   const renderQueue = currentQueue.map((value, i) => {
-    if (value === undefined) {
+    // Вот этот if нужен для того, чтобы после удаления (queue.dequeue()) последнего элемента из очереди
+    // над ним оставалась надпись "head"
+    if (value === undefined && i + 1 === queue.getSize() && queue.getHeadIndex() === queue.getQueueLength()) {
+      return (
+        <Circle 
+          letter={''} 
+          state={ElementStates.Default} 
+          index={i} 
+          head={'head'} 
+          tail={''} 
+        />
+      )
+    }
+    else if (value === undefined) {
       return (
         <Circle 
           letter={''} 
@@ -145,7 +159,8 @@ export const QueuePage: React.FC = () => {
           tail={''} 
         />
       )
-    } else {
+    }    
+    else {
       return (
         <Circle 
           letter={value.letter.toString()} 
@@ -156,15 +171,6 @@ export const QueuePage: React.FC = () => {
         />
       )
     }
-    // return (
-    //   <Circle 
-    //     letter={value.letter.toString()} 
-    //     state={value.state} 
-    //     index={value.index} 
-    //     head={value.isHead ? 'head' : ''} 
-    //     tail={value.isTail ? 'tail' : ''} 
-    //   />
-    // )
   });
 
   return (
