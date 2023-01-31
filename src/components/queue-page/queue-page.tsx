@@ -27,13 +27,10 @@ export const QueuePage: React.FC = () => {
   new Promise((resolve) => setTimeout(resolve, ms));
 
   React.useEffect(() => {
-    console.log(currentQueue);
-    console.log(queue.getQueue());
     initializeQueue();
   }, []);
 
   function initializeQueue() {
-    console.log(queue.getQueueLength());
     const tempArr = [];
     for (let i = 0; i < queue.getQueueLength(); i++) {
       tempArr.push({
@@ -96,15 +93,10 @@ export const QueuePage: React.FC = () => {
     })]);
 
     queue.dequeue();
-    console.log(queue.getHeadIndex());
-    console.log(queue.getQueueLength());
-    console.log(queue.getQueue());
 
     await delay(500);
     
     setCurrentQueue([...queue.getQueue().map((value, i) => {
-      // console.log(queue.getQueue());
-      console.log('azaza');
       return {
         letter: value, 
         state: ElementStates.Default, 
@@ -116,11 +108,13 @@ export const QueuePage: React.FC = () => {
       }
     })]);
 
+    console.log(queue.isEmpty());
+    console.log(queue.getHeadIndex());
+    console.log(queue.getTailIndex());
   };
 
   function clearQueue() {
     queue.clear();
-    console.log(queue.getQueue());
 
     setCurrentQueue([...queue.getQueue().map((value, i) => {
       return {
@@ -133,6 +127,10 @@ export const QueuePage: React.FC = () => {
         // isTail: i + 1 === queue.getTailIndex() ? true : false
       }
     })]);
+
+    console.log(queue.isEmpty());
+    console.log(queue.getHeadIndex());
+    console.log(queue.getTailIndex());
   };
 
   const renderQueue = currentQueue.map((value, i) => {
@@ -179,8 +177,8 @@ export const QueuePage: React.FC = () => {
         <fieldset className={styles.form__fieldset} id='stack'>
           <Input extraClass={styles.form__input} type="text" maxLength={4} isLimitText={true} value={currentLetter} onChange={(e) => setCurrentLetter(e.currentTarget.value)}/>
           <Button extraClass={styles.form__button} text='Добавить' type='submit' name='add' disabled={currentLetter === ''}/>
-          <Button extraClass={styles.form__button} text='Удалить' type='button' name='delete' onClick={deleteFromQueue} disabled={currentQueue.length === 0}/>
-          <Button extraClass={styles.form__button} text='Очистить' type='button' name='clear' onClick={clearQueue} disabled={currentQueue.length === 0}/>
+          <Button extraClass={styles.form__button} text='Удалить' type='button' name='delete' onClick={deleteFromQueue} disabled={queue.isEmpty() || (queue.getHeadIndex() === 0 && queue.getTailIndex() === 0)}/>
+          <Button extraClass={styles.form__button} text='Очистить' type='button' name='clear' onClick={clearQueue} disabled={queue.isEmpty() || (queue.getHeadIndex() === 0 && queue.getTailIndex() === 0)}/>
         </fieldset>
 
         <section className={styles.stackArea}>
