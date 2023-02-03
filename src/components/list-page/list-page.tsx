@@ -71,6 +71,24 @@ export const ListPage: React.FC = () => {
     })]);
   };
 
+  function deleteFromHead() {
+    list.deleteHead();
+
+    setCurrentList([...list.getArray().map((value, i) => {
+      return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+    })]);
+  };
+
+  function deleteFromTail() {
+    list.deleteTail();
+
+    setCurrentList([...list.getArray().map((value, i) => {
+      return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+    })]);
+  };
+
+
+
   return (
     <SolutionLayout title="Связный список">
       <form action="" className={styles.form}>
@@ -78,8 +96,8 @@ export const ListPage: React.FC = () => {
           <Input extraClass={styles.form__input} placeholder='Введите значение' type="text" maxLength={4} isLimitText={true} />
           <Button extraClass={styles.form__button_size_small} text='Добавить в head' type='button' name='add_to_head' onClick={addToHead}/>
           <Button extraClass={styles.form__button_size_small} text='Добавить в tail' type='button' name='add_to_tail' onClick={addToTail}/>
-          <Button extraClass={styles.form__button_size_small} text='Удалить из head' type='button' name='delete_from_head'/>
-          <Button extraClass={styles.form__button_size_small} text='Удалить из tail' type='button' name='delete_from_tail'/>
+          <Button extraClass={styles.form__button_size_small} text='Удалить из head' type='button' name='delete_from_head' onClick={deleteFromHead}/>
+          <Button extraClass={styles.form__button_size_small} text='Удалить из tail' type='button' name='delete_from_tail' onClick={deleteFromTail}/>
         </fieldset>
 
         <fieldset className={styles.form__fieldset} id='list_by_index'>
