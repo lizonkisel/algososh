@@ -53,6 +53,41 @@ export class LinkedList<T> implements ILinkedList<T> {
       
       this.size++;
     }
+
+    deleteHead() {
+        if (!this.head) {
+            throw new Error("No elements in the list");
+        }
+        if (this.head.next) {
+            this.head = this.head.next;
+        } else {
+            this.head = null;
+            this.tail = null;
+        }
+        this.size--;
+    };
+
+    deleteTail() {
+        if (!this.tail) {
+            throw new Error("No elements in the list");
+        }
+      
+        if (this.head === this.tail) {
+            this.head = null;
+            this.tail = null;
+        } else {
+            let currentNode = this.head;
+            while (currentNode !== null && currentNode.next) {
+              if (!currentNode.next.next) {
+                currentNode.next = null;
+              } else {
+                currentNode = currentNode.next;
+              }
+            }
+            this.tail = currentNode;
+        }
+        this.size--;
+    };
   
     getSize() {
       return this.size;
