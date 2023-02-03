@@ -76,15 +76,15 @@ export class LinkedList<T> implements ILinkedList<T> {
             this.head = null;
             this.tail = null;
         } else {
-            let currentNode = this.head;
-            while (currentNode !== null && currentNode.next) {
-              if (!currentNode.next.next) {
-                currentNode.next = null;
-              } else {
-                currentNode = currentNode.next;
-              }
+            let curNode = this.head;
+            while (curNode !== null && curNode.next) {
+                if (curNode.next.next) {
+                    curNode = curNode.next;
+                } else {
+                    curNode.next = null;
+                }
             }
-            this.tail = currentNode;
+            this.tail = curNode;
         }
         this.size--;
     };
