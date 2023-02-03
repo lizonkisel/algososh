@@ -38,6 +38,21 @@ export class LinkedList<T> implements ILinkedList<T> {
       
       this.size++;
     }
+
+    prepend(element: T) {
+        const node = new Node(element, this.head);
+      if (this.head === null || this.tail === null) {
+        this.head = node;
+        this.tail = node;
+      } else {
+        this.head = node;
+        // this.tail.next = node;
+        // this.tail = node;
+      }
+      console.log(node);
+      
+      this.size++;
+    }
   
     getSize() {
       return this.size;

@@ -55,13 +55,29 @@ export const ListPage: React.FC = () => {
     )
   });
 
+  function addToHead() {
+    list.prepend(5);
+
+    setCurrentList([...list.getArray().map((value, i) => {
+      return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+    })]);
+  };
+
+  function addToTail() {
+    list.append(4);
+
+    setCurrentList([...list.getArray().map((value, i) => {
+      return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+    })]);
+  };
+
   return (
     <SolutionLayout title="Связный список">
       <form action="" className={styles.form}>
         <fieldset className={styles.form__fieldset} id='list_to_head_or_tail'>
           <Input extraClass={styles.form__input} placeholder='Введите значение' type="text" maxLength={4} isLimitText={true} />
-          <Button extraClass={styles.form__button_size_small} text='Добавить в head' type='button' name='add_to_head'/>
-          <Button extraClass={styles.form__button_size_small} text='Добавить в tail' type='button' name='add_to_tail'/>
+          <Button extraClass={styles.form__button_size_small} text='Добавить в head' type='button' name='add_to_head' onClick={addToHead}/>
+          <Button extraClass={styles.form__button_size_small} text='Добавить в tail' type='button' name='add_to_tail' onClick={addToTail}/>
           <Button extraClass={styles.form__button_size_small} text='Удалить из head' type='button' name='delete_from_head'/>
           <Button extraClass={styles.form__button_size_small} text='Удалить из tail' type='button' name='delete_from_tail'/>
         </fieldset>
