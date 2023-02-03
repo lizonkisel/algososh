@@ -15,6 +15,7 @@ const list = new LinkedList<number | string>();
 
 export const ListPage: React.FC = () => {
 
+  const [currentLetter, setCurrentLetter] = React.useState<number | string >('');
   const [currentList, setCurrentList] = React.useState<{
     // elem_value: number | string,
     elem_value: any, 
@@ -56,19 +57,25 @@ export const ListPage: React.FC = () => {
   });
 
   function addToHead() {
-    list.prepend(5);
+    if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
+      list.prepend(currentLetter);
+      setCurrentList([...list.getArray().map((value, i) => {
+        return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+      })]);
 
-    setCurrentList([...list.getArray().map((value, i) => {
-      return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
-    })]);
+      setCurrentLetter('');
+    }
   };
 
   function addToTail() {
-    list.append(4);
-
-    setCurrentList([...list.getArray().map((value, i) => {
-      return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
-    })]);
+    if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
+      list.append(currentLetter);
+      setCurrentList([...list.getArray().map((value, i) => {
+        return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+      })]);
+      
+      setCurrentLetter('');
+    }
   };
 
   function deleteFromHead() {
@@ -93,7 +100,7 @@ export const ListPage: React.FC = () => {
     <SolutionLayout title="Связный список">
       <form action="" className={styles.form}>
         <fieldset className={styles.form__fieldset} id='list_to_head_or_tail'>
-          <Input extraClass={styles.form__input} placeholder='Введите значение' type="text" maxLength={4} isLimitText={true} />
+          <Input extraClass={styles.form__input} placeholder='Введите значение' type="text" maxLength={4} isLimitText={true} value={currentLetter} onChange={(e) => setCurrentLetter(e.currentTarget.value)}/>
           <Button extraClass={styles.form__button_size_small} text='Добавить в head' type='button' name='add_to_head' onClick={addToHead}/>
           <Button extraClass={styles.form__button_size_small} text='Добавить в tail' type='button' name='add_to_tail' onClick={addToTail}/>
           <Button extraClass={styles.form__button_size_small} text='Удалить из head' type='button' name='delete_from_head' onClick={deleteFromHead}/>
