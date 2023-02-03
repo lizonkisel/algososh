@@ -5,17 +5,79 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
+import { ArrowIcon } from "../ui/icons/arrow-icon";
 
 import { ElementStates } from "../../types/element-states";
 
+import { LinkedList } from "./list-class";
+
+const list = new LinkedList<number | string>();
+
 export const ListPage: React.FC = () => {
+
+  const [currentList, setCurrentList] = React.useState<{
+    // elem_value: number | string,
+    elem_value: any, 
+    state: ElementStates, 
+    index: number,
+    isHead: boolean, 
+    isTail: boolean, 
+  }[]>([]);
+
+  function createStartList() {
+    list.append(0);
+    list.append(34);
+    list.append(8);
+    list.append(1);
+
+    setCurrentList([...list.getArray().map((value, i) => {
+      return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+    })]);
+  };
+
+  React.useEffect(() => {
+    createStartList();
+  }, []);
+
+  const renderList = currentList.map((value, i) => {
+    return (
+      <div className={styles.listArea__list}>
+        <Circle 
+          letter={value.elem_value} 
+          state={ElementStates.Default} 
+          index={i} 
+          head={value.isHead ? 'head' : ''} 
+          tail={value.isTail ? 'tail' : ''} 
+        />
+        { i !== list.getSize() - 1 && <ArrowIcon /> }
+          
+      </div>
+    )
+  });
+
+  function addToHead() {
+    list.prepend(5);
+
+    setCurrentList([...list.getArray().map((value, i) => {
+      return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+    })]);
+  };
+
+  function addToTail() {
+    list.append(4);
+
+    setCurrentList([...list.getArray().map((value, i) => {
+      return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+    })]);
+  };
+
   return (
     <SolutionLayout title="Связный список">
       <form action="" className={styles.form}>
         <fieldset className={styles.form__fieldset} id='list_to_head_or_tail'>
           <Input extraClass={styles.form__input} placeholder='Введите значение' type="text" maxLength={4} isLimitText={true} />
-          <Button extraClass={styles.form__button_size_small} text='Добавить в head' type='button' name='add_to_head'/>
-          <Button extraClass={styles.form__button_size_small} text='Добавить в tail' type='button' name='add_to_tail'/>
+          <Button extraClass={styles.form__button_size_small} text='Добавить в head' type='button' name='add_to_head' onClick={addToHead}/>
+          <Button extraClass={styles.form__button_size_small} text='Добавить в tail' type='button' name='add_to_tail' onClick={addToTail}/>
           <Button extraClass={styles.form__button_size_small} text='Удалить из head' type='button' name='delete_from_head'/>
           <Button extraClass={styles.form__button_size_small} text='Удалить из tail' type='button' name='delete_from_tail'/>
         </fieldset>
@@ -26,8 +88,8 @@ export const ListPage: React.FC = () => {
           <Button extraClass={styles.form__button_size_large} text='Удалить по индексу' type='button' name='delete_by_index'/>
         </fieldset>
 
-        <section className={styles.stackArea}>
-          {/* {renderStack} */}
+        <section className={styles.listArea}>
+          {renderList}
         </section>
       </form>
     </SolutionLayout>
