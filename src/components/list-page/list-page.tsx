@@ -16,6 +16,7 @@ const list = new LinkedList<number | string>();
 export const ListPage: React.FC = () => {
 
   const [currentLetter, setCurrentLetter] = React.useState<number | string >('');
+  const [currentIndex, setCurrentIndex] = React.useState<number | ''>('');
   const [currentList, setCurrentList] = React.useState<{
     // elem_value: number | string,
     elem_value: any, 
@@ -73,7 +74,7 @@ export const ListPage: React.FC = () => {
       setCurrentList([...list.getArray().map((value, i) => {
         return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
       })]);
-      
+
       setCurrentLetter('');
     }
   };
@@ -94,7 +95,24 @@ export const ListPage: React.FC = () => {
     })]);
   };
 
+  function addByIndex() {
+    if (currentIndex !== '' && currentIndex !== null && currentIndex !== undefined) {
+      list.insertByIndex(currentLetter, currentIndex);
 
+      setCurrentList([...list.getArray().map((value, i) => {
+        return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+      })]);
+
+      setCurrentLetter('');
+      setCurrentIndex('');
+    }
+  };
+
+  function handleChange(e: any) {
+    console.log(e.currentTarget.value);
+    console.log(currentList.length);
+    setCurrentIndex(e.currentTarget.value);
+  }
 
   return (
     <SolutionLayout title="Связный список">
@@ -108,8 +126,8 @@ export const ListPage: React.FC = () => {
         </fieldset>
 
         <fieldset className={styles.form__fieldset} id='list_by_index'>
-          <Input extraClass={styles.form__input} placeholder='Введите индекс' type="number" min={0}/>
-          <Button extraClass={styles.form__button_size_large} text='Добавить по индексу' type='button' name='add_by_index'/>
+          <Input extraClass={styles.form__input} placeholder='Введите индекс' type="number" min={0} max={currentList.length} value={currentIndex} onChange={handleChange}/>
+          <Button extraClass={styles.form__button_size_large} text='Добавить по индексу' type='button' name='add_by_index' onClick={addByIndex}/>
           <Button extraClass={styles.form__button_size_large} text='Удалить по индексу' type='button' name='delete_by_index'/>
         </fieldset>
 

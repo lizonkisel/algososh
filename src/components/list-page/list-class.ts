@@ -88,6 +88,51 @@ export class LinkedList<T> implements ILinkedList<T> {
         }
         this.size--;
     };
+
+    insertByIndex(element: T, index: number) {
+        if (index < 0 || index > this.size) {
+            console.log('Enter a valid index');
+            return;
+        } else {
+            const node = new Node(element);
+    
+            // добавить элемент в начало списка
+            if (index === 0) {
+                this.prepend(element)
+            } else {
+                let curr = this.head;
+                let prev = curr;
+                let currIndex = 0;
+        
+                // перебрать элементы в списке до нужной позиции
+                // ваш код ...
+                while (currIndex < index && curr && curr.next) {
+                    prev = curr;
+                    curr = curr.next;
+                    currIndex++;
+                };
+                console.log(currIndex);
+                console.log(curr);
+                console.log(prev);
+        
+                // добавить элемент
+                // ваш код ...
+                if (prev && curr) {
+                    node.next = curr;
+                    console.log(node);
+                    // curr = node;
+                    prev.next = node;
+                    console.log(curr);
+                }
+            }
+    
+            this.size++;
+        }
+    }
+
+    deleteByIndex() {
+
+    }
   
     getSize() {
       return this.size;
