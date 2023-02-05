@@ -43,7 +43,7 @@ export const ListPage: React.FC = () => {
 
   const renderList = currentList.map((value, i) => {
     return (
-      <div className={styles.listArea__list}>
+      <div className={styles.listArea__list} key={i}>
         <Circle 
           letter={value.elem_value} 
           state={ElementStates.Default} 
@@ -97,7 +97,7 @@ export const ListPage: React.FC = () => {
 
   function addByIndex() {
     if (currentIndex !== '' && currentIndex !== null && currentIndex !== undefined) {
-      list.insertByIndex(currentLetter, currentIndex);
+      list.insertByIndex(currentLetter, Number(currentIndex));
 
       setCurrentList([...list.getArray().map((value, i) => {
         return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
@@ -109,8 +109,6 @@ export const ListPage: React.FC = () => {
   };
 
   function handleChange(e: any) {
-    console.log(e.currentTarget.value);
-    console.log(currentList.length);
     setCurrentIndex(e.currentTarget.value);
   }
 

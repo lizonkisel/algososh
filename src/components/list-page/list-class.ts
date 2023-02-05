@@ -41,14 +41,17 @@ export class LinkedList<T> implements ILinkedList<T> {
 
     prepend(element: T) {
         const node = new Node(element, this.head);
-      if (this.head === null || this.tail === null) {
         this.head = node;
-        this.tail = node;
-      } else {
-        this.head = node;
-        // this.tail.next = node;
-        // this.tail = node;
-      }
+        if (this.head === null || this.tail === null) {
+            // this.head = node;
+            this.tail = node;
+        } 
+        // else {
+        //     // this.head.next = this.head;
+        //     this.head = node;
+        //     // this.tail.next = node;
+        //     // this.tail = node;
+        // }
       console.log(node);
       
       this.size++;
@@ -93,40 +96,25 @@ export class LinkedList<T> implements ILinkedList<T> {
         if (index < 0 || index > this.size) {
             console.log('Enter a valid index');
             return;
-        } else {
-            const node = new Node(element);
-    
-            // добавить элемент в начало списка
+        } else {  
             if (index === 0) {
                 this.prepend(element)
             } else {
+                const node = new Node(element);
+
                 let curr = this.head;
-                let prev = curr;
                 let currIndex = 0;
         
-                // перебрать элементы в списке до нужной позиции
-                // ваш код ...
-                while (currIndex < index && curr && curr.next) {
-                    prev = curr;
+                while (currIndex < index && curr) {
+                    if (currIndex === index - 1) {
+                        node.next = curr.next;
+                        curr.next = node;
+                    }
                     curr = curr.next;
                     currIndex++;
-                };
-                console.log(currIndex);
-                console.log(curr);
-                console.log(prev);
-        
-                // добавить элемент
-                // ваш код ...
-                if (prev && curr) {
-                    node.next = curr;
-                    console.log(node);
-                    // curr = node;
-                    prev.next = node;
-                    console.log(curr);
-                }
+                };        
+                this.size++;
             }
-    
-            this.size++;
         }
     }
 
