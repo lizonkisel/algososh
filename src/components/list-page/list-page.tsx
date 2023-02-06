@@ -108,6 +108,20 @@ export const ListPage: React.FC = () => {
     }
   };
 
+  function deleteByIndex() {
+    console.log('azaza');
+    if (currentIndex !== '' && currentIndex !== null && currentIndex !== undefined) {
+      list.deleteByIndex(Number(currentIndex));
+
+      setCurrentList([...list.getArray().map((value, i) => {
+        return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+      })]);
+
+      // setCurrentLetter('');
+      setCurrentIndex('');
+    }
+  };
+
   function handleChange(e: any) {
     setCurrentIndex(e.currentTarget.value);
   }
@@ -126,7 +140,7 @@ export const ListPage: React.FC = () => {
         <fieldset className={styles.form__fieldset} id='list_by_index'>
           <Input extraClass={styles.form__input} placeholder='Введите индекс' type="number" min={0} max={currentList.length} value={currentIndex} onChange={handleChange}/>
           <Button extraClass={styles.form__button_size_large} text='Добавить по индексу' type='button' name='add_by_index' onClick={addByIndex}/>
-          <Button extraClass={styles.form__button_size_large} text='Удалить по индексу' type='button' name='delete_by_index'/>
+          <Button extraClass={styles.form__button_size_large} text='Удалить по индексу' type='button' name='delete_by_index' onClick={deleteByIndex}/>
         </fieldset>
 
         <section className={styles.listArea}>
