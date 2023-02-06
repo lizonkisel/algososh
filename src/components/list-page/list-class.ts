@@ -118,13 +118,37 @@ export class LinkedList<T> implements ILinkedList<T> {
         }
     }
 
-    deleteByIndex() {
+    deleteByIndex(index: number) {
+        console.log(index);
+        console.log(this.size);
+        if (index < 0 || index >= this.size) {
+            console.log('Enter a valid index');
+            return;
+        }
+        if (index === 0) {
+            this.deleteHead();
+        } else if (index === this.size - 1) {
+            this.deleteTail();
+        } else {
+            // const node = new Node(element);
 
-    }
+            let curr = this.head;
+            let currIndex = 0;
+    
+            while (currIndex < index && curr && curr.next) {
+                if (currIndex === index - 1) {
+                    curr.next = curr.next.next;
+                }
+                curr = curr.next;
+                currIndex++;
+            };
+            this.size--; 
+        }
+    };
   
     getSize() {
       return this.size;
-    }
+    };
 
     // addToList() {
 
