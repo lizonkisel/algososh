@@ -22,8 +22,10 @@ export const ListPage: React.FC = () => {
     elem_value: any, 
     state: ElementStates, 
     index: number,
+    // isTopElement?: '' | React.ReactElement,
+    isTopElement?: any,
     isHead: boolean, 
-    isTail: boolean, 
+    isTail: boolean,
   }[]>([]);
 
   function createStartList() {
@@ -41,15 +43,20 @@ export const ListPage: React.FC = () => {
     createStartList();
   }, []);
 
+  const delay = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
   const renderList = currentList.map((value, i) => {
     return (
       <div className={styles.listArea__list} key={i}>
         <Circle 
           letter={value.elem_value} 
-          state={ElementStates.Default} 
+          state={value.state} 
           index={i} 
-          head={value.isHead ? 'head' : ''} 
-          tail={value.isTail ? 'tail' : ''} 
+          // head={value.isHead ? 'head' : ''} 
+          // tail={value.isTail ? 'tail' : ''}
+          head={value.isHead ? 'head' : value.isTopElement} 
+          tail={value.isTail ? 'tail' : ''}  
         />
         { i !== list.getSize() - 1 && <ArrowIcon /> }
           
@@ -57,9 +64,22 @@ export const ListPage: React.FC = () => {
     )
   });
 
-  function addToHead() {
+  const addToHead = async() => {
     if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
+      setCurrentList([...list.getArray().map((value, i) => {
+        return {elem_value: value, state: ElementStates.Default, index: i, isTopElement: i === 0 ? <Circle state={ElementStates.Changing} letter={currentLetter.toString()} isSmall={true} /> : '', isHead: false, isTail: i === list.getSize() - 1 ? true : false}
+      })]);
+
+      await delay(500);
+
       list.prepend(currentLetter);
+      
+      setCurrentList([...list.getArray().map((value, i) => {
+        return {elem_value: value, state: i === 0 ? ElementStates.Modified : ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+      })]);
+
+      await delay(500);
+      
       setCurrentList([...list.getArray().map((value, i) => {
         return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
       })]);
@@ -68,9 +88,22 @@ export const ListPage: React.FC = () => {
     }
   };
 
-  function addToTail() {
+  const addToTail = async() => {
     if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
+      setCurrentList([...list.getArray().map((value, i) => {
+        return {elem_value: value, state: ElementStates.Default, index: i, isTopElement: i === list.getSize() - 1 ? <Circle state={ElementStates.Changing} letter={currentLetter.toString()} isSmall={true} /> : '', isHead: false, isTail: i === list.getSize() - 1 ? true : false}
+      })]);
+
+      await delay(500);
+
       list.append(currentLetter);
+
+      setCurrentList([...list.getArray().map((value, i) => {
+        return {elem_value: value, state: i === list.getSize() - 1 ? ElementStates.Modified : ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+      })]);
+
+      await delay(500);
+
       setCurrentList([...list.getArray().map((value, i) => {
         return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
       })]);
