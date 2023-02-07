@@ -24,6 +24,7 @@ export const ListPage: React.FC = () => {
     index: number,
     // isTopElement?: '' | React.ReactElement,
     isTopElement?: any,
+    isBottomElement?: any,
     isHead: boolean, 
     isTail: boolean,
   }[]>([]);
@@ -56,7 +57,7 @@ export const ListPage: React.FC = () => {
           // head={value.isHead ? 'head' : ''} 
           // tail={value.isTail ? 'tail' : ''}
           head={value.isHead ? 'head' : value.isTopElement} 
-          tail={value.isTail ? 'tail' : ''}  
+          tail={value.isTail ? 'tail' : value.isBottomElement}  
         />
         { i !== list.getSize() - 1 && <ArrowIcon /> }
           
@@ -112,16 +113,32 @@ export const ListPage: React.FC = () => {
     }
   };
 
-  function deleteFromHead() {
+  const deleteFromHead = async() => {
+    setCurrentList([...list.getArray().map((value, i) => {
+      return {elem_value: i === 0 ? '' : value, state: ElementStates.Default, index: i, isBottomElement: i === 0 ? <Circle state={ElementStates.Changing} letter={value.toString()} isSmall={true} /> : '', isHead: i === 0 ? true : false, isTail: false}
+    })]);
+
+    await delay(500);
+
     list.deleteHead();
+
+    await delay(500);
 
     setCurrentList([...list.getArray().map((value, i) => {
       return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
     })]);
   };
 
-  function deleteFromTail() {
+  const deleteFromTail = async() => {
+    setCurrentList([...list.getArray().map((value, i) => {
+      return {elem_value: i === list.getSize() - 1 ? '' : value, state: ElementStates.Default, index: i, isBottomElement: i === list.getSize() - 1 ? <Circle state={ElementStates.Changing} letter={value.toString()} isSmall={true} /> : '', isHead: i === 0 ? true : false, isTail: false}
+    })]);
+
+    await delay(500);
+
     list.deleteTail();
+
+    await delay(500);
 
     setCurrentList([...list.getArray().map((value, i) => {
       return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
