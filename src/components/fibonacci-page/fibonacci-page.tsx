@@ -7,6 +7,8 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { type } from "os";
 
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+
 export const FibonacciPage: React.FC = () => {
 
   const initialState = {
@@ -53,11 +55,11 @@ export const FibonacciPage: React.FC = () => {
         // Нужно разобраться с тем, как это работает, и когда происходит переопределение fibNumbers
         setCount((a) => a + 1);
         counter++;
-        setTimeout(test, 500);
+        setTimeout(test, SHORT_DELAY_IN_MS);
       } else {
         dispatch({type: 'end'});
       }
-    }, 500);
+    }, SHORT_DELAY_IN_MS);
     setCount(0);
     counter = 0;
   }, [arr]);

@@ -8,6 +8,7 @@ import { Circle } from "../ui/circle/circle";
 import { ArrowIcon } from "../ui/icons/arrow-icon";
 
 import { ElementStates } from "../../types/element-states";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 import { LinkedList } from "./list-class";
 
@@ -100,7 +101,7 @@ export const ListPage: React.FC = () => {
         }
       })]);
 
-      await delay(500);
+      await delay(SHORT_DELAY_IN_MS);
 
       list.prepend(currentLetter);
       
@@ -114,7 +115,7 @@ export const ListPage: React.FC = () => {
         }
       })]);
 
-      await delay(500);
+      await delay(SHORT_DELAY_IN_MS);
       
       setCurrentList([...list.getArray().map((value, i) => {
         return {
@@ -148,7 +149,7 @@ export const ListPage: React.FC = () => {
         }
       })]);
 
-      await delay(500);
+      await delay(SHORT_DELAY_IN_MS);
 
       list.append(currentLetter);
 
@@ -162,7 +163,7 @@ export const ListPage: React.FC = () => {
         }
       })]);
 
-      await delay(500);
+      await delay(SHORT_DELAY_IN_MS);
 
       setCurrentList([...list.getArray().map((value, i) => {
         return {
@@ -195,11 +196,11 @@ export const ListPage: React.FC = () => {
       }
     })]);
 
-    await delay(500);
+    await delay(SHORT_DELAY_IN_MS);
 
     list.deleteHead();
 
-    await delay(500);
+    await delay(SHORT_DELAY_IN_MS);
 
     setCurrentList([...list.getArray().map((value, i) => {
       return {
@@ -229,11 +230,11 @@ export const ListPage: React.FC = () => {
       }
     })]);
 
-    await delay(500);
+    await delay(SHORT_DELAY_IN_MS);
 
     list.deleteTail();
 
-    await delay(500);
+    await delay(SHORT_DELAY_IN_MS);
 
     setCurrentList([...list.getArray().map((value, i) => {
       return {
@@ -270,7 +271,7 @@ export const ListPage: React.FC = () => {
             isTail: i === list.getSize() - 1 ? true : false
           }
         })])
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
       }
 
       list.insertByIndex(currentLetter, Number(currentIndex));
@@ -285,7 +286,7 @@ export const ListPage: React.FC = () => {
         }
       })]);
 
-      await delay(500);
+      await delay(SHORT_DELAY_IN_MS);
 
       setCurrentList([...list.getArray().map((value, i) => {
         return {
@@ -328,12 +329,12 @@ export const ListPage: React.FC = () => {
             isTail: (i === list.getSize() - 1 && j !== Number(currentIndex)) ? true : false
           }
         })])
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
       }
 
       list.deleteByIndex(Number(currentIndex));
 
-      await delay(500);
+      await delay(SHORT_DELAY_IN_MS);
 
       setCurrentList([...list.getArray().map((value, i) => {
         return {
