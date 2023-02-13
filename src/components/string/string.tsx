@@ -54,13 +54,11 @@ export const StringComponent: React.FC = () => {
           isRotateStarted: true,
         }
       case 'calculating':
-        console.log('calculating');
         return {
           ...state,
           calculating: true
         }
       case 'end':
-        console.log('end');
         return {
           ...state,
           isRotateStarted: false,
@@ -126,7 +124,6 @@ export const StringComponent: React.FC = () => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
-    console.log('Submit');
 
     // const lettersArray = state.text.split('');
     // const newlettersArray = lettersArray.map((letter: string) => {

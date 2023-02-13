@@ -107,10 +107,6 @@ export const QueuePage: React.FC = () => {
         isTail: i + 1 === queue.getTailIndex() ? true : false
       }
     })]);
-
-    console.log(queue.isEmpty());
-    console.log(queue.getHeadIndex());
-    console.log(queue.getTailIndex());
   };
 
   function clearQueue() {
@@ -127,10 +123,6 @@ export const QueuePage: React.FC = () => {
         // isTail: i + 1 === queue.getTailIndex() ? true : false
       }
     })]);
-
-    console.log(queue.isEmpty());
-    console.log(queue.getHeadIndex());
-    console.log(queue.getTailIndex());
   };
 
   const renderQueue = currentQueue.map((value, i) => {
