@@ -18,11 +18,9 @@ export const ListPage: React.FC = () => {
   const [currentLetter, setCurrentLetter] = React.useState<number | string >('');
   const [currentIndex, setCurrentIndex] = React.useState<number | ''>('');
   const [currentList, setCurrentList] = React.useState<{
-    // elem_value: number | string,
     elem_value: any, 
     state: ElementStates, 
     index: number,
-    // isTopElement?: '' | React.ReactElement,
     isTopElement?: any,
     isBottomElement?: any,
     isHead: boolean, 
@@ -80,9 +78,7 @@ export const ListPage: React.FC = () => {
         <Circle 
           letter={value.elem_value} 
           state={value.state} 
-          index={i} 
-          // head={value.isHead ? 'head' : ''} 
-          // tail={value.isTail ? 'tail' : ''}
+          index={i}
           head={value.isHead ? 'head' : value.isTopElement} 
           tail={value.isTail ? 'tail' : value.isBottomElement}  
         />
@@ -98,7 +94,12 @@ export const ListPage: React.FC = () => {
       dispatch({type: 'start'});
 
       setCurrentList([...list.getArray().map((value, i) => {
-        return {elem_value: value, state: ElementStates.Default, index: i, isTopElement: i === 0 ? <Circle state={ElementStates.Changing} letter={currentLetter.toString()} isSmall={true} /> : '', isHead: false, isTail: i === list.getSize() - 1 ? true : false}
+        return {
+          elem_value: value, 
+          state: ElementStates.Default, 
+          index: i, isTopElement: i === 0 ? <Circle state={ElementStates.Changing} letter={currentLetter.toString()} isSmall={true} /> : '', 
+          isHead: false, isTail: i === list.getSize() - 1 ? true : false
+        }
       })]);
 
       await delay(500);
@@ -106,13 +107,25 @@ export const ListPage: React.FC = () => {
       list.prepend(currentLetter);
       
       setCurrentList([...list.getArray().map((value, i) => {
-        return {elem_value: value, state: i === 0 ? ElementStates.Modified : ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+        return {
+          elem_value: value, 
+          state: i === 0 ? ElementStates.Modified : ElementStates.Default, 
+          index: i, 
+          isHead: i === 0 ? true : false, 
+          isTail: i === list.getSize() - 1 ? true : false
+        }
       })]);
 
       await delay(500);
       
       setCurrentList([...list.getArray().map((value, i) => {
-        return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+        return {
+          elem_value: value, 
+          state: ElementStates.Default, 
+          index: i, 
+          isHead: i === 0 ? true : false, 
+          isTail: i === list.getSize() - 1 ? true : false
+        }
       })]);
 
       setCurrentLetter('');
@@ -127,7 +140,14 @@ export const ListPage: React.FC = () => {
       dispatch({type: 'start'});
 
       setCurrentList([...list.getArray().map((value, i) => {
-        return {elem_value: value, state: ElementStates.Default, index: i, isTopElement: i === list.getSize() - 1 ? <Circle state={ElementStates.Changing} letter={currentLetter.toString()} isSmall={true} /> : '', isHead: false, isTail: i === list.getSize() - 1 ? true : false}
+        return {
+          elem_value: value, 
+          state: ElementStates.Default, 
+          index: i, 
+          isTopElement: i === list.getSize() - 1 ? <Circle state={ElementStates.Changing} letter={currentLetter.toString()} isSmall={true} /> : '', 
+          isHead: false, 
+          isTail: i === list.getSize() - 1 ? true : false
+        }
       })]);
 
       await delay(500);
@@ -135,13 +155,25 @@ export const ListPage: React.FC = () => {
       list.append(currentLetter);
 
       setCurrentList([...list.getArray().map((value, i) => {
-        return {elem_value: value, state: i === list.getSize() - 1 ? ElementStates.Modified : ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+        return {
+          elem_value: value, 
+          state: i === list.getSize() - 1 ? ElementStates.Modified : ElementStates.Default, 
+          index: i, 
+          isHead: i === 0 ? true : false, 
+          isTail: i === list.getSize() - 1 ? true : false
+        }
       })]);
 
       await delay(500);
 
       setCurrentList([...list.getArray().map((value, i) => {
-        return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+        return {
+          elem_value: value, 
+          state: ElementStates.Default, 
+          index: i, 
+          isHead: i === 0 ? true : false, 
+          isTail: i === list.getSize() - 1 ? true : false
+        }
       })]);
 
       setCurrentLetter('');
@@ -155,7 +187,14 @@ export const ListPage: React.FC = () => {
     dispatch({type: 'start'});
 
     setCurrentList([...list.getArray().map((value, i) => {
-      return {elem_value: i === 0 ? '' : value, state: ElementStates.Default, index: i, isBottomElement: i === 0 ? <Circle state={ElementStates.Changing} letter={value.toString()} isSmall={true} /> : '', isHead: i === 0 ? true : false, isTail: false}
+      return {
+        elem_value: i === 0 ? '' : value, 
+        state: ElementStates.Default, 
+        index: i, 
+        isBottomElement: i === 0 ? <Circle state={ElementStates.Changing} letter={value.toString()} isSmall={true} /> : '', 
+        isHead: i === 0 ? true : false, 
+        isTail: false
+      }
     })]);
 
     await delay(500);
@@ -165,7 +204,13 @@ export const ListPage: React.FC = () => {
     await delay(500);
 
     setCurrentList([...list.getArray().map((value, i) => {
-      return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+      return {
+        elem_value: value, 
+        state: ElementStates.Default, 
+        index: i, 
+        isHead: i === 0 ? true : false, 
+        isTail: i === list.getSize() - 1 ? true : false
+      }
     })]);
 
     dispatch({type: 'end'});
@@ -176,7 +221,14 @@ export const ListPage: React.FC = () => {
     dispatch({type: 'start'});
 
     setCurrentList([...list.getArray().map((value, i) => {
-      return {elem_value: i === list.getSize() - 1 ? '' : value, state: ElementStates.Default, index: i, isBottomElement: i === list.getSize() - 1 ? <Circle state={ElementStates.Changing} letter={value.toString()} isSmall={true} /> : '', isHead: i === 0 ? true : false, isTail: false}
+      return {
+        elem_value: i === list.getSize() - 1 ? '' : value, 
+        state: ElementStates.Default, 
+        index: i, 
+        isBottomElement: i === list.getSize() - 1 ? <Circle state={ElementStates.Changing} letter={value.toString()} isSmall={true} /> : '', 
+        isHead: i === 0 ? true : false, 
+        isTail: false
+      }
     })]);
 
     await delay(500);
@@ -186,31 +238,39 @@ export const ListPage: React.FC = () => {
     await delay(500);
 
     setCurrentList([...list.getArray().map((value, i) => {
-      return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+      return {
+        elem_value: value,
+        state: ElementStates.Default, 
+        index: i, 
+        isHead: i === 0 ? true : false, 
+        isTail: i === list.getSize() - 1 ? true : false
+      }
     })]);
 
     dispatch({type: 'end'});
   };
 
   const addByIndex = async() => {
-    // if (currentIndex !== '' && currentIndex !== null && currentIndex !== undefined) {
     if (currentIndex !== '' && currentIndex !== undefined) {
 
       dispatch({type: 'start'});
 
       if (currentIndex > list.getSize()) {
         console.log('Enter a valid index');
+        dispatch({type: 'end'});
         return;
       }
 
       for (let j = 0; j <= currentIndex; j++) {
         setCurrentList([...list.getArray().map((value, i) => {
-          return {elem_value: value, 
+          return {
+            elem_value: value, 
             state: j === i ? ElementStates.Changing : ElementStates.Default,  
             index: i,
             isTopElement: (j === i && i <= currentIndex) ? <Circle state={ElementStates.Changing} letter={currentLetter.toString()} isSmall={true} /> : '',
             isHead: (i === 0 && j !== i) ? true : false,
-            isTail: i === list.getSize() - 1 ? true : false}
+            isTail: i === list.getSize() - 1 ? true : false
+          }
         })])
         await delay(500);
       }
@@ -218,13 +278,25 @@ export const ListPage: React.FC = () => {
       list.insertByIndex(currentLetter, Number(currentIndex));
 
       setCurrentList([...list.getArray().map((value, i) => {
-        return {elem_value: value, state: i === Number(currentIndex) ? ElementStates.Modified : ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+        return {
+          elem_value: value, 
+          state: i === Number(currentIndex) ? ElementStates.Modified : ElementStates.Default, 
+          index: i, 
+          isHead: i === 0 ? true : false, 
+          isTail: i === list.getSize() - 1 ? true : false
+        }
       })]);
 
       await delay(500);
 
       setCurrentList([...list.getArray().map((value, i) => {
-        return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+        return {
+          elem_value: value, 
+          state: ElementStates.Default, 
+          index: i, 
+          isHead: i === 0 ? true : false, 
+          isTail: i === list.getSize() - 1 ? true : false
+        }
       })]);
 
       setCurrentLetter('');
@@ -242,20 +314,23 @@ export const ListPage: React.FC = () => {
 
       if (currentIndex >= list.getSize()) {
         console.log('Enter a valid index');
+        dispatch({type: 'end'});
         return;
       }
 
       for (let j = 0; j <= currentIndex; j++) {
         setCurrentList([...list.getArray().map((value, i) => {
-          return {elem_value: j === Number(currentIndex) && j === i ? '' : value, 
+          return {
+            elem_value: j === Number(currentIndex) && j === i ? '' : value, 
             state: j === i ? ElementStates.Changing : ElementStates.Default,  
             index: i,
             //@ts-ignore
             isBottomElement: (j === Number(currentIndex) && j === i) ? <Circle state={ElementStates.Changing} letter={value} isSmall={true} /> : '',
             isHead: i === 0 ? true : false,
-            isTail: (i === list.getSize() - 1 && j !== Number(currentIndex)) ? true : false}
+            isTail: (i === list.getSize() - 1 && j !== Number(currentIndex)) ? true : false
+          }
         })])
-        await delay(5500);
+        await delay(500);
       }
 
       list.deleteByIndex(Number(currentIndex));
@@ -263,7 +338,13 @@ export const ListPage: React.FC = () => {
       await delay(500);
 
       setCurrentList([...list.getArray().map((value, i) => {
-        return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+        return {
+          elem_value: value, 
+          state: ElementStates.Default, 
+          index: i, 
+          isHead: i === 0 ? true : false, 
+          isTail: i === list.getSize() - 1 ? true : false
+        }
       })]);
 
       setCurrentLetter('');
@@ -271,17 +352,6 @@ export const ListPage: React.FC = () => {
 
       dispatch({type: 'end'});
     }
-
-    // if (currentIndex !== '' && currentIndex !== null && currentIndex !== undefined) {
-    //   list.deleteByIndex(Number(currentIndex));
-
-    //   setCurrentList([...list.getArray().map((value, i) => {
-    //     return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
-    //   })]);
-
-    //   // setCurrentLetter('');
-    //   setCurrentIndex('');
-    // }
   };
 
   function handleChange(e: any) {
@@ -302,7 +372,7 @@ export const ListPage: React.FC = () => {
         <fieldset className={styles.form__fieldset} id='list_by_index'>
           <Input extraClass={styles.form__input} placeholder='Введите индекс' type="number" min={0} max={currentList.length} value={currentIndex} onChange={handleChange}/>
           <Button extraClass={styles.form__button_size_large} text='Добавить по индексу' type='button' name='add_by_index' onClick={addByIndex} disabled={currentLetter === '' || currentIndex === '' || animationIsWorking}/>
-          <Button extraClass={styles.form__button_size_large} text='Удалить по индексу' type='button' name='delete_by_index' onClick={deleteByIndex} disabled={currentLetter === '' || currentIndex === '' || animationIsWorking}/>
+          <Button extraClass={styles.form__button_size_large} text='Удалить по индексу' type='button' name='delete_by_index' onClick={deleteByIndex} disabled={currentIndex === '' || animationIsWorking}/>
         </fieldset>
 
         <section className={styles.listArea}>
