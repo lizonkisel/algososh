@@ -7,6 +7,7 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 
 import { ElementStates } from "../../types/element-states";
+import { DELAY_IN_MS } from "../../constants/delays";
 
 export const StringComponent: React.FC = () => {
 
@@ -109,16 +110,16 @@ export const StringComponent: React.FC = () => {
               end.state = ElementStates.Modified;
               setLettersState([...copyArr]);
               if (i < j - 1) {
-                setTimeout(test, 1000);
+                setTimeout(test, DELAY_IN_MS);
               } else {
                 dispatch({type: 'end'});
               }
-            }, 1000, i, j)
-          }, 1000, i, j);
+            }, DELAY_IN_MS, i, j)
+          }, DELAY_IN_MS, i, j);
         }
         i++;
         j--;
-      }, 1000)
+      }, DELAY_IN_MS)
     }
   };
 

@@ -7,6 +7,7 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 
 import { ElementStates } from "../../types/element-states";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 import { Queue } from "./queue-class";
 
@@ -65,7 +66,7 @@ export const QueuePage: React.FC = () => {
       })]);
     }
 
-    await delay(500);
+    await delay(SHORT_DELAY_IN_MS);
 
     setCurrentQueue([...queue.getQueue().map((value, i) => {
       return {
@@ -94,7 +95,7 @@ export const QueuePage: React.FC = () => {
 
     queue.dequeue();
 
-    await delay(500);
+    await delay(SHORT_DELAY_IN_MS);
     
     setCurrentQueue([...queue.getQueue().map((value, i) => {
       return {

@@ -7,6 +7,7 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 
 import { ElementStates } from "../../types/element-states";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 import { Stack } from "./stack-class";
 
@@ -30,7 +31,7 @@ export const StackPage: React.FC = () => {
       })]);
     }
 
-    await delay(500);
+    await delay(SHORT_DELAY_IN_MS);
 
     setCurrentStack([...stack.getStack().map((value, i) => {
       return {letter: value, state: ElementStates.Default, index: i, isTop: i + 1 === stack.getSize() ? true : false}
@@ -44,7 +45,7 @@ export const StackPage: React.FC = () => {
       return {letter: value, state: i + 1 === stack.getSize() ? ElementStates.Changing : ElementStates.Default, index: i, isTop: i + 1 === stack.getSize() ? true : false}
     })]);
 
-    await delay(500);
+    await delay(SHORT_DELAY_IN_MS);
 
     stack.pop();
 

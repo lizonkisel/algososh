@@ -8,7 +8,7 @@ import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
 
 import { ElementStates } from "../../types/element-states";
-
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const SortingPage: React.FC = () => {
 
@@ -104,7 +104,7 @@ export const SortingPage: React.FC = () => {
         copyArr[j].state = ElementStates.Changing;
         copyArr[j + 1].state = ElementStates.Changing;
         setNumbersState([...copyArr]);
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
         if (copyArr[j].num > copyArr[j + 1].num) {
           swap(copyArr, j, j + 1);
           copyArr[j].state = ElementStates.Default;
@@ -130,7 +130,7 @@ export const SortingPage: React.FC = () => {
         copyArr[j].state = ElementStates.Changing;
         copyArr[j + 1].state = ElementStates.Changing;
         setNumbersState([...copyArr]);
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
         if (copyArr[j].num < copyArr[j + 1].num) {
           swap(copyArr, j, j + 1);
           copyArr[j].state = ElementStates.Default;
@@ -157,7 +157,7 @@ export const SortingPage: React.FC = () => {
         copyArr[i].state = ElementStates.Changing;
         copyArr[j + 1].state = ElementStates.Changing;
         setNumbersState([...copyArr]);
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
 
         if (copyArr[maxInd].num < copyArr[j+1].num) {
           maxInd = j + 1;
@@ -183,7 +183,7 @@ export const SortingPage: React.FC = () => {
         copyArr[i].state = ElementStates.Changing;
         copyArr[j + 1].state = ElementStates.Changing;
         setNumbersState([...copyArr]);
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
 
         if (copyArr[minInd].num > copyArr[j+1].num) {
           minInd = j + 1;
