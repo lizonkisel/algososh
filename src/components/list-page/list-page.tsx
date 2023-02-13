@@ -38,13 +38,11 @@ export const ListPage: React.FC = () => {
   function reducer(state: any, action: any) {
     switch (action.type) {
       case 'start':
-        console.log('animation_working');
         return {
           ...state,
           animationIsWorking: true
         }
       case 'end':
-        console.log('end');
         return {
           ...state,
           animationIsWorking: false

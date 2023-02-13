@@ -27,13 +27,11 @@ export const SortingPage: React.FC = () => {
   function reducer(state: any, action: any) {
     switch (action.type) {
       case 'sorting':
-        console.log('sorting');
         return {
           ...state,
           sorting: true
         }
       case 'end':
-        console.log('end');
         return {
           ...state,
           sorting: false

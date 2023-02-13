@@ -34,7 +34,6 @@ export class LinkedList<T> implements ILinkedList<T> {
         this.tail.next = node;
         this.tail = node;
       }
-      console.log(node);
       
       this.size++;
     }
@@ -52,7 +51,6 @@ export class LinkedList<T> implements ILinkedList<T> {
         //     // this.tail.next = node;
         //     // this.tail = node;
         // }
-      console.log(node);
       
       this.size++;
     }
@@ -119,8 +117,6 @@ export class LinkedList<T> implements ILinkedList<T> {
     }
 
     deleteByIndex(index: number) {
-        console.log(index);
-        console.log(this.size);
         if (index < 0 || index >= this.size) {
             console.log('Enter a valid index');
             return;
@@ -193,7 +189,6 @@ export class LinkedList<T> implements ILinkedList<T> {
         res += `${curr.value} `;
         curr = curr.next;
       }
-      console.log(res);
     }
 
     getArray() {
@@ -204,7 +199,6 @@ export class LinkedList<T> implements ILinkedList<T> {
             res.push(curr.value);
             curr = curr.next;
         }
-        console.log(res);
         return res;
       }
   }

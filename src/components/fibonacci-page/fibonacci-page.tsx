@@ -46,7 +46,6 @@ export const FibonacciPage: React.FC = () => {
   // }, [arr]);
 
   React.useEffect(() => {
-    console.log('count = ', count)
     let counter = count;
     setTimeout(function test() {
       if (counter < arr.length) {
@@ -75,8 +74,6 @@ export const FibonacciPage: React.FC = () => {
   // let fibNumbers = 5;
 
   let fibNumbers = arr.slice(0, count).map((value, i) => {
-    console.log('arr: ', arr)
-    console.log(count);
     return (
       <div>
         <Circle letter={value.toString()} key={i}/>
@@ -94,19 +91,16 @@ export const FibonacciPage: React.FC = () => {
           areCalculationsStarted: false
         };
       case 'start':
-        console.log('start');
         return {
           ...state,
           areCalculationsStarted: true,
         }
       case 'calculating':
-        console.log('calculating');
         return {
           ...state,
           calculating: true
         }
       case 'end':
-        console.log('end');
         return {
           ...state,
           areCalculationsStarted: false,
@@ -137,8 +131,6 @@ export const FibonacciPage: React.FC = () => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
-    console.log('Submit');
-
     dispatch({type: 'start'});
   };
 
