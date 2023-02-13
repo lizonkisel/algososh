@@ -145,9 +145,53 @@ export const ListPage: React.FC = () => {
     })]);
   };
 
-  function addByIndex() {
-    if (currentIndex !== '' && currentIndex !== null && currentIndex !== undefined) {
+  // const addByIndex = async() => {
+  //   if (currentIndex !== '' && currentIndex !== null && currentIndex !== undefined) {
+
+  //     setCurrentList([...list.getArray().map((value, i) => {
+  //       return {elem_value: value, state: i <= Number(currentIndex) ? ElementStates.Changing : ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+  //     })]);
+
+  //     await delay(2500);
+
+  //     list.insertByIndex(currentLetter, Number(currentIndex));
+
+  //     setCurrentList([...list.getArray().map((value, i) => {
+  //       return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+  //     })]);
+
+  //     setCurrentLetter('');
+  //     setCurrentIndex('');
+  //   }
+  // };
+
+  const addByIndex = async() => {
+    // if (currentIndex !== '' && currentIndex !== null && currentIndex !== undefined) {
+    if (currentIndex !== '' && currentIndex !== undefined) {
+      if (currentIndex > list.getSize()) {
+        console.log('Enter a valid index');
+        return;
+      }
+
+      for (let j = 0; j <= currentIndex; j++) {
+        setCurrentList([...list.getArray().map((value, i) => {
+          return {elem_value: value, 
+            state: j === i ? ElementStates.Changing : ElementStates.Default,  
+            index: i,
+            isTopElement: (j === i && i <= currentIndex) ? <Circle state={ElementStates.Changing} letter={currentLetter.toString()} isSmall={true} /> : '',
+            isHead: (i === 0 && j !== i) ? true : false,
+            isTail: i === list.getSize() - 1 ? true : false}
+        })])
+        await delay(500);
+      }
+
       list.insertByIndex(currentLetter, Number(currentIndex));
+
+      setCurrentList([...list.getArray().map((value, i) => {
+        return {elem_value: value, state: i === Number(currentIndex) ? ElementStates.Modified : ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+      })]);
+
+      await delay(500);
 
       setCurrentList([...list.getArray().map((value, i) => {
         return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
@@ -158,8 +202,20 @@ export const ListPage: React.FC = () => {
     }
   };
 
+  // function deleteByIndex() {
+  //   if (currentIndex !== '' && currentIndex !== null && currentIndex !== undefined) {
+  //     list.deleteByIndex(Number(currentIndex));
+
+  //     setCurrentList([...list.getArray().map((value, i) => {
+  //       return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+  //     })]);
+
+  //     // setCurrentLetter('');
+  //     setCurrentIndex('');
+  //   }
+  // };
+
   function deleteByIndex() {
-    console.log('azaza');
     if (currentIndex !== '' && currentIndex !== null && currentIndex !== undefined) {
       list.deleteByIndex(Number(currentIndex));
 
