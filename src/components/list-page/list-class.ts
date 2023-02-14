@@ -42,17 +42,9 @@ export class LinkedList<T> implements ILinkedList<T> {
         const node = new Node(element, this.head);
         this.head = node;
         if (this.head === null || this.tail === null) {
-            // this.head = node;
             this.tail = node;
-        } 
-        // else {
-        //     // this.head.next = this.head;
-        //     this.head = node;
-        //     // this.tail.next = node;
-        //     // this.tail = node;
-        // }
-      
-      this.size++;
+        }      
+        this.size++;
     }
 
     deleteHead() {
@@ -126,8 +118,6 @@ export class LinkedList<T> implements ILinkedList<T> {
         } else if (index === this.size - 1) {
             this.deleteTail();
         } else {
-            // const node = new Node(element);
-
             let curr = this.head;
             let currIndex = 0;
     
@@ -145,42 +135,6 @@ export class LinkedList<T> implements ILinkedList<T> {
     getSize() {
       return this.size;
     };
-
-    // addToList() {
-
-    // }
-
-    // getList() {
-
-    //     let dummyHead = new Node(0); // добавим в начало пустой узел
-    //     //@ts-ignore
-    //     dummyHead.next = this.head;
-    //     let curr = dummyHead;
-               
-    //     let prev;
-        
-    //     while (curr && curr.next) {
-
-    //     //   prev = curr;
-    //     //   curr = curr.next;
-    //     //   while (curr.value === val) {
-    //     //     if (curr.next) {
-    //     //       prev.next = curr.next;
-    //     //       curr = curr.next;
-    //     //       console.log('Here');
-    //     //     } else {
-    //     //       console.log('azaza');
-    //     //       curr = prev;
-    //     //       curr.next = null;
-    //     //     }
-    //     //   } 
-    //     //   console.log(prev);
-    //     //   console.log(curr);
-    //     }
-    //     console.log(dummyHead.next);
-        
-    //     return dummyHead.next; 
-    // }
   
     print() {
       let curr = this.head;
@@ -202,9 +156,3 @@ export class LinkedList<T> implements ILinkedList<T> {
         return res;
       }
   }
-  
-//   const list = new LinkedList<number>();
-//   list.append(12);
-//   list.append(13);
-//   list.append(14);
-//   list.print(); //4 12 13 1

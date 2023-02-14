@@ -8,6 +8,7 @@ import { Circle } from "../ui/circle/circle";
 
 import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { delay } from "../utils";
 
 import { Stack } from "./stack-class";
 
@@ -17,9 +18,6 @@ export const StackPage: React.FC = () => {
 
   const [currentLetter, setCurrentLetter] = React.useState<number | string >('');
   const [currentStack, setCurrentStack] = React.useState<{letter: number | string, state: ElementStates, index: number, isTop: boolean}[]>([]);
-
-  const delay = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
 
   const addToStack = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

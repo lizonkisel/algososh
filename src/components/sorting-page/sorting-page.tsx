@@ -9,6 +9,7 @@ import { Column } from "../ui/column/column";
 
 import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { delay } from "../utils";
 
 export const SortingPage: React.FC = () => {
 
@@ -69,10 +70,7 @@ export const SortingPage: React.FC = () => {
     arr[firstIndex] = arr[secondIndex];
     arr[secondIndex] = temp;
   };
-
-  const delay = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
-
+  
   function ascendingSort() {
     dispatch({ type: 'sorting' });
 

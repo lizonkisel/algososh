@@ -9,6 +9,7 @@ import { ArrowIcon } from "../ui/icons/arrow-icon";
 
 import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { delay } from "../utils";
 
 import { LinkedList } from "./list-class";
 
@@ -67,9 +68,6 @@ export const ListPage: React.FC = () => {
   React.useEffect(() => {
     createStartList();
   }, []);
-
-  const delay = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
 
   const renderList = currentList.map((value, i) => {
     return (

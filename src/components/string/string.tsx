@@ -11,11 +11,6 @@ import { DELAY_IN_MS } from "../../constants/delays";
 
 export const StringComponent: React.FC = () => {
 
-  // const testRef = React.useRef('');
-  // React.useEffect(() => {
-  //   testRef.current = lettersState;
-  // }, [lettersState])
-
   const initialState = { 
     text: '',
     isRotateStarted: false,
@@ -95,14 +90,9 @@ export const StringComponent: React.FC = () => {
           setLettersState([...copyArr]);
   
           setTimeout((i: number, j: number) => {
-            // copyArr[i] = {letter: end.letter, state: end.state};
-            // copyArr[j] = {letter: start.letter, state: start.state};
-            
             temp = copyArr[i];
             copyArr[i] = copyArr[j];
             copyArr[j] = temp;
-            // copyArr[i] = end;
-            // copyArr[j] = start;
             setLettersState([...copyArr]);
             
             setTimeout(() => {
@@ -126,25 +116,12 @@ export const StringComponent: React.FC = () => {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
 
-    // const lettersArray = state.text.split('');
-    // const newlettersArray = lettersArray.map((letter: string) => {
-    //   return {letter: letter, state: ElementStates.Default}
-    // });
-
-    // setLettersState([...newlettersArray]);
-
     dispatch({ type: 'start' });
-
-    // reverseString(lettersState);
-
   };
 
   function handleChange(e: React.FormEvent<HTMLInputElement>): void {
     dispatch({ type: 'add_letters', value: e.currentTarget.value });
   };
-
-
-
 
   return (
     <SolutionLayout title="Строка">
