@@ -9,8 +9,15 @@ export class Node<T> {
   
 interface ILinkedList<T> {
     append: (element: T) => void;
+    prepend: (element: T) => void;
+    deleteHead: () => void;
+    deleteTail: () => void;
+    insertByIndex: (element: T, index: number) => void;
+    deleteByIndex: (index: number) => void;
     getSize: () => number;
     print: () => void;
+    getArray: () => T[];
+
 }
   
 export class LinkedList<T> implements ILinkedList<T> {
@@ -149,7 +156,6 @@ export class LinkedList<T> implements ILinkedList<T> {
         let curr = this.head;
         let res = [];
         while (curr) {
-        //   res += `${curr.value} `;
             res.push(curr.value);
             curr = curr.next;
         }
