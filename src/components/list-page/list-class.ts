@@ -17,19 +17,16 @@ interface ILinkedList<T> {
     getSize: () => number;
     print: () => void;
     getArray: () => T[];
-
 }
   
 export class LinkedList<T> implements ILinkedList<T> {
     private head: Node<T> | null;
     private tail: Node<T> | null;
     private size: number;
-    private list: any;
     constructor() {
         this.head = null;
         this.tail = null;
         this.size = 0;
-        this.list = new Node(0);
     }
   
     append(element: T) {

@@ -17,7 +17,11 @@ export const SortingPage: React.FC = () => {
   const [sortingDirection, setSortingDirection] = React.useState<'ascending' | 'descending'>(); 
   const [numbersState, setNumbersState] = React.useState<{num: number, state: ElementStates}[]>([]);
 
-  const initialState = { 
+  interface IInitialState {
+    sorting: boolean
+  }
+
+  const initialState: IInitialState = { 
     sorting: false
   };
 
@@ -25,7 +29,7 @@ export const SortingPage: React.FC = () => {
 
   const { sorting } = state;
 
-  function reducer(state: any, action: any) {
+  function reducer(state: IInitialState, action: any) {
     switch (action.type) {
       case 'sorting':
         return {

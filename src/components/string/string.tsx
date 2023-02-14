@@ -11,7 +11,14 @@ import { DELAY_IN_MS } from "../../constants/delays";
 
 export const StringComponent: React.FC = () => {
 
-  const initialState = { 
+  interface IInitialState {
+    text: string,
+    isRotateStarted: boolean,
+    calculating: boolean,
+    isRotated: boolean,
+  }
+
+  const initialState: IInitialState = { 
     text: '',
     isRotateStarted: false,
     calculating: false,
@@ -36,7 +43,7 @@ export const StringComponent: React.FC = () => {
     }
   }, [state.isRotateStarted]);
 
-  function reducer(state: any, action: any) {
+  function reducer(state: IInitialState, action: any) {
     switch (action.type) {
       case 'add_letters':
         return {
@@ -66,7 +73,7 @@ export const StringComponent: React.FC = () => {
     }
   };
 
-  function reverseString(lettersState: any) {
+  function reverseString(lettersState: {letter: string, state: ElementStates}[]) {
     let copyArr = lettersState.slice(0);
     let i = 0;
     let j = copyArr.length - 1;
@@ -134,7 +141,7 @@ export const StringComponent: React.FC = () => {
       {
         (state.isRotateStarted  || state.isRotated) && 
         <section className={styles.bubbles}>
-          {lettersState.map((letter: any, i) => {
+          {lettersState.map((letter: {letter: string, state: ElementStates}, i) => {
             return <Circle letter={letter.letter} state={letter.state} key={i}/>
           })}
         </section>

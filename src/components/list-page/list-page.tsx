@@ -11,6 +11,8 @@ import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { delay } from "../utils";
 
+import { CircleProps } from "../ui/circle/circle";
+
 import { LinkedList } from "./list-class";
 
 const list = new LinkedList<number | string>();
@@ -20,16 +22,20 @@ export const ListPage: React.FC = () => {
   const [currentLetter, setCurrentLetter] = React.useState<number | string >('');
   const [currentIndex, setCurrentIndex] = React.useState<number | ''>('');
   const [currentList, setCurrentList] = React.useState<{
-    elem_value: any, 
+    elem_value: string | number, 
     state: ElementStates, 
     index: number,
-    isTopElement?: any,
-    isBottomElement?: any,
+    isTopElement: React.ReactElement<CircleProps> | string,
+    isBottomElement: React.ReactElement<CircleProps> | string,
     isHead: boolean, 
     isTail: boolean,
   }[]>([]);
 
-  const initialState = { 
+  interface IInitialState {
+    animationIsWorking: boolean
+  }
+
+  const initialState: IInitialState = { 
     animationIsWorking: false
   };
 
@@ -37,7 +43,7 @@ export const ListPage: React.FC = () => {
 
   const {animationIsWorking} = buttonsState;
 
-  function reducer(state: any, action: any) {
+  function reducer(state: IInitialState, action: any) {
     switch (action.type) {
       case 'start':
         return {
@@ -61,7 +67,15 @@ export const ListPage: React.FC = () => {
     list.append(1);
 
     setCurrentList([...list.getArray().map((value, i) => {
-      return {elem_value: value, state: ElementStates.Default, index: i, isHead: i === 0 ? true : false, isTail: i === list.getSize() - 1 ? true : false}
+      return {
+        elem_value: value, 
+        state: ElementStates.Default, 
+        index: i,
+        isTopElement: '',
+        isBottomElement: '',
+        isHead: i === 0 ? true : false, 
+        isTail: i === list.getSize() - 1 ? true : false
+      }
     })]);
   };
 
@@ -73,7 +87,7 @@ export const ListPage: React.FC = () => {
     return (
       <div className={styles.listArea__list} key={i}>
         <Circle 
-          letter={value.elem_value} 
+          letter={value.elem_value.toString()} 
           state={value.state} 
           index={i}
           head={value.isHead ? 'head' : value.isTopElement} 
@@ -94,8 +108,11 @@ export const ListPage: React.FC = () => {
         return {
           elem_value: value, 
           state: ElementStates.Default, 
-          index: i, isTopElement: i === 0 ? <Circle state={ElementStates.Changing} letter={currentLetter.toString()} isSmall={true} /> : '', 
-          isHead: false, isTail: i === list.getSize() - 1 ? true : false
+          index: i, 
+          isTopElement: i === 0 ? <Circle state={ElementStates.Changing} letter={currentLetter.toString()} isSmall={true} /> : '', 
+          isBottomElement: '',
+          isHead: false, 
+          isTail: i === list.getSize() - 1 ? true : false
         }
       })]);
 
@@ -107,7 +124,9 @@ export const ListPage: React.FC = () => {
         return {
           elem_value: value, 
           state: i === 0 ? ElementStates.Modified : ElementStates.Default, 
-          index: i, 
+          index: i,
+          isTopElement: '',
+          isBottomElement: '',
           isHead: i === 0 ? true : false, 
           isTail: i === list.getSize() - 1 ? true : false
         }
@@ -120,6 +139,8 @@ export const ListPage: React.FC = () => {
           elem_value: value, 
           state: ElementStates.Default, 
           index: i, 
+          isTopElement: '',
+          isBottomElement: '',
           isHead: i === 0 ? true : false, 
           isTail: i === list.getSize() - 1 ? true : false
         }
@@ -142,6 +163,7 @@ export const ListPage: React.FC = () => {
           state: ElementStates.Default, 
           index: i, 
           isTopElement: i === list.getSize() - 1 ? <Circle state={ElementStates.Changing} letter={currentLetter.toString()} isSmall={true} /> : '', 
+          isBottomElement: '',
           isHead: false, 
           isTail: i === list.getSize() - 1 ? true : false
         }
@@ -155,7 +177,9 @@ export const ListPage: React.FC = () => {
         return {
           elem_value: value, 
           state: i === list.getSize() - 1 ? ElementStates.Modified : ElementStates.Default, 
-          index: i, 
+          index: i,
+          isTopElement: '',
+          isBottomElement: '',
           isHead: i === 0 ? true : false, 
           isTail: i === list.getSize() - 1 ? true : false
         }
@@ -167,7 +191,9 @@ export const ListPage: React.FC = () => {
         return {
           elem_value: value, 
           state: ElementStates.Default, 
-          index: i, 
+          index: i,
+          isTopElement: '',
+          isBottomElement: '',
           isHead: i === 0 ? true : false, 
           isTail: i === list.getSize() - 1 ? true : false
         }
@@ -188,6 +214,7 @@ export const ListPage: React.FC = () => {
         elem_value: i === 0 ? '' : value, 
         state: ElementStates.Default, 
         index: i, 
+        isTopElement: '',
         isBottomElement: i === 0 ? <Circle state={ElementStates.Changing} letter={value.toString()} isSmall={true} /> : '', 
         isHead: i === 0 ? true : false, 
         isTail: false
@@ -204,7 +231,9 @@ export const ListPage: React.FC = () => {
       return {
         elem_value: value, 
         state: ElementStates.Default, 
-        index: i, 
+        index: i,
+        isTopElement: '',
+        isBottomElement: '',
         isHead: i === 0 ? true : false, 
         isTail: i === list.getSize() - 1 ? true : false
       }
@@ -222,6 +251,7 @@ export const ListPage: React.FC = () => {
         elem_value: i === list.getSize() - 1 ? '' : value, 
         state: ElementStates.Default, 
         index: i, 
+        isTopElement: '',
         isBottomElement: i === list.getSize() - 1 ? <Circle state={ElementStates.Changing} letter={value.toString()} isSmall={true} /> : '', 
         isHead: i === 0 ? true : false, 
         isTail: false
@@ -238,7 +268,9 @@ export const ListPage: React.FC = () => {
       return {
         elem_value: value,
         state: ElementStates.Default, 
-        index: i, 
+        index: i,
+        isTopElement: '',
+        isBottomElement: '',
         isHead: i === 0 ? true : false, 
         isTail: i === list.getSize() - 1 ? true : false
       }
@@ -265,6 +297,7 @@ export const ListPage: React.FC = () => {
             state: j === i ? ElementStates.Changing : ElementStates.Default,  
             index: i,
             isTopElement: (j === i && i <= currentIndex) ? <Circle state={ElementStates.Changing} letter={currentLetter.toString()} isSmall={true} /> : '',
+            isBottomElement: '',
             isHead: (i === 0 && j !== i) ? true : false,
             isTail: i === list.getSize() - 1 ? true : false
           }
@@ -278,7 +311,9 @@ export const ListPage: React.FC = () => {
         return {
           elem_value: value, 
           state: i === Number(currentIndex) ? ElementStates.Modified : ElementStates.Default, 
-          index: i, 
+          index: i,
+          isTopElement: '',
+          isBottomElement: '',
           isHead: i === 0 ? true : false, 
           isTail: i === list.getSize() - 1 ? true : false
         }
@@ -290,7 +325,9 @@ export const ListPage: React.FC = () => {
         return {
           elem_value: value, 
           state: ElementStates.Default, 
-          index: i, 
+          index: i,
+          isTopElement: '',
+          isBottomElement: '',
           isHead: i === 0 ? true : false, 
           isTail: i === list.getSize() - 1 ? true : false
         }
@@ -321,8 +358,8 @@ export const ListPage: React.FC = () => {
             elem_value: j === Number(currentIndex) && j === i ? '' : value, 
             state: j === i ? ElementStates.Changing : ElementStates.Default,  
             index: i,
-            //@ts-ignore
-            isBottomElement: (j === Number(currentIndex) && j === i) ? <Circle state={ElementStates.Changing} letter={value} isSmall={true} /> : '',
+            isTopElement: '',
+            isBottomElement: (j === Number(currentIndex) && j === i) ? <Circle state={ElementStates.Changing} letter={value.toString()} isSmall={true} /> : '',
             isHead: i === 0 ? true : false,
             isTail: (i === list.getSize() - 1 && j !== Number(currentIndex)) ? true : false
           }
@@ -338,7 +375,9 @@ export const ListPage: React.FC = () => {
         return {
           elem_value: value, 
           state: ElementStates.Default, 
-          index: i, 
+          index: i,
+          isTopElement: '',
+          isBottomElement: '',
           isHead: i === 0 ? true : false, 
           isTail: i === list.getSize() - 1 ? true : false
         }
