@@ -11,7 +11,14 @@ import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const FibonacciPage: React.FC = () => {
 
-  const initialState = {
+  interface IInitialState {
+    num: number | null,
+    areCalculationsStarted: boolean,
+    calculating: boolean,
+    isCalculated: boolean,
+  }
+
+  const initialState: IInitialState = {
     num: null,
     areCalculationsStarted: false,
     calculating: false,
@@ -65,7 +72,7 @@ export const FibonacciPage: React.FC = () => {
     )
   });
 
-  function reducer(state: any, action: any) {
+  function reducer(state: IInitialState, action: any) {
     switch (action.type) {
       case 'set_number':
         return {
