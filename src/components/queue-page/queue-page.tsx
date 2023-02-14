@@ -8,6 +8,7 @@ import { Circle } from "../ui/circle/circle";
 
 import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { delay } from "../utils";
 
 import { Queue } from "./queue-class";
 
@@ -24,9 +25,6 @@ export const QueuePage: React.FC = () => {
     isTail: boolean
   }[]>([]);
 
-  const delay = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
-
   React.useEffect(() => {
     initializeQueue();
   }, []);
@@ -40,10 +38,7 @@ export const QueuePage: React.FC = () => {
         index: i,
         isHead: false,
         isTail: false
-        // isHead: i === queue.getHeadIndex() ? true : false,
-        // isTail: i === queue.getTailIndex() ? true : false
       });
-      // queue.enqueue(''); 
     }
     setCurrentQueue(tempArr);
   };
@@ -51,7 +46,6 @@ export const QueuePage: React.FC = () => {
   const addToQueue = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
     if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
       queue.enqueue(currentLetter);
 
@@ -103,8 +97,6 @@ export const QueuePage: React.FC = () => {
         state: ElementStates.Default, 
         index: i,
         isHead: (i === queue.getHeadIndex()) ? true : false, 
-        // isHead: (i === queue.getHeadIndex() || queue.getHeadIndex() === queue.getQueueLength()) ? true : false, 
-        // isHead: queue.getSize() === queue.getHeadIndex() ? true : false, 
         isTail: i + 1 === queue.getTailIndex() ? true : false
       }
     })]);
@@ -120,8 +112,6 @@ export const QueuePage: React.FC = () => {
         index: i, 
         isHead: false, 
         isTail: false
-        // isHead: i === queue.getHeadIndex() ? true : false, 
-        // isTail: i + 1 === queue.getTailIndex() ? true : false
       }
     })]);
   };
@@ -176,7 +166,6 @@ export const QueuePage: React.FC = () => {
 
         <section className={styles.stackArea}>
           {renderQueue}
-          {/* <Circle letter={'t'} head={'head'} index={0} tail={'tail'}/> */}
         </section>
       </form>
     </SolutionLayout>

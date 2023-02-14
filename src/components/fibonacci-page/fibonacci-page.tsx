@@ -33,20 +33,6 @@ export const FibonacciPage: React.FC = () => {
 
   const [count, setCount] = React.useState(0);
 
-
-  // React.useEffect(() => {
-  //   let counter = count;
-  //   const interval = setInterval(() => {
-  //     if (counter >= arr.length) {
-  //       clearInterval(interval);
-  //     } else {
-  //       setCount(count => count + 1);
-  //       counter++; // local variable that this closure will see
-  //     }
-  //   }, 500);
-  //   return () => clearInterval(interval);
-  // }, [arr]);
-
   React.useEffect(() => {
     let counter = count;
     setTimeout(function test() {
@@ -68,12 +54,7 @@ export const FibonacciPage: React.FC = () => {
     if (areCalculationsStarted === true) {
       dispatch({type: 'calculating'});
     };
-    // if () {
-    //   dispatch({type: 'end'});
-    // }
   }, [areCalculationsStarted]);
-
-  // let fibNumbers = 5;
 
   let fibNumbers = arr.slice(0, count).map((value, i) => {
     return (
@@ -147,11 +128,7 @@ export const FibonacciPage: React.FC = () => {
       {
         (areCalculationsStarted || isCalculated) && 
         <section className={styles.bubbles}>
-          {/* {arr.map((value, i) => {
-            return <Circle letter={value.toString()} key={i}/>
-          })} */}
           {fibNumbers}
-          {/* {showFibonacciRow()}; */}
         </section>
       }
     </SolutionLayout>
