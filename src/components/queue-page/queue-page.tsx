@@ -126,7 +126,8 @@ export const QueuePage: React.FC = () => {
           state={ElementStates.Default} 
           index={i} 
           head={'head'} 
-          tail={''} 
+          tail={''}
+          key={i}
         />
       )
     }
@@ -137,7 +138,8 @@ export const QueuePage: React.FC = () => {
           state={ElementStates.Default} 
           index={i} 
           head={''} 
-          tail={''} 
+          tail={''}
+          key={i}
         />
       )
     }    
@@ -148,7 +150,8 @@ export const QueuePage: React.FC = () => {
           state={value.state} 
           index={value.index} 
           head={value.isHead ? 'head' : ''} 
-          tail={value.isTail ? 'tail' : ''} 
+          tail={value.isTail ? 'tail' : ''}
+          key={i}
         />
       )
     }
