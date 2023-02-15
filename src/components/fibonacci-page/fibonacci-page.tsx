@@ -65,7 +65,7 @@ export const FibonacciPage: React.FC = () => {
 
   let fibNumbers = arr.slice(0, count).map((value, i) => {
     return (
-      <div>
+      <div key={i}>
         <Circle letter={value.toString()} key={i}/>
         <div>{i}</div>
       </div>
@@ -129,7 +129,7 @@ export const FibonacciPage: React.FC = () => {
      <form className={styles.inputField__wrapper} onSubmit={handleSubmit}>
         <Input isLimitText={true} max={19} min={1} extraClass={styles.inputField__input} type='number' onChange={handleChange} disabled={calculating}/>
 
-        <Button text='Развернуть' type='submit' isLoader={calculating}/>
+        <Button text='Развернуть' type='submit' isLoader={calculating} disabled={num === null || num < 1 || num > 19}/>
       </form>
 
       {
