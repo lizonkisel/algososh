@@ -11,6 +11,8 @@ import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const FibonacciPage: React.FC = () => {
 
+  const [currentNum, setCurrentNum] = React.useState<string | ''>('');
+
   interface IInitialState {
     num: number | null,
     areCalculationsStarted: boolean,
@@ -116,6 +118,7 @@ export const FibonacciPage: React.FC = () => {
   };
 
   function handleChange(e: React.FormEvent<HTMLInputElement>): void {
+    setCurrentNum(e.currentTarget.value);
     dispatch({ type: 'set_number', value: e.currentTarget.value });
   };
 
@@ -127,7 +130,7 @@ export const FibonacciPage: React.FC = () => {
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
      <form className={styles.inputField__wrapper} onSubmit={handleSubmit}>
-        <Input isLimitText={true} max={19} min={1} extraClass={styles.inputField__input} type='number' onChange={handleChange} disabled={calculating}/>
+        <Input isLimitText={true} max={19} min={1} extraClass={styles.inputField__input} type='number' value={currentNum} onChange={handleChange} disabled={calculating}/>
 
         <Button text='Развернуть' type='submit' isLoader={calculating} disabled={num === null || num < 1 || num > 19}/>
       </form>

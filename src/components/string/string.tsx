@@ -11,6 +11,9 @@ import { DELAY_IN_MS } from "../../constants/delays";
 
 export const StringComponent: React.FC = () => {
 
+  const [currentString, setCurrentString] = React.useState<string | ''>('');
+
+
   interface IInitialState {
     text: string,
     isRotateStarted: boolean,
@@ -122,11 +125,11 @@ export const StringComponent: React.FC = () => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
-
     dispatch({ type: 'start' });
   };
 
   function handleChange(e: React.FormEvent<HTMLInputElement>): void {
+    setCurrentString(e.currentTarget.value);
     dispatch({ type: 'add_letters', value: e.currentTarget.value });
   };
 
@@ -134,7 +137,7 @@ export const StringComponent: React.FC = () => {
     <SolutionLayout title="Строка">
 
       <form className={styles.inputField__wrapper} onSubmit={handleSubmit}>
-        <Input isLimitText={true} maxLength={11} extraClass={styles.inputField__input} onChange={handleChange} disabled={state.calculating}/>
+        <Input isLimitText={true} maxLength={11} extraClass={styles.inputField__input} value={currentString} onChange={handleChange} disabled={state.calculating}/>
         <Button text='Развернуть' type='submit' isLoader={state.calculating}/>
       </form>
 
