@@ -9,6 +9,7 @@ import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { delay } from "../utils";
+import { START_ADDING, END_ADDING, START_REMOVAL, END_REMOVAL, START_CLEANING, END_CLEANING} from '../../actions/index';
 
 import { Stack } from "./stack-class";
 
@@ -36,32 +37,32 @@ export const StackPage: React.FC = () => {
 
   function reducer(state: IInitialState, action: any) {
     switch (action.type) {
-      case 'start_adding':
+      case START_ADDING:
         return {
           ...state,
           adding: true,
         };
-      case 'end_adding':
+      case END_ADDING:
         return {
           ...state,
           adding: false,
         };
-      case 'start_removal':
+      case START_REMOVAL:
         return {
           ...state,
           removal: true,
         };
-      case 'end_removal':
+      case END_REMOVAL:
         return {
           ...state,
           removal: false,
         };
-      case 'start_cleaning':
+      case START_CLEANING:
         return {
           ...state,
           cleaning: true,
         };
-      case 'end_cleaning':
+      case END_CLEANING:
         return {
           ...state,
           cleaning: false,
@@ -74,7 +75,7 @@ export const StackPage: React.FC = () => {
   const addToStack = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    dispatch({type: 'start_adding'});
+    dispatch({type: START_ADDING});
 
     if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
       stack.push(currentLetter);
@@ -91,11 +92,11 @@ export const StackPage: React.FC = () => {
 
     setCurrentLetter('');
 
-    dispatch({type: 'end_adding'});
+    dispatch({type: END_ADDING});
   };
 
   const deleteFromStack = async() => {
-    dispatch({type: 'start_removal'});
+    dispatch({type: START_REMOVAL});
 
     setCurrentStack([...stack.getStack().map((value, i) => {
       return {letter: value, state: i + 1 === stack.getSize() ? ElementStates.Changing : ElementStates.Default, index: i, isTop: i + 1 === stack.getSize() ? true : false}
@@ -111,11 +112,11 @@ export const StackPage: React.FC = () => {
 
     setCurrentLetter('');
 
-    dispatch({type: 'end_removal'});
+    dispatch({type: END_REMOVAL});
   };
 
   function clearStack() {
-    dispatch({type: 'start_cleaning'});
+    dispatch({type: START_CLEANING});
 
     stack.clear();
     setCurrentStack([...stack.getStack().map((value, i) => {
@@ -124,7 +125,7 @@ export const StackPage: React.FC = () => {
 
     setCurrentLetter('');
 
-    dispatch({type: 'end_cleaning'});
+    dispatch({type: END_CLEANING});
   };
 
   const renderStack = currentStack.map((value, i) => {

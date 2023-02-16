@@ -7,6 +7,8 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { type } from "os";
 
+import { START, END, CALCULATING, SET_NUMBER } from '../../actions/index';
+
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const FibonacciPage: React.FC = () => {
@@ -52,7 +54,7 @@ export const FibonacciPage: React.FC = () => {
         counter++;
         setTimeout(test, SHORT_DELAY_IN_MS);
       } else {
-        dispatch({type: 'end'});
+        dispatch({type: END});
       }
     }, SHORT_DELAY_IN_MS);
     setCount(0);
@@ -61,7 +63,7 @@ export const FibonacciPage: React.FC = () => {
 
   React.useEffect(() => {
     if (areCalculationsStarted === true) {
-      dispatch({type: 'calculating'});
+      dispatch({type: CALCULATING});
     };
   }, [areCalculationsStarted]);
 
@@ -76,23 +78,23 @@ export const FibonacciPage: React.FC = () => {
 
   function reducer(state: IInitialState, action: any) {
     switch (action.type) {
-      case 'set_number':
+      case SET_NUMBER:
         return {
           ...state,
           num: action.value,
           areCalculationsStarted: false
         };
-      case 'start':
+      case START:
         return {
           ...state,
           areCalculationsStarted: true,
         }
-      case 'calculating':
+      case CALCULATING:
         return {
           ...state,
           calculating: true
         }
-      case 'end':
+      case END:
         return {
           ...state,
           areCalculationsStarted: false,
@@ -119,12 +121,12 @@ export const FibonacciPage: React.FC = () => {
 
   function handleChange(e: React.FormEvent<HTMLInputElement>): void {
     setCurrentNum(e.currentTarget.value);
-    dispatch({ type: 'set_number', value: e.currentTarget.value });
+    dispatch({ type: SET_NUMBER, value: e.currentTarget.value });
   };
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
-    dispatch({type: 'start'});
+    dispatch({type: START});
   };
 
   return (

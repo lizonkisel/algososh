@@ -8,6 +8,7 @@ import { Circle } from "../ui/circle/circle";
 
 import { ElementStates } from "../../types/element-states";
 import { DELAY_IN_MS } from "../../constants/delays";
+import { START, END, CALCULATING, ADD_LETTERS } from '../../actions/index';
 
 export const StringComponent: React.FC = () => {
 
@@ -40,30 +41,30 @@ export const StringComponent: React.FC = () => {
 
   React.useEffect(() => {
     if (state.isRotateStarted) {
-      dispatch({type: 'calculating'});
+      dispatch({type: CALCULATING});
       reverseString(lettersState);
     }
   }, [state.isRotateStarted]);
 
   function reducer(state: IInitialState, action: any) {
     switch (action.type) {
-      case 'add_letters':
+      case ADD_LETTERS:
         return {
           ...state,
           text: action.value,
           isRotateStarted: false
         };
-      case 'start':
+      case START:
         return {
           ...state,
           isRotateStarted: true,
         }
-      case 'calculating':
+      case CALCULATING:
         return {
           ...state,
           calculating: true
         }
-      case 'end':
+      case END:
         return {
           ...state,
           isRotateStarted: false,
@@ -83,13 +84,13 @@ export const StringComponent: React.FC = () => {
     if (copyArr.length === 1) {
       copyArr[0].state = ElementStates.Modified;
       setLettersState([...copyArr]);
-      dispatch({type: 'end'});
+      dispatch({type: END});
     } else {
       setTimeout(function test() {
         if (copyArr.length % 2 !== 0 && i === j) {
           copyArr[i].state = ElementStates.Modified;
           setLettersState([...copyArr]);
-          dispatch({type: 'end'});
+          dispatch({type: END});
         } else {
           let start = copyArr[i];
           let end = copyArr[j];
@@ -112,7 +113,7 @@ export const StringComponent: React.FC = () => {
               if (i < j - 1) {
                 setTimeout(test, DELAY_IN_MS);
               } else {
-                dispatch({type: 'end'});
+                dispatch({type: END});
               }
             }, DELAY_IN_MS, i, j)
           }, DELAY_IN_MS, i, j);
@@ -125,12 +126,12 @@ export const StringComponent: React.FC = () => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
-    dispatch({ type: 'start' });
+    dispatch({ type: START });
   };
 
   function handleChange(e: React.FormEvent<HTMLInputElement>): void {
     setCurrentString(e.currentTarget.value);
-    dispatch({ type: 'add_letters', value: e.currentTarget.value });
+    dispatch({ type: ADD_LETTERS, value: e.currentTarget.value });
   };
 
   return (

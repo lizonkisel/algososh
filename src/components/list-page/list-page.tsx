@@ -10,6 +10,9 @@ import { ArrowIcon } from "../ui/icons/arrow-icon";
 import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { delay } from "../utils";
+import { START_ANIMATION, END_ANIMATION, START_ADDING_TO_HEAD, END_ADDING_TO_HEAD, START_ADDING_TO_TAIL, END_ADDING_TO_TAIL,
+  START_REMOVAL_FROM_HEAD, END_REMOVAL_FROM_HEAD, START_REMOVAL_FROM_TAIL, END_REMOVAL_FROM_TAIL, 
+  START_ADDING_BY_INDEX, END_ADDING_BY_INDEX, START_REMOVAL_BY_INDEX, END_REMOVAL_BY_INDEX } from '../../actions/index';
 
 import { CircleProps } from "../ui/circle/circle";
 
@@ -59,72 +62,72 @@ export const ListPage: React.FC = () => {
 
   function reducer(state: IInitialState, action: any) {
     switch (action.type) {
-      case 'start_animation':
+      case START_ANIMATION:
         return {
           ...state,
           animationIsWorking: true
         }
-      case 'end_animation':
+      case END_ANIMATION:
         return {
           ...state,
           animationIsWorking: false
         }
-      case 'start_adding_to_head':
+      case START_ADDING_TO_HEAD:
         return {
           ...state,
           addingToHead: true
         }
-      case 'end_adding_to_head':
+      case END_ADDING_TO_HEAD:
         return {
           ...state,
           addingToHead: false
         }
-      case 'start_adding_to_tail':
+      case START_ADDING_TO_TAIL:
         return {
           ...state,
           addingToTail: true
         }
-      case 'end_adding_to_tail':
+      case END_ADDING_TO_TAIL:
         return {
           ...state,
           addingToTail: false
         }
-      case 'start_removal_from_head':
+      case START_REMOVAL_FROM_HEAD:
         return {
           ...state,
           removalFromHead: true
         }
-      case 'end_removal_from_head':
+      case END_REMOVAL_FROM_HEAD:
         return {
           ...state,
           removalFromHead: false
         }
-      case 'start_removal_from_tail':
+      case START_REMOVAL_FROM_TAIL:
         return {
           ...state,
           removalFromTail: true
         }
-      case 'end_removal_from_tail':
+      case END_REMOVAL_FROM_TAIL:
         return {
           ...state,
           removalFromTail: false
         }
-      case 'start_adding_by_index':
+      case START_ADDING_BY_INDEX:
         return {
           ...state,
           addingByIndex: true
         }
-      case 'end_adding_by_index':
+      case END_ADDING_BY_INDEX:
         return {
           ...state,
           addingByIndex: false
         }
-      case 'start_removal_by_index':
+      case START_REMOVAL_BY_INDEX:
         return {
           ...state,
           removalByIndex: true
         }
-      case 'end_removal_by_index':
+      case END_REMOVAL_BY_INDEX:
         return {
           ...state,
           removalByIndex: false
@@ -174,11 +177,11 @@ export const ListPage: React.FC = () => {
   });
 
   const addToHead = async() => {
-    dispatch({type: 'start_adding_to_head'});
+    dispatch({type: START_ADDING_TO_HEAD});
 
     if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
 
-      dispatch({type: 'start_animation'});
+      dispatch({type: START_ANIMATION});
 
       setCurrentList([...list.getArray().map((value, i) => {
         return {
@@ -224,17 +227,17 @@ export const ListPage: React.FC = () => {
 
       setCurrentLetter('');
 
-      dispatch({type: 'end_animation'});
-      dispatch({type: 'end_adding_to_head'});
+      dispatch({type: END_ANIMATION});
+      dispatch({type: END_ADDING_TO_HEAD});
     }
   };
 
   const addToTail = async() => {
-    dispatch({type: 'start_adding_to_tail'});
+    dispatch({type: START_ADDING_TO_TAIL});
 
     if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
 
-      dispatch({type: 'start_animation'});
+      dispatch({type: START_ANIMATION});
 
       setCurrentList([...list.getArray().map((value, i) => {
         return {
@@ -280,14 +283,14 @@ export const ListPage: React.FC = () => {
 
       setCurrentLetter('');
 
-      dispatch({type: 'end_animation'});
-      dispatch({type: 'end_adding_to_tail'});
+      dispatch({type: END_ANIMATION});
+      dispatch({type: END_ADDING_TO_TAIL});
     }
   };
 
   const deleteFromHead = async() => {
-    dispatch({type: 'start_removal_from_head'});
-    dispatch({type: 'start_animation'});
+    dispatch({type: START_REMOVAL_FROM_HEAD});
+    dispatch({type: START_ANIMATION});
 
     setCurrentList([...list.getArray().map((value, i) => {
       return {
@@ -319,13 +322,13 @@ export const ListPage: React.FC = () => {
       }
     })]);
 
-    dispatch({type: 'end_animation'});
-    dispatch({type: 'end_removal_from_head'});
+    dispatch({type: END_ANIMATION});
+    dispatch({type: END_REMOVAL_FROM_HEAD});
   };
 
   const deleteFromTail = async() => {
-    dispatch({type: 'start_removal_from_tail'});
-    dispatch({type: 'start_animation'});
+    dispatch({type: START_REMOVAL_FROM_TAIL});
+    dispatch({type: START_ANIMATION});
 
     setCurrentList([...list.getArray().map((value, i) => {
       return {
@@ -357,20 +360,20 @@ export const ListPage: React.FC = () => {
       }
     })]);
 
-    dispatch({type: 'end_animation'});
-    dispatch({type: 'end_removal_from_tail'});
+    dispatch({type: END_ANIMATION});
+    dispatch({type: END_REMOVAL_FROM_TAIL});
   };
 
   const addByIndex = async() => {
 
     if (currentIndex !== '' && currentIndex !== undefined) {
-      dispatch({type: 'start_adding_by_index'});
-      dispatch({type: 'start_animation'});
+      dispatch({type: START_ADDING_BY_INDEX});
+      dispatch({type: START_ANIMATION});
 
       if (currentIndex > list.getSize()) {
         console.log('Enter a valid index');
-        dispatch({type: 'end_animation'});
-        dispatch({type: 'end_adding_by_index'});
+        dispatch({type: END_ANIMATION});
+        dispatch({type: END_ADDING_BY_INDEX});
         return;
       }
 
@@ -420,21 +423,21 @@ export const ListPage: React.FC = () => {
       setCurrentLetter('');
       setCurrentIndex('');
 
-      dispatch({type: 'end_animation'});
-      dispatch({type: 'end_adding_by_index'});
+      dispatch({type: END_ANIMATION});
+      dispatch({type: END_ADDING_BY_INDEX});
     }
   };
 
   const deleteByIndex = async() => {
     if (currentIndex !== '' && currentIndex !== undefined) {
 
-      dispatch({type: 'start_animation'});
-      dispatch({type: 'start_removal_by_index'});
+      dispatch({type: START_ANIMATION});
+      dispatch({type: START_REMOVAL_BY_INDEX});
 
       if (currentIndex >= list.getSize()) {
         console.log('Enter a valid index');
-        dispatch({type: 'end_removal_by_index'});
-        dispatch({type: 'end_animation'});
+        dispatch({type: END_REMOVAL_BY_INDEX});
+        dispatch({type: END_ANIMATION});
         return;
       }
 
@@ -472,8 +475,8 @@ export const ListPage: React.FC = () => {
       setCurrentLetter('');
       setCurrentIndex('');
 
-      dispatch({type: 'end_animation'});
-      dispatch({type: 'end_removal_by_index'});
+      dispatch({type: END_ANIMATION});
+      dispatch({type: END_REMOVAL_BY_INDEX});
     }
   };
 

@@ -9,6 +9,7 @@ import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { delay } from "../utils";
+import { START_ADDING, END_ADDING, START_REMOVAL, END_REMOVAL, START_CLEANING, END_CLEANING} from '../../actions/index';
 
 import { Queue } from "./queue-class";
 
@@ -42,32 +43,32 @@ export const QueuePage: React.FC = () => {
 
   function reducer(state: IInitialState, action: any) {
     switch (action.type) {
-      case 'start_adding':
+      case START_ADDING:
         return {
           ...state,
           adding: true,
         };
-      case 'end_adding':
+      case END_ADDING:
         return {
           ...state,
           adding: false,
         };
-      case 'start_removal':
+      case START_REMOVAL:
         return {
           ...state,
           removal: true,
         };
-      case 'end_removal':
+      case END_REMOVAL:
         return {
           ...state,
           removal: false,
         };
-      case 'start_cleaning':
+      case START_CLEANING:
         return {
           ...state,
           cleaning: true,
         };
-      case 'end_cleaning':
+      case END_CLEANING:
         return {
           ...state,
           cleaning: false,
@@ -101,7 +102,7 @@ export const QueuePage: React.FC = () => {
     if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
       queue.enqueue(currentLetter);
 
-      dispatch({type: 'start_adding'});
+      dispatch({type: START_ADDING});
 
       setCurrentQueue([...queue.getQueue().map((value, i) => {
         return {
@@ -128,11 +129,11 @@ export const QueuePage: React.FC = () => {
 
     setCurrentLetter('');
 
-    dispatch({type: 'end_adding'});
+    dispatch({type: END_ADDING});
   };
 
   const deleteFromQueue = async() => {
-    dispatch({type: 'start_removal'});
+    dispatch({type: START_REMOVAL});
 
     setCurrentQueue([...queue.getQueue().map((value, i) => {
       return {
@@ -158,11 +159,11 @@ export const QueuePage: React.FC = () => {
       }
     })]);
 
-    dispatch({type: 'end_removal'});
+    dispatch({type: END_REMOVAL});
   };
 
   function clearQueue() {
-    dispatch({type: 'start_cleaning'});
+    dispatch({type: START_CLEANING});
 
     queue.clear();
 
@@ -176,7 +177,7 @@ export const QueuePage: React.FC = () => {
       }
     })]);
 
-    dispatch({type: 'end_cleaning'});
+    dispatch({type: END_CLEANING});
   };
 
   const renderQueue = currentQueue.map((value, i) => {
