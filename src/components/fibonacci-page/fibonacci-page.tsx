@@ -7,9 +7,13 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { type } from "os";
 
+import { START, END, CALCULATING, SET_NUMBER } from '../../actions/index';
+
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const FibonacciPage: React.FC = () => {
+
+  const [currentNum, setCurrentNum] = React.useState<string | ''>('');
 
   interface IInitialState {
     num: number | null,
@@ -50,7 +54,7 @@ export const FibonacciPage: React.FC = () => {
         counter++;
         setTimeout(test, SHORT_DELAY_IN_MS);
       } else {
-        dispatch({type: 'end'});
+        dispatch({type: END});
       }
     }, SHORT_DELAY_IN_MS);
     setCount(0);
@@ -59,13 +63,13 @@ export const FibonacciPage: React.FC = () => {
 
   React.useEffect(() => {
     if (areCalculationsStarted === true) {
-      dispatch({type: 'calculating'});
+      dispatch({type: CALCULATING});
     };
   }, [areCalculationsStarted]);
 
   let fibNumbers = arr.slice(0, count).map((value, i) => {
     return (
-      <div>
+      <div key={i}>
         <Circle letter={value.toString()} key={i}/>
         <div>{i}</div>
       </div>
@@ -74,23 +78,23 @@ export const FibonacciPage: React.FC = () => {
 
   function reducer(state: IInitialState, action: any) {
     switch (action.type) {
-      case 'set_number':
+      case SET_NUMBER:
         return {
           ...state,
           num: action.value,
           areCalculationsStarted: false
         };
-      case 'start':
+      case START:
         return {
           ...state,
           areCalculationsStarted: true,
         }
-      case 'calculating':
+      case CALCULATING:
         return {
           ...state,
           calculating: true
         }
-      case 'end':
+      case END:
         return {
           ...state,
           areCalculationsStarted: false,
@@ -116,20 +120,21 @@ export const FibonacciPage: React.FC = () => {
   };
 
   function handleChange(e: React.FormEvent<HTMLInputElement>): void {
-    dispatch({ type: 'set_number', value: e.currentTarget.value });
+    setCurrentNum(e.currentTarget.value);
+    dispatch({ type: SET_NUMBER, value: e.currentTarget.value });
   };
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
-    dispatch({type: 'start'});
+    dispatch({type: START});
   };
 
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
      <form className={styles.inputField__wrapper} onSubmit={handleSubmit}>
-        <Input isLimitText={true} max={19} min={1} extraClass={styles.inputField__input} type='number' onChange={handleChange} disabled={calculating}/>
+        <Input isLimitText={true} max={19} min={1} extraClass={styles.inputField__input} type='number' value={currentNum} onChange={handleChange} disabled={calculating}/>
 
-        <Button text='Развернуть' type='submit' isLoader={calculating}/>
+        <Button text='Развернуть' type='submit' isLoader={calculating} disabled={num === null || num < 1 || num > 19}/>
       </form>
 
       {

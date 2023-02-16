@@ -10,6 +10,7 @@ import { Column } from "../ui/column/column";
 import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { delay } from "../utils";
+import { START, END } from '../../actions/index';
 
 export const SortingPage: React.FC = () => {
 
@@ -31,12 +32,12 @@ export const SortingPage: React.FC = () => {
 
   function reducer(state: IInitialState, action: any) {
     switch (action.type) {
-      case 'sorting':
+      case START:
         return {
           ...state,
           sorting: true
         }
-      case 'end':
+      case END:
         return {
           ...state,
           sorting: false
@@ -76,7 +77,7 @@ export const SortingPage: React.FC = () => {
   };
   
   function ascendingSort() {
-    dispatch({ type: 'sorting' });
+    dispatch({ type: START });
 
     setSortingDirection('ascending');
 
@@ -88,7 +89,7 @@ export const SortingPage: React.FC = () => {
   };
 
   function descendingSort() {
-    dispatch({ type: 'sorting' });
+    dispatch({ type: START });
 
     setSortingDirection('descending');
 
@@ -122,7 +123,7 @@ export const SortingPage: React.FC = () => {
     copyArr[0].state = ElementStates.Modified;
     setNumbersState([...copyArr]);
 
-    dispatch({ type: 'end' });
+    dispatch({ type: END });
   };
 
   const bubbleSortDescending = async() => {
@@ -148,7 +149,7 @@ export const SortingPage: React.FC = () => {
     copyArr[0].state = ElementStates.Modified;
     setNumbersState([...copyArr]);
 
-    dispatch({ type: 'end' });
+    dispatch({ type: END });
   };
 
  const selectionSortDescending = async() => {
@@ -174,7 +175,7 @@ export const SortingPage: React.FC = () => {
     copyArr[copyArr.length-1].state = ElementStates.Modified;
     setNumbersState(copyArr);
 
-    dispatch({ type: 'end' });
+    dispatch({ type: END });
   };
 
   const selectionSortAscending = async () => {
@@ -200,7 +201,7 @@ export const SortingPage: React.FC = () => {
     copyArr[copyArr.length-1].state = ElementStates.Modified;
     setNumbersState(copyArr);
 
-    dispatch({ type: 'end' });
+    dispatch({ type: END });
   };
 
   function changeAlgorithm(e: React.ChangeEvent<HTMLInputElement>) {

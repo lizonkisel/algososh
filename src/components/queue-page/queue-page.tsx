@@ -9,6 +9,7 @@ import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { delay } from "../utils";
+import { START_ADDING, END_ADDING, START_REMOVAL, END_REMOVAL, START_CLEANING, END_CLEANING} from '../../actions/index';
 
 import { Queue } from "./queue-class";
 
@@ -24,6 +25,58 @@ export const QueuePage: React.FC = () => {
     isHead: boolean,
     isTail: boolean
   }[]>([]);
+
+  interface IInitialState {
+    adding: boolean,
+    removal: boolean,
+    cleaning: boolean,
+  }
+
+  const initialState: IInitialState = {
+    adding: false,
+    removal: false,
+    cleaning: false,
+  };
+
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const {adding, removal, cleaning} = state;
+
+  function reducer(state: IInitialState, action: any) {
+    switch (action.type) {
+      case START_ADDING:
+        return {
+          ...state,
+          adding: true,
+        };
+      case END_ADDING:
+        return {
+          ...state,
+          adding: false,
+        };
+      case START_REMOVAL:
+        return {
+          ...state,
+          removal: true,
+        };
+      case END_REMOVAL:
+        return {
+          ...state,
+          removal: false,
+        };
+      case START_CLEANING:
+        return {
+          ...state,
+          cleaning: true,
+        };
+      case END_CLEANING:
+        return {
+          ...state,
+          cleaning: false,
+        };
+      default:
+        throw new Error(`Wrong type of action: ${action.type}`);
+    }
+  };
 
   React.useEffect(() => {
     initializeQueue();
@@ -49,6 +102,8 @@ export const QueuePage: React.FC = () => {
     if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
       queue.enqueue(currentLetter);
 
+      dispatch({type: START_ADDING});
+
       setCurrentQueue([...queue.getQueue().map((value, i) => {
         return {
           letter: value, 
@@ -73,9 +128,12 @@ export const QueuePage: React.FC = () => {
     })]);
 
     setCurrentLetter('');
+
+    dispatch({type: END_ADDING});
   };
 
   const deleteFromQueue = async() => {
+    dispatch({type: START_REMOVAL});
 
     setCurrentQueue([...queue.getQueue().map((value, i) => {
       return {
@@ -100,9 +158,13 @@ export const QueuePage: React.FC = () => {
         isTail: i + 1 === queue.getTailIndex() ? true : false
       }
     })]);
+
+    dispatch({type: END_REMOVAL});
   };
 
   function clearQueue() {
+    dispatch({type: START_CLEANING});
+
     queue.clear();
 
     setCurrentQueue([...queue.getQueue().map((value, i) => {
@@ -114,6 +176,8 @@ export const QueuePage: React.FC = () => {
         isTail: false
       }
     })]);
+
+    dispatch({type: END_CLEANING});
   };
 
   const renderQueue = currentQueue.map((value, i) => {
@@ -126,7 +190,8 @@ export const QueuePage: React.FC = () => {
           state={ElementStates.Default} 
           index={i} 
           head={'head'} 
-          tail={''} 
+          tail={''}
+          key={i}
         />
       )
     }
@@ -137,7 +202,8 @@ export const QueuePage: React.FC = () => {
           state={ElementStates.Default} 
           index={i} 
           head={''} 
-          tail={''} 
+          tail={''}
+          key={i}
         />
       )
     }    
@@ -148,7 +214,8 @@ export const QueuePage: React.FC = () => {
           state={value.state} 
           index={value.index} 
           head={value.isHead ? 'head' : ''} 
-          tail={value.isTail ? 'tail' : ''} 
+          tail={value.isTail ? 'tail' : ''}
+          key={i}
         />
       )
     }
@@ -159,9 +226,9 @@ export const QueuePage: React.FC = () => {
       <form action="" className={styles.form} onSubmit={addToQueue}>
         <fieldset className={styles.form__fieldset} id='stack'>
           <Input extraClass={styles.form__input} type="text" maxLength={4} isLimitText={true} value={currentLetter} onChange={(e) => setCurrentLetter(e.currentTarget.value)}/>
-          <Button extraClass={styles.form__button} text='Добавить' type='submit' name='add' disabled={currentLetter === ''}/>
-          <Button extraClass={styles.form__button} text='Удалить' type='button' name='delete' onClick={deleteFromQueue} disabled={queue.isEmpty() || (queue.getHeadIndex() === 0 && queue.getTailIndex() === 0)}/>
-          <Button extraClass={styles.form__button} text='Очистить' type='button' name='clear' onClick={clearQueue} disabled={queue.isEmpty() || (queue.getHeadIndex() === 0 && queue.getTailIndex() === 0)}/>
+          <Button extraClass={styles.form__button} text='Добавить' type='submit' name='add' isLoader={adding} disabled={currentLetter === '' || removal || cleaning}/>
+          <Button extraClass={styles.form__button} text='Удалить' type='button' name='delete' isLoader={removal} onClick={deleteFromQueue} disabled={queue.isEmpty() || (queue.getHeadIndex() === 0 && queue.getTailIndex() === 0) || adding || cleaning}/>
+          <Button extraClass={styles.form__button} text='Очистить' type='button' name='clear' isLoader={cleaning} onClick={clearQueue} disabled={queue.isEmpty() || (queue.getHeadIndex() === 0 && queue.getTailIndex() === 0) || adding || removal}/>
         </fieldset>
 
         <section className={styles.stackArea}>
