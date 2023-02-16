@@ -32,28 +32,102 @@ export const ListPage: React.FC = () => {
   }[]>([]);
 
   interface IInitialState {
-    animationIsWorking: boolean
+    animationIsWorking: boolean,
+
+    addingToHead: boolean,
+    addingToTail: boolean,
+    removalFromHead: boolean,
+    removalFromTail: boolean,
+    addingByIndex: boolean,
+    removalByIndex: boolean,
   }
 
-  const initialState: IInitialState = { 
-    animationIsWorking: false
+  const initialState: IInitialState = {
+    animationIsWorking: false,
+
+    addingToHead: false,
+    addingToTail: false,
+    removalFromHead: false,
+    removalFromTail: false,
+    addingByIndex: false,
+    removalByIndex: false,
   };
 
   const [buttonsState, dispatch] = React.useReducer(reducer, initialState);
 
-  const {animationIsWorking} = buttonsState;
+  const {animationIsWorking, addingToHead, addingToTail, removalFromHead, removalFromTail, addingByIndex, removalByIndex} = buttonsState;
 
   function reducer(state: IInitialState, action: any) {
     switch (action.type) {
-      case 'start':
+      case 'start_animation':
         return {
           ...state,
           animationIsWorking: true
         }
-      case 'end':
+      case 'end_animation':
         return {
           ...state,
           animationIsWorking: false
+        }
+      case 'start_adding_to_head':
+        return {
+          ...state,
+          addingToHead: true
+        }
+      case 'end_adding_to_head':
+        return {
+          ...state,
+          addingToHead: false
+        }
+      case 'start_adding_to_tail':
+        return {
+          ...state,
+          addingToTail: true
+        }
+      case 'end_adding_to_tail':
+        return {
+          ...state,
+          addingToTail: false
+        }
+      case 'start_removal_from_head':
+        return {
+          ...state,
+          removalFromHead: true
+        }
+      case 'end_removal_from_head':
+        return {
+          ...state,
+          removalFromHead: false
+        }
+      case 'start_removal_from_tail':
+        return {
+          ...state,
+          removalFromTail: true
+        }
+      case 'end_removal_from_tail':
+        return {
+          ...state,
+          removalFromTail: false
+        }
+      case 'start_adding_by_index':
+        return {
+          ...state,
+          addingByIndex: true
+        }
+      case 'end_adding_by_index':
+        return {
+          ...state,
+          addingByIndex: false
+        }
+      case 'start_removal_by_index':
+        return {
+          ...state,
+          removalByIndex: true
+        }
+      case 'end_removal_by_index':
+        return {
+          ...state,
+          removalByIndex: false
         }
       default:
         throw new Error(`Wrong type of action: ${action.type}`);
@@ -100,9 +174,11 @@ export const ListPage: React.FC = () => {
   });
 
   const addToHead = async() => {
+    dispatch({type: 'start_adding_to_head'});
+
     if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
 
-      dispatch({type: 'start'});
+      dispatch({type: 'start_animation'});
 
       setCurrentList([...list.getArray().map((value, i) => {
         return {
@@ -148,14 +224,17 @@ export const ListPage: React.FC = () => {
 
       setCurrentLetter('');
 
-      dispatch({type: 'end'});
+      dispatch({type: 'end_animation'});
+      dispatch({type: 'end_adding_to_head'});
     }
   };
 
   const addToTail = async() => {
+    dispatch({type: 'start_adding_to_tail'});
+
     if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
 
-      dispatch({type: 'start'});
+      dispatch({type: 'start_animation'});
 
       setCurrentList([...list.getArray().map((value, i) => {
         return {
@@ -201,13 +280,14 @@ export const ListPage: React.FC = () => {
 
       setCurrentLetter('');
 
-      dispatch({type: 'end'});
+      dispatch({type: 'end_animation'});
+      dispatch({type: 'end_adding_to_tail'});
     }
   };
 
   const deleteFromHead = async() => {
-
-    dispatch({type: 'start'});
+    dispatch({type: 'start_removal_from_head'});
+    dispatch({type: 'start_animation'});
 
     setCurrentList([...list.getArray().map((value, i) => {
       return {
@@ -239,12 +319,13 @@ export const ListPage: React.FC = () => {
       }
     })]);
 
-    dispatch({type: 'end'});
+    dispatch({type: 'end_animation'});
+    dispatch({type: 'end_removal_from_head'});
   };
 
   const deleteFromTail = async() => {
-
-    dispatch({type: 'start'});
+    dispatch({type: 'start_removal_from_tail'});
+    dispatch({type: 'start_animation'});
 
     setCurrentList([...list.getArray().map((value, i) => {
       return {
@@ -276,17 +357,20 @@ export const ListPage: React.FC = () => {
       }
     })]);
 
-    dispatch({type: 'end'});
+    dispatch({type: 'end_animation'});
+    dispatch({type: 'end_removal_from_tail'});
   };
 
   const addByIndex = async() => {
-    if (currentIndex !== '' && currentIndex !== undefined) {
 
-      dispatch({type: 'start'});
+    if (currentIndex !== '' && currentIndex !== undefined) {
+      dispatch({type: 'start_adding_by_index'});
+      dispatch({type: 'start_animation'});
 
       if (currentIndex > list.getSize()) {
         console.log('Enter a valid index');
-        dispatch({type: 'end'});
+        dispatch({type: 'end_animation'});
+        dispatch({type: 'end_adding_by_index'});
         return;
       }
 
@@ -336,19 +420,21 @@ export const ListPage: React.FC = () => {
       setCurrentLetter('');
       setCurrentIndex('');
 
-      dispatch({type: 'end'});
+      dispatch({type: 'end_animation'});
+      dispatch({type: 'end_adding_by_index'});
     }
   };
 
   const deleteByIndex = async() => {
-
     if (currentIndex !== '' && currentIndex !== undefined) {
 
-      dispatch({type: 'start'});
+      dispatch({type: 'start_animation'});
+      dispatch({type: 'start_removal_by_index'});
 
       if (currentIndex >= list.getSize()) {
         console.log('Enter a valid index');
-        dispatch({type: 'end'});
+        dispatch({type: 'end_removal_by_index'});
+        dispatch({type: 'end_animation'});
         return;
       }
 
@@ -386,7 +472,8 @@ export const ListPage: React.FC = () => {
       setCurrentLetter('');
       setCurrentIndex('');
 
-      dispatch({type: 'end'});
+      dispatch({type: 'end_animation'});
+      dispatch({type: 'end_removal_by_index'});
     }
   };
 
@@ -399,16 +486,16 @@ export const ListPage: React.FC = () => {
       <form action="" className={styles.form}>
         <fieldset className={styles.form__fieldset} id='list_to_head_or_tail'>
           <Input extraClass={styles.form__input} placeholder='Введите значение' type="text" maxLength={4} isLimitText={true} value={currentLetter} onChange={(e) => setCurrentLetter(e.currentTarget.value)}/>
-          <Button extraClass={styles.form__button_size_small} text='Добавить в head' type='button' name='add_to_head' onClick={addToHead} disabled={currentLetter === '' || animationIsWorking}/>
-          <Button extraClass={styles.form__button_size_small} text='Добавить в tail' type='button' name='add_to_tail' onClick={addToTail} disabled={currentLetter === ''|| animationIsWorking}/>
-          <Button extraClass={styles.form__button_size_small} text='Удалить из head' type='button' name='delete_from_head' onClick={deleteFromHead} disabled={animationIsWorking}/>
-          <Button extraClass={styles.form__button_size_small} text='Удалить из tail' type='button' name='delete_from_tail' onClick={deleteFromTail} disabled={animationIsWorking}/>
+          <Button extraClass={styles.form__button_size_small} text='Добавить в head' type='button' name='add_to_head' isLoader={addingToHead} onClick={addToHead} disabled={currentLetter === '' || animationIsWorking}/>
+          <Button extraClass={styles.form__button_size_small} text='Добавить в tail' type='button' name='add_to_tail' isLoader={addingToTail} onClick={addToTail} disabled={currentLetter === ''|| animationIsWorking}/>
+          <Button extraClass={styles.form__button_size_small} text='Удалить из head' type='button' name='delete_from_head' isLoader={removalFromHead} onClick={deleteFromHead} disabled={animationIsWorking}/>
+          <Button extraClass={styles.form__button_size_small} text='Удалить из tail' type='button' name='delete_from_tail' isLoader={removalFromTail} onClick={deleteFromTail} disabled={animationIsWorking}/>
         </fieldset>
 
         <fieldset className={styles.form__fieldset} id='list_by_index'>
           <Input extraClass={styles.form__input} placeholder='Введите индекс' type="number" min={0} max={currentList.length} value={currentIndex} onChange={handleChange}/>
-          <Button extraClass={styles.form__button_size_large} text='Добавить по индексу' type='button' name='add_by_index' onClick={addByIndex} disabled={currentLetter === '' || currentIndex === '' || animationIsWorking}/>
-          <Button extraClass={styles.form__button_size_large} text='Удалить по индексу' type='button' name='delete_by_index' onClick={deleteByIndex} disabled={currentIndex === '' || animationIsWorking}/>
+          <Button extraClass={styles.form__button_size_large} text='Добавить по индексу' type='button' name='add_by_index' isLoader={addingByIndex} onClick={addByIndex} disabled={currentLetter === '' || currentIndex === '' || animationIsWorking}/>
+          <Button extraClass={styles.form__button_size_large} text='Удалить по индексу' type='button' name='delete_by_index' isLoader={removalByIndex} onClick={deleteByIndex} disabled={currentIndex === '' || animationIsWorking}/>
         </fieldset>
 
         <section className={styles.listArea}>

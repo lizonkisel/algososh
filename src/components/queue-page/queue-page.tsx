@@ -98,10 +98,10 @@ export const QueuePage: React.FC = () => {
   const addToQueue = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    dispatch({type: 'start_adding'});
-
     if (currentLetter !== '' && currentLetter !== null && currentLetter !== undefined) {
       queue.enqueue(currentLetter);
+
+      dispatch({type: 'start_adding'});
 
       setCurrentQueue([...queue.getQueue().map((value, i) => {
         return {
