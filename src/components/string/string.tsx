@@ -13,7 +13,6 @@ export const StringComponent: React.FC = () => {
 
   const [currentString, setCurrentString] = React.useState<string | ''>('');
 
-
   interface IInitialState {
     text: string,
     isRotateStarted: boolean,
@@ -84,6 +83,7 @@ export const StringComponent: React.FC = () => {
     if (copyArr.length === 1) {
       copyArr[0].state = ElementStates.Modified;
       setLettersState([...copyArr]);
+      dispatch({type: 'end'});
     } else {
       setTimeout(function test() {
         if (copyArr.length % 2 !== 0 && i === j) {
@@ -138,7 +138,7 @@ export const StringComponent: React.FC = () => {
 
       <form className={styles.inputField__wrapper} onSubmit={handleSubmit}>
         <Input isLimitText={true} maxLength={11} extraClass={styles.inputField__input} value={currentString} onChange={handleChange} disabled={state.calculating}/>
-        <Button text='Развернуть' type='submit' isLoader={state.calculating}/>
+        <Button text='Развернуть' type='submit' isLoader={state.calculating} disabled={currentString === ''}/>
       </form>
 
       {

@@ -488,8 +488,8 @@ export const ListPage: React.FC = () => {
           <Input extraClass={styles.form__input} placeholder='Введите значение' type="text" maxLength={4} isLimitText={true} value={currentLetter} onChange={(e) => setCurrentLetter(e.currentTarget.value)}/>
           <Button extraClass={styles.form__button_size_small} text='Добавить в head' type='button' name='add_to_head' isLoader={addingToHead} onClick={addToHead} disabled={currentLetter === '' || animationIsWorking}/>
           <Button extraClass={styles.form__button_size_small} text='Добавить в tail' type='button' name='add_to_tail' isLoader={addingToTail} onClick={addToTail} disabled={currentLetter === ''|| animationIsWorking}/>
-          <Button extraClass={styles.form__button_size_small} text='Удалить из head' type='button' name='delete_from_head' isLoader={removalFromHead} onClick={deleteFromHead} disabled={animationIsWorking}/>
-          <Button extraClass={styles.form__button_size_small} text='Удалить из tail' type='button' name='delete_from_tail' isLoader={removalFromTail} onClick={deleteFromTail} disabled={animationIsWorking}/>
+          <Button extraClass={styles.form__button_size_small} text='Удалить из head' type='button' name='delete_from_head' isLoader={removalFromHead} onClick={deleteFromHead} disabled={animationIsWorking || list.getSize() === 0}/>
+          <Button extraClass={styles.form__button_size_small} text='Удалить из tail' type='button' name='delete_from_tail' isLoader={removalFromTail} onClick={deleteFromTail} disabled={animationIsWorking || list.getSize() === 0}/>
         </fieldset>
 
         <fieldset className={styles.form__fieldset} id='list_by_index'>
