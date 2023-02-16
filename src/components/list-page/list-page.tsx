@@ -494,8 +494,8 @@ export const ListPage: React.FC = () => {
 
         <fieldset className={styles.form__fieldset} id='list_by_index'>
           <Input extraClass={styles.form__input} placeholder='Введите индекс' type="number" min={0} max={currentList.length} value={currentIndex} onChange={handleChange}/>
-          <Button extraClass={styles.form__button_size_large} text='Добавить по индексу' type='button' name='add_by_index' isLoader={addingByIndex} onClick={addByIndex} disabled={currentLetter === '' || currentIndex === '' || animationIsWorking}/>
-          <Button extraClass={styles.form__button_size_large} text='Удалить по индексу' type='button' name='delete_by_index' isLoader={removalByIndex} onClick={deleteByIndex} disabled={currentIndex === '' || animationIsWorking}/>
+          <Button extraClass={styles.form__button_size_large} text='Добавить по индексу' type='button' name='add_by_index' isLoader={addingByIndex} onClick={addByIndex} disabled={currentLetter === '' || currentIndex === '' || animationIsWorking || currentIndex > list.getSize()}/>
+          <Button extraClass={styles.form__button_size_large} text='Удалить по индексу' type='button' name='delete_by_index' isLoader={removalByIndex} onClick={deleteByIndex} disabled={currentIndex === '' || animationIsWorking || currentIndex > list.getSize() - 1}/>
         </fieldset>
 
         <section className={styles.listArea}>
