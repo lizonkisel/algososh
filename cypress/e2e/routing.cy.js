@@ -3,12 +3,63 @@ describe('Проверяем работу роутинга приложения'
         cy.visit('/');
     });
 
+    // before(() => {
+    //     cy.location();
+    //     cy.visit('/');
+    //     cy.location();
+    // });
+
     it('Открывается стартовая страница', () => {
-        cy.contains('МБОУ АЛГОСОШ')
+        cy.contains('МБОУ АЛГОСОШ');
+        cy.location();
     })
 
     it('Открывается страница "Строка"', () => {
         cy.get('a[href="/algososh/recursion"]').click();
-        
+        cy.get('button').contains('К оглавлению').click();
+        cy.location().should((loc) => {
+            expect(loc.href).to.eq('http://localhost:3000/algososh/');
+        });
     })
+
+    it('Открывается страница "Последовательность Фибоначчи"', () => {
+        cy.get('a[href="/algososh/fibonacci"]').click();
+        cy.get('button').contains('К оглавлению').click();
+        cy.location().should((loc) => {
+            expect(loc.href).to.eq('http://localhost:3000/algososh/');
+        });
+    })
+
+    it('Открывается страница "Сортировка массива"', () => {
+        cy.get('a[href="/algososh/sorting"]').click();
+        cy.get('button').contains('К оглавлению').click();
+        cy.location().should((loc) => {
+            expect(loc.href).to.eq('http://localhost:3000/algososh/');
+        });
+    })
+
+    it('Открывается страница "Стек"', () => {
+        cy.get('a[href="/algososh/stack"]').click();
+        cy.get('button').contains('К оглавлению').click();
+        cy.location().should((loc) => {
+            expect(loc.href).to.eq('http://localhost:3000/algososh/');
+        });
+    })
+
+    it('Открывается страница "Очередь"', () => {
+        cy.get('a[href="/algososh/queue"]').click();
+        cy.get('button').contains('К оглавлению').click();
+        cy.location().should((loc) => {
+            expect(loc.href).to.eq('http://localhost:3000/algososh/');
+        });
+    })
+
+    it('Открывается страница "Связный список"', () => {
+        cy.get('a[href="/algososh/list"]').click();
+        cy.get('button').contains('К оглавлению').click();
+        cy.location().should((loc) => {
+            expect(loc.href).to.eq('http://localhost:3000/algososh/');
+        });
+    })
+
 });
