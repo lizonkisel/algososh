@@ -17,9 +17,11 @@ describe('Проверяем работу роутинга приложения'
     it('Открывается страница "Строка"', () => {
         cy.get('a[href="/algososh/recursion"]').click();
         cy.get('button').contains('К оглавлению').click();
-        cy.location().should((loc) => {
-            expect(loc.href).to.eq('http://localhost:3000/algososh/');
-        });
+        // cy.location().should((loc) => {
+        //     expect(loc.href).to.eq('http://localhost:3000/algososh/');
+        // });
+
+        cy.location('href').should('eq', 'http://localhost:3000/algososh/');
     })
 
     it('Открывается страница "Последовательность Фибоначчи"', () => {
