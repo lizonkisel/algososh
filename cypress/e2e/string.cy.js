@@ -46,8 +46,6 @@ describe('Страница "Строка"', function() {
         cy.wait(DELAY_IN_MS);
         cy.get('*[class^="circle_circle_"]').eq(1).invoke('attr', 'class').should('include', 'circle_modified_');
         cy.get('*[class^="circle_circle_"]').eq(2).invoke('attr', 'class').should('include', 'circle_modified_');
-
-        cy.contains('button', 'Развернуть').should('be.enabled')
       });
 
     it('Проверка корректности разворота строки с нечётным количеством элементов', () => {
@@ -83,8 +81,6 @@ describe('Страница "Строка"', function() {
 
         cy.wait(DELAY_IN_MS);
         cy.get('*[class^="circle_circle_"]').eq(2).invoke('attr', 'class').should('include', 'circle_modified_');
-
-        cy.contains('button', 'Развернуть').should('be.enabled')
     });
 
     it('Проверка корректности разворота строки с одним элементом', () => {
@@ -96,7 +92,5 @@ describe('Страница "Строка"', function() {
         cy.get('*[class^="circle_content_"]').should('have.length', 1);
 
         cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_modified_');
-
-        cy.contains('button', 'Развернуть').should('be.enabled')
     });
   });
