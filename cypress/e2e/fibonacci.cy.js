@@ -16,6 +16,17 @@ const fullRow = getFibonacciRow(19);
 const rowOfUnit = getFibonacciRow(1);
 
 describe('Страница "Последовательность Фибоначчи"', function() {
+  it('Если в инпуте пусто, то кнопка добавления недоступна', () => {
+    cy.visit('/fibonacci');
+      cy.get('.text_type_input').invoke('val').then((val) => {
+          if (val === '') {
+              cy.contains('button', 'Развернуть').should('be.disabled')
+          } else {
+              cy.contains('button', 'Развернуть').should('be.enabled')
+          }
+      });
+  });
+
   it('Проверка корректности генерации ряда Фибоначчи от "1"', () => {
     cy.visit('/fibonacci');;
 
