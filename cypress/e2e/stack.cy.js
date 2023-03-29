@@ -93,6 +93,46 @@ describe('Страница "Стэк"', function() {
     });
 
     it('Проверка правильности удаления элемента из стека', () => {
+        cy.get('input[class*=text_type_input]').type('h');
+        cy.contains('button', 'Добавить').click();
 
-    })
+        cy.wait(SHORT_DELAY_IN_MS);
+        cy.get('input[class*=text_type_input]').type('i');
+        cy.contains('button', 'Добавить').click();
+
+        cy.wait(SHORT_DELAY_IN_MS);
+        cy.get('section[class^="stack-page_stackArea_"]').children().should('have.length', 2);
+        cy.get('[class^="stack-page_stack__top_"]').eq(0).should('have.text', '');
+        cy.get('[class^="stack-page_stack__top_"]').eq(1).should('have.text', 'top');
+        cy.get('.text_type_circle').eq(0).should('have.text', 'h');
+        cy.get('.text_type_circle').eq(1).should('have.text', 'i');
+        cy.get('div[class^="stack-page_stackArea__stack_"]').eq(0).children().eq(2).should('have.text', '0');
+        cy.get('div[class^="stack-page_stackArea__stack_"]').eq(1).children().eq(2).should('have.text', '1');
+
+        cy.contains('button', 'Удалить').click();
+
+        cy.wait(SHORT_DELAY_IN_MS);
+        cy.get('section[class^="stack-page_stackArea_"]').children().should('have.length', 1);
+        cy.get('[class^="stack-page_stack__top_"]').eq(0).should('have.text', 'top');
+        cy.get('.text_type_circle').eq(0).should('have.text', 'h');
+        cy.get('div[class^="stack-page_stackArea__stack_"]').eq(0).children().eq(2).should('have.text', '0');
+    });
+
+    it('Проверка поведения кнопки «Очистить»', () => {
+        cy.get('input[class*=text_type_input]').type('h');
+        cy.contains('button', 'Добавить').click();
+
+        cy.wait(SHORT_DELAY_IN_MS);
+        cy.get('input[class*=text_type_input]').type('i');
+        cy.contains('button', 'Добавить').click();
+
+        cy.wait(SHORT_DELAY_IN_MS);
+        cy.get('section[class^="stack-page_stackArea_"]').children().should('have.length', 2);
+
+        cy.contains('button', 'Очистить').click();
+
+        cy.wait(SHORT_DELAY_IN_MS);
+        cy.get('section[class^="stack-page_stackArea_"]').children().should('have.length', 0);
+    });
+
 });
