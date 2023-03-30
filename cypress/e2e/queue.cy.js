@@ -94,21 +94,25 @@ describe('Страница "Очередь"', function() {
         cy.get('*[class^="circle_content_"]').eq(1).children().eq(3).should('have.text', 'tail');
     });
 
-    // it('Проверка поведения кнопки «Очистить»', () => {
-    //     cy.get('input[class*=text_type_input]').type('h');
-    //     cy.contains('button', 'Добавить').click();
+    it('Проверка поведения кнопки «Очистить»', () => {
+        cy.get('input[class*=text_type_input]').type('h');
+        cy.contains('button', 'Добавить').click();
 
-    //     cy.wait(SHORT_DELAY_IN_MS);
-    //     cy.get('input[class*=text_type_input]').type('i');
-    //     cy.contains('button', 'Добавить').click();
+        cy.wait(SHORT_DELAY_IN_MS);
+        cy.get('input[class*=text_type_input]').type('i');
+        cy.contains('button', 'Добавить').click();
 
-    //     cy.wait(SHORT_DELAY_IN_MS);
-    //     cy.get('section[class^="stack-page_stackArea_"]').children().should('have.length', 2);
+        cy.wait(SHORT_DELAY_IN_MS);
+        cy.get('.text_type_circle').eq(0).should('have.text', 'h');
+        cy.get('.text_type_circle').eq(1).should('have.text', 'i');
 
-    //     cy.contains('button', 'Очистить').click();
+        cy.contains('button', 'Очистить').click();
 
-    //     cy.wait(SHORT_DELAY_IN_MS);
-    //     cy.get('section[class^="stack-page_stackArea_"]').children().should('have.length', 0);
-    // });
+        cy.wait(SHORT_DELAY_IN_MS);
+        cy.get('.text_type_circle').eq(0).should('have.text', '');
+        cy.get('.text_type_circle').each((val) => {
+            cy.wrap(val).should('have.text', '');
+        });
+    });
 
 });
