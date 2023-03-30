@@ -59,85 +59,40 @@ describe('Страница "Очередь"', function() {
         cy.get('.text_type_circle').eq(3).should('have.text', 'a');
         cy.get('*[class^="circle_content_"]').eq(3).children().eq(2).should('have.text', '3');
         cy.get('*[class^="circle_content_"]').eq(3).children().eq(3).should('have.text', 'tail');
-
-
-        // cy.get('*[class^="circle_circle_"]').eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
-        // cy.get('[class^="stack-page_stack__top_"]').eq(0).should('have.text', '');
-        // cy.get('[class^="stack-page_stack__top_"]').eq(1).should('have.text', 'top');
-        // cy.get('div[class^="stack-page_stackArea__stack_"]').eq(0).children().eq(2).should('have.text', '0');
-        // cy.get('div[class^="stack-page_stackArea__stack_"]').eq(1).children().eq(2).should('have.text', '1');
-
-
-        // cy.wait(SHORT_DELAY_IN_MS);
-        // cy.get('*[class^="circle_circle_"]').eq(1).invoke('attr', 'class').should('include', 'circle_default_');
-
-        // cy.get('section[class^="stack-page_stackArea_"]').children().should('have.length', 2);
-
-
-        // cy.get('input[class*=text_type_input]').type('t');
-        // cy.contains('button', 'Добавить').click();
-
-        // cy.get('*[class^="circle_circle_"]').eq(2).invoke('attr', 'class').should('include', 'circle_changing_');
-        // cy.get('[class^="stack-page_stack__top_"]').eq(0).should('have.text', '');
-        // cy.get('[class^="stack-page_stack__top_"]').eq(1).should('have.text', '');
-        // cy.get('[class^="stack-page_stack__top_"]').eq(2).should('have.text', 'top');
-        // cy.get('div[class^="stack-page_stackArea__stack_"]').eq(0).children().eq(2).should('have.text', '0');
-        // cy.get('div[class^="stack-page_stackArea__stack_"]').eq(1).children().eq(2).should('have.text', '1');
-        // cy.get('div[class^="stack-page_stackArea__stack_"]').eq(2).children().eq(2).should('have.text', '2');
-
-
-        // cy.wait(SHORT_DELAY_IN_MS);
-        // cy.get('*[class^="circle_circle_"]').eq(2).invoke('attr', 'class').should('include', 'circle_default_');
-
-        // cy.get('section[class^="stack-page_stackArea_"]').children().should('have.length', 3);
-
-        
-        // cy.get('input[class*=text_type_input]').type('a');
-        // cy.contains('button', 'Добавить').click();
-
-        // cy.get('*[class^="circle_circle_"]').eq(3).invoke('attr', 'class').should('include', 'circle_changing_');
-        // cy.get('[class^="stack-page_stack__top_"]').eq(0).should('have.text', '');
-        // cy.get('[class^="stack-page_stack__top_"]').eq(1).should('have.text', '');
-        // cy.get('[class^="stack-page_stack__top_"]').eq(2).should('have.text', '');
-        // cy.get('[class^="stack-page_stack__top_"]').eq(3).should('have.text', 'top');
-        // cy.get('div[class^="stack-page_stackArea__stack_"]').eq(0).children().eq(2).should('have.text', '0');
-        // cy.get('div[class^="stack-page_stackArea__stack_"]').eq(1).children().eq(2).should('have.text', '1');
-        // cy.get('div[class^="stack-page_stackArea__stack_"]').eq(2).children().eq(2).should('have.text', '2');
-        // cy.get('div[class^="stack-page_stackArea__stack_"]').eq(3).children().eq(2).should('have.text', '3');
-
-
-        // cy.wait(SHORT_DELAY_IN_MS);
-        // cy.get('*[class^="circle_circle_"]').eq(3).invoke('attr', 'class').should('include', 'circle_default_');
-
-        
-        // cy.get('section[class^="stack-page_stackArea_"]').children().should('have.length', 4);
     });
 
-    // it('Проверка правильности удаления элемента из стека', () => {
-    //     cy.get('input[class*=text_type_input]').type('h');
-    //     cy.contains('button', 'Добавить').click();
+    it('Проверка правильности удаления элемента из очереди', () => {
+        cy.get('input[class*=text_type_input]').type('h');
+        cy.contains('button', 'Добавить').click();
 
-    //     cy.wait(SHORT_DELAY_IN_MS);
-    //     cy.get('input[class*=text_type_input]').type('i');
-    //     cy.contains('button', 'Добавить').click();
+        cy.wait(SHORT_DELAY_IN_MS);
+        cy.get('input[class*=text_type_input]').type('i');
+        cy.contains('button', 'Добавить').click();
 
-    //     cy.wait(SHORT_DELAY_IN_MS);
-    //     cy.get('section[class^="stack-page_stackArea_"]').children().should('have.length', 2);
-    //     cy.get('[class^="stack-page_stack__top_"]').eq(0).should('have.text', '');
-    //     cy.get('[class^="stack-page_stack__top_"]').eq(1).should('have.text', 'top');
-    //     cy.get('.text_type_circle').eq(0).should('have.text', 'h');
-    //     cy.get('.text_type_circle').eq(1).should('have.text', 'i');
-    //     cy.get('div[class^="stack-page_stackArea__stack_"]').eq(0).children().eq(2).should('have.text', '0');
-    //     cy.get('div[class^="stack-page_stackArea__stack_"]').eq(1).children().eq(2).should('have.text', '1');
+        cy.wait(SHORT_DELAY_IN_MS);
+        cy.get('*[class^="circle_content_"]').eq(0).children().eq(0).should('have.text', 'head');
+        cy.get('.text_type_circle').eq(0).should('have.text', 'h');
+        cy.get('*[class^="circle_content_"]').eq(0).children().eq(2).should('have.text', '0');
+        cy.get('*[class^="circle_content_"]').eq(0).children().eq(3).should('have.text', '');
 
-    //     cy.contains('button', 'Удалить').click();
+        cy.get('*[class^="circle_content_"]').eq(1).children().eq(0).should('have.text', '');
+        cy.get('.text_type_circle').eq(1).should('have.text', 'i');
+        cy.get('*[class^="circle_content_"]').eq(1).children().eq(2).should('have.text', '1');
+        cy.get('*[class^="circle_content_"]').eq(1).children().eq(3).should('have.text', 'tail');
 
-    //     cy.wait(SHORT_DELAY_IN_MS);
-    //     cy.get('section[class^="stack-page_stackArea_"]').children().should('have.length', 1);
-    //     cy.get('[class^="stack-page_stack__top_"]').eq(0).should('have.text', 'top');
-    //     cy.get('.text_type_circle').eq(0).should('have.text', 'h');
-    //     cy.get('div[class^="stack-page_stackArea__stack_"]').eq(0).children().eq(2).should('have.text', '0');
-    // });
+        cy.contains('button', 'Удалить').click();
+
+        cy.wait(SHORT_DELAY_IN_MS);
+        cy.get('*[class^="circle_content_"]').eq(0).children().eq(0).should('have.text', '');
+        cy.get('.text_type_circle').eq(0).should('have.text', '');
+        cy.get('*[class^="circle_content_"]').eq(0).children().eq(2).should('have.text', '0');
+        cy.get('*[class^="circle_content_"]').eq(0).children().eq(3).should('have.text', '');
+
+        cy.get('*[class^="circle_content_"]').eq(1).children().eq(0).should('have.text', 'head');
+        cy.get('.text_type_circle').eq(1).should('have.text', 'i');
+        cy.get('*[class^="circle_content_"]').eq(1).children().eq(2).should('have.text', '1');
+        cy.get('*[class^="circle_content_"]').eq(1).children().eq(3).should('have.text', 'tail');
+    });
 
     // it('Проверка поведения кнопки «Очистить»', () => {
     //     cy.get('input[class*=text_type_input]').type('h');
