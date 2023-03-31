@@ -196,6 +196,7 @@ export const ListPage: React.FC = () => {
       })]);
 
       await delay(SHORT_DELAY_IN_MS);
+      // await delay(100000);
 
       list.prepend(currentLetter);
       
@@ -305,6 +306,7 @@ export const ListPage: React.FC = () => {
     })]);
 
     await delay(SHORT_DELAY_IN_MS);
+    // await delay(100000);
 
     list.deleteHead();
 
