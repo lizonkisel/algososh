@@ -1,6 +1,6 @@
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 
-function getFibonacciRow(n) {
+function getFibonacciRow(n: number): number[] {
     const arr = [1, 1];
     if (n === 1) {
       return arr;

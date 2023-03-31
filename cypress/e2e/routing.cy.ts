@@ -1,3 +1,5 @@
+import React from "react";
+
 describe('Проверяем работу роутинга приложения', () => {
     beforeEach(() => {
         cy.visit('/');

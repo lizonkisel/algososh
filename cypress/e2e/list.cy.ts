@@ -46,7 +46,7 @@ describe('Страница "Очередь"', function() {
     });
 
     it('Проверка  добавления элемента в head', () => {
-        cy.get('.text_type_input').eq(0).type(1);
+        cy.get('.text_type_input').eq(0).type('1');
         cy.contains('button', 'Добавить в head').click();
 
         cy.get('*[class^="circle_content_"]').eq(0).children().eq(0).children().first().invoke('attr', 'class').should('include', 'circle_content_');
@@ -68,7 +68,7 @@ describe('Страница "Очередь"', function() {
     });
 
     it('Проверка добавления элемента в tail', () => {
-        cy.get('.text_type_input').eq(0).type(5);
+        cy.get('.text_type_input').eq(0).type('5');
         cy.contains('button', 'Добавить в tail').click();
 
         cy.get('*[class^="circle_content_"]').eq(3).children().first().children().first().invoke('attr', 'class').should('include', 'circle_content_');
@@ -91,8 +91,8 @@ describe('Страница "Очередь"', function() {
     });
 
     it('Проверка добавления элемента по индексу', () => {
-        cy.get('.text_type_input').eq(0).type(1);
-        cy.get('.text_type_input').eq(1).type(1);
+        cy.get('.text_type_input').eq(0).type('1');
+        cy.get('.text_type_input').eq(1).type('1');
         cy.contains('button', 'Добавить по индексу').click();
 
         cy.get('*[class^="circle_content_"]').eq(0).children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
@@ -157,7 +157,7 @@ describe('Страница "Очередь"', function() {
     });
 
     it('Проверка удаления элемента по индексу', () => {
-        cy.get('.text_type_input').eq(1).type(1);
+        cy.get('.text_type_input').eq(1).type('1');
         cy.contains('button', 'Удалить по индексу').click();
 
         cy.get('section[class^="list-page_listArea_"]').children().should('have.length', 4);
