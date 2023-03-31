@@ -1,15 +1,14 @@
 import { DELAY_IN_MS } from "../../src/constants/delays";
+import { checkDisabledButton, checkEnabledButton, checkAmountOfCircles } from "./utils/utils";
 
 describe('Страница "Строка"', function() {
     it('Если в инпуте пусто, то кнопка добавления недоступна', () => {
       cy.visit('/recursion');
         cy.get('.text_type_input').invoke('val').then((val) => {
-            console.log('azaza');
-            console.log(val);
             if (val === '') {
-                cy.contains('button', 'Развернуть').should('be.disabled')
+                checkDisabledButton('Развернуть');
             } else {
-                cy.contains('button', 'Развернуть').should('be.enabled')
+                checkEnabledButton('Развернуть');
             }
         });
     });
@@ -20,10 +19,8 @@ describe('Страница "Строка"', function() {
         cy.get('.text_type_input').type('data');
         cy.contains('button', 'Развернуть').click();
 
-        // cy.get('.circle_content__SVUBY').should('have.length', 4);
-        cy.get('*[class^="circle_content_"]').should('have.length', 4);
+        checkAmountOfCircles('*[class^="circle_content_"]', 4);
 
-        // cy.get('.circle_circle__QosZX').eq(0).invoke('attr', 'class').should('include', 'circle_changing_');
         cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_changing_');
         cy.get('*[class^="circle_circle_"]').eq(3).invoke('attr', 'class').should('include', 'circle_changing_');
 
@@ -54,7 +51,7 @@ describe('Страница "Строка"', function() {
         cy.get('.text_type_input').type('world');
         cy.contains('button', 'Развернуть').click();
 
-        cy.get('*[class^="circle_content_"]').should('have.length', 5);
+        checkAmountOfCircles('*[class^="circle_content_"]', 5);
 
         cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_changing_');
         cy.get('*[class^="circle_circle_"]').eq(4).invoke('attr', 'class').should('include', 'circle_changing_');
@@ -89,7 +86,7 @@ describe('Страница "Строка"', function() {
         cy.get('.text_type_input').type('A');
         cy.contains('button', 'Развернуть').click();
 
-        cy.get('*[class^="circle_content_"]').should('have.length', 1);
+        checkAmountOfCircles('*[class^="circle_content_"]', 1);
 
         cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_modified_');
     });

@@ -1,5 +1,7 @@
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 
+import { checkDisabledButton, checkEnabledButton, checkAmountOfCircles } from "./utils/utils";
+
 function getFibonacciRow(n: number): number[] {
     const arr = [1, 1];
     if (n === 1) {
@@ -19,11 +21,11 @@ describe('Страница "Последовательность Фибонач�
   it('Если в инпуте пусто, то кнопка добавления недоступна', () => {
     cy.visit('/fibonacci');
       cy.get('.text_type_input').invoke('val').then((val) => {
-          if (val === '') {
-              cy.contains('button', 'Развернуть').should('be.disabled')
-          } else {
-              cy.contains('button', 'Развернуть').should('be.enabled')
-          }
+        if (val === '') {
+            checkDisabledButton('Развернуть');
+        } else {
+            checkEnabledButton('Развернуть');
+        }
       });
   });
 
@@ -34,7 +36,8 @@ describe('Страница "Последовательность Фибонач�
     cy.contains('button', 'Развернуть').click();
 
     cy.wait(rowOfUnit.length * SHORT_DELAY_IN_MS);
-    cy.get('*[class^="circle_content_"]').should('have.length', rowOfUnit.length);
+    // cy.get('*[class^="circle_content_"]').should('have.length', rowOfUnit.length);
+    checkAmountOfCircles('*[class^="circle_content_"]', rowOfUnit.length);
 
     cy.get('.text_type_circle').each((val, index) => {
       const arrValue = rowOfUnit[index];
@@ -49,7 +52,9 @@ describe('Страница "Последовательность Фибонач�
         cy.contains('button', 'Развернуть').click();
 
         cy.wait(fullRow.length * SHORT_DELAY_IN_MS);
-        cy.get('*[class^="circle_content_"]').should('have.length', fullRow.length);
+        // cy.get('*[class^="circle_content_"]').should('have.length', fullRow.length);
+        checkAmountOfCircles('*[class^="circle_content_"]', fullRow.length);
+
 
         cy.get('.text_type_circle').each((val, index) => {
           const arrValue = fullRow[index];

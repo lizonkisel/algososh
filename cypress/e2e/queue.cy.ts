@@ -1,5 +1,6 @@
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 
+import { checkDisabledButton, checkEnabledButton } from "./utils/utils";
 
 describe('Страница "Очередь"', function() {
     beforeEach(() => {
@@ -9,9 +10,9 @@ describe('Страница "Очередь"', function() {
     it('Если в инпуте пусто, то кнопка добавления недоступна', () => {
         cy.get('.text_type_input').invoke('val').then((val) => {
             if (val === '') {
-                cy.contains('button', 'Добавить').should('be.disabled')
+                checkDisabledButton('Добавить');
             } else {
-                cy.contains('button', 'Добавить').should('be.enabled')
+                checkEnabledButton('Добавить');
             }
         });
     });
