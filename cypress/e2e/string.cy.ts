@@ -21,8 +21,6 @@ describe('Страница "Строка"', function() {
 
         checkAmountOfCircles('*[class^="circle_content_"]', 4);
 
-        // cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_changing_');
-        // cy.get('*[class^="circle_circle_"]').eq(3).invoke('attr', 'class').should('include', 'circle_changing_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(0), 'circle_changing_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(3), 'circle_changing_');
 
@@ -32,14 +30,10 @@ describe('Страница "Строка"', function() {
         cy.get('*[class^="circle_content_"]').get('.text_type_circle').eq(3).should('have.text', 'd');
 
         cy.wait(DELAY_IN_MS);
-        // cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_modified_');
-        // cy.get('*[class^="circle_circle_"]').eq(3).invoke('attr', 'class').should('include', 'circle_modified_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(0), 'circle_modified_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(3), 'circle_modified_');
 
         cy.wait(DELAY_IN_MS);
-        // cy.get('*[class^="circle_circle_"]').eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
-        // cy.get('*[class^="circle_circle_"]').eq(2).invoke('attr', 'class').should('include', 'circle_changing_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(1), 'circle_changing_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(2), 'circle_changing_');
 
@@ -48,8 +42,6 @@ describe('Страница "Строка"', function() {
         cy.get('*[class^="circle_content_"]').get('.text_type_circle').eq(2).should('have.text', 'a');
 
         cy.wait(DELAY_IN_MS);
-        // cy.get('*[class^="circle_circle_"]').eq(1).invoke('attr', 'class').should('include', 'circle_modified_');
-        // cy.get('*[class^="circle_circle_"]').eq(2).invoke('attr', 'class').should('include', 'circle_modified_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(1), 'circle_modified_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(2), 'circle_modified_');
       });
@@ -62,8 +54,6 @@ describe('Страница "Строка"', function() {
 
         checkAmountOfCircles('*[class^="circle_content_"]', 5);
 
-        // cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_changing_');
-        // cy.get('*[class^="circle_circle_"]').eq(4).invoke('attr', 'class').should('include', 'circle_changing_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(0), 'circle_changing_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(4), 'circle_changing_');
 
@@ -72,14 +62,10 @@ describe('Страница "Строка"', function() {
         cy.get('*[class^="circle_content_"]').get('.text_type_circle').eq(4).should('have.text', 'w');
 
         cy.wait(DELAY_IN_MS);
-        // cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_modified_');
-        // cy.get('*[class^="circle_circle_"]').eq(4).invoke('attr', 'class').should('include', 'circle_modified_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(0), 'circle_modified_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(4), 'circle_modified_');
 
         cy.wait(DELAY_IN_MS);
-        // cy.get('*[class^="circle_circle_"]').eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
-        // cy.get('*[class^="circle_circle_"]').eq(3).invoke('attr', 'class').should('include', 'circle_changing_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(1), 'circle_changing_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(3), 'circle_changing_');
 
@@ -88,13 +74,10 @@ describe('Страница "Строка"', function() {
         cy.get('*[class^="circle_content_"]').get('.text_type_circle').eq(3).should('have.text', 'o');
 
         cy.wait(DELAY_IN_MS);
-        // cy.get('*[class^="circle_circle_"]').eq(1).invoke('attr', 'class').should('include', 'circle_modified_');
-        // cy.get('*[class^="circle_circle_"]').eq(3).invoke('attr', 'class').should('include', 'circle_modified_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(1), 'circle_modified_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(3), 'circle_modified_');
 
         cy.wait(DELAY_IN_MS);
-        // cy.get('*[class^="circle_circle_"]').eq(2).invoke('attr', 'class').should('include', 'circle_modified_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(2), 'circle_modified_');
     });
 
@@ -106,7 +89,6 @@ describe('Страница "Строка"', function() {
 
         checkAmountOfCircles('*[class^="circle_content_"]', 1);
 
-        // cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_modified_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(0), 'circle_modified_');
     });
   });

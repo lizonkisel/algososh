@@ -21,7 +21,6 @@ describe('Страница "Очередь"', function() {
         cy.get('input[class*=text_type_input]').type('d');
         cy.contains('button', 'Добавить').click();
 
-        // cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_changing_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(0), 'circle_changing_');
         cy.get('*[class^="circle_content_"]').eq(0).children().eq(0).should('have.text', 'head');
         cy.get('.text_type_circle').eq(0).should('have.text', 'd');
@@ -29,7 +28,6 @@ describe('Страница "Очередь"', function() {
         cy.get('*[class^="circle_content_"]').eq(0).children().eq(3).should('have.text', 'tail');
 
         cy.wait(SHORT_DELAY_IN_MS);
-        // cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_default_');
         checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(0), 'circle_default_');
         
         cy.get('input[class*=text_type_input]').type('a');

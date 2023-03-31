@@ -5,12 +5,6 @@ describe('Проверяем работу роутинга приложения'
         cy.visit('/');
     });
 
-    // before(() => {
-    //     cy.location();
-    //     cy.visit('/');
-    //     cy.location();
-    // });
-
     it('Открывается стартовая страница', () => {
         cy.contains('МБОУ АЛГОСОШ');
         cy.location();
