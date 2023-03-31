@@ -1,6 +1,6 @@
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 
-import { checkDisabledButton, checkEnabledButton, checkAmountOfCircles } from "./utils/utils";
+import { checkDisabledButton, checkEnabledButton, checkAmountOfCircles, checkClassOfElementIncludes } from "./utils/utils";
 
 describe('Страница "Очередь"', function() {
     beforeEach(() => {
@@ -55,7 +55,8 @@ describe('Страница "Очередь"', function() {
         cy.get('*[class^="circle_content_"]').eq(0).children().eq(0).children().first().children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
 
         cy.wait(SHORT_DELAY_IN_MS);
-        cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_modified_');
+        // cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_modified_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(0), 'circle_modified_');
         cy.get('*[class^="circle_content_"]').eq(0).children().eq(0).should('have.text', 'head');
         cy.get('*[class^="circle_content_"]').get('.text_type_circle').eq(0).should('have.text', '1');
         cy.get('*[class^="circle_content_"]').eq(0).children().eq(2).should('have.text', '0');
@@ -63,7 +64,8 @@ describe('Страница "Очередь"', function() {
         cy.get('*[class^="circle_content_"]').eq(1).children().eq(0).should('have.text', '');
 
         cy.wait(SHORT_DELAY_IN_MS);
-        cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_default_');
+        // cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_default_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(0), 'circle_default_');
 
         // cy.get('section[class^="list-page_listArea_"]').children().should('have.length', 5);
         checkAmountOfCircles('*[class^="circle_content_"]', 5);
@@ -73,12 +75,15 @@ describe('Страница "Очередь"', function() {
         cy.get('.text_type_input').eq(0).type('5');
         cy.contains('button', 'Добавить в tail').click();
 
-        cy.get('*[class^="circle_content_"]').eq(3).children().first().children().first().invoke('attr', 'class').should('include', 'circle_content_');
+        // cy.get('*[class^="circle_content_"]').eq(3).children().first().children().first().invoke('attr', 'class').should('include', 'circle_content_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(3).children().first().children().first(), 'circle_content_');
         cy.get('*[class^="circle_content_"]').eq(3).children().first().children().first().children().eq(1).should('have.text', 5);
-        cy.get('*[class^="circle_content_"]').eq(3).children().first().children().first().children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        // cy.get('*[class^="circle_content_"]').eq(3).children().first().children().first().children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(3).children().first().children().first().children().eq(1), 'circle_changing_');
 
         cy.wait(SHORT_DELAY_IN_MS);
-        cy.get('*[class^="circle_circle_"]').last().invoke('attr', 'class').should('include', 'circle_modified_');
+        // cy.get('*[class^="circle_circle_"]').last().invoke('attr', 'class').should('include', 'circle_modified_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').last(), 'circle_modified_');
         cy.get('*[class^="circle_content_"]').last().children().last().should('have.text', 'tail');
         cy.get('*[class^="circle_content_"]').get('.text_type_circle').last().should('have.text', '5');
         cy.get('*[class^="circle_content_"]').last().children().eq(2).should('have.text', '4');
@@ -87,7 +92,8 @@ describe('Страница "Очередь"', function() {
         cy.get('*[class^="circle_content_"]').eq(3).children().eq(3).should('have.text', '');
 
         cy.wait(SHORT_DELAY_IN_MS);
-        cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_default_');
+        // cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_default_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(0), 'circle_default_');
 
         // cy.get('section[class^="list-page_listArea_"]').children().should('have.length', 5);
         checkAmountOfCircles('*[class^="circle_content_"]', 5);
@@ -98,23 +104,31 @@ describe('Страница "Очередь"', function() {
         cy.get('.text_type_input').eq(1).type('1');
         cy.contains('button', 'Добавить по индексу').click();
 
-        cy.get('*[class^="circle_content_"]').eq(0).children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        // cy.get('*[class^="circle_content_"]').eq(0).children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(0).children().eq(1), 'circle_changing_');
 
-        cy.get('*[class^="circle_content_"]').eq(0).children().eq(0).children().first().invoke('attr', 'class').should('include', 'circle_content_');
+        // cy.get('*[class^="circle_content_"]').eq(0).children().eq(0).children().first().invoke('attr', 'class').should('include', 'circle_content_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(0).children().eq(0).children().first(), 'circle_content_');
         cy.get('*[class^="circle_content_"]').eq(0).children().eq(0).children().first().children().eq(1).should('have.text', 1);
-        cy.get('*[class^="circle_content_"]').eq(0).children().eq(0).children().first().children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        // cy.get('*[class^="circle_content_"]').eq(0).children().eq(0).children().first().children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(0).children().eq(0).children().first().children().eq(1), 'circle_changing_');
 
 
         cy.wait(SHORT_DELAY_IN_MS);
-        cy.get('*[class^="circle_content_"]').eq(0).children().eq(1).invoke('attr', 'class').should('include', 'circle_default_');
-        cy.get('*[class^="circle_content_"]').eq(1).children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        // cy.get('*[class^="circle_content_"]').eq(0).children().eq(1).invoke('attr', 'class').should('include', 'circle_default_');
+        // cy.get('*[class^="circle_content_"]').eq(1).children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(0).children().eq(1), 'circle_default_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(1).children().eq(1), 'circle_changing_');
 
-        cy.get('*[class^="circle_content_"]').eq(1).children().eq(0).children().first().invoke('attr', 'class').should('include', 'circle_content_');
+        // cy.get('*[class^="circle_content_"]').eq(1).children().eq(0).children().first().invoke('attr', 'class').should('include', 'circle_content_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(1).children().eq(0).children().first(), 'circle_content_');
         cy.get('*[class^="circle_content_"]').eq(1).children().eq(0).children().first().children().eq(1).should('have.text', 1);
-        cy.get('*[class^="circle_content_"]').eq(1).children().eq(0).children().first().children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        // cy.get('*[class^="circle_content_"]').eq(1).children().eq(0).children().first().children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(1).children().eq(0).children().first().children().eq(1), 'circle_changing_');
 
         cy.wait(SHORT_DELAY_IN_MS);
-        cy.get('*[class^="circle_content_"]').eq(1).children().eq(1).invoke('attr', 'class').should('include', 'circle_modified_');
+        // cy.get('*[class^="circle_content_"]').eq(1).children().eq(1).invoke('attr', 'class').should('include', 'circle_modified_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(1).children().eq(1), 'circle_modified_');
         cy.get('.text_type_circle').eq(1).should('have.text', '1');
         cy.get('.text_type_circle').eq(2).should('have.text', '34');
         cy.get('.text_type_circle').last().should('have.text', '1');
@@ -122,7 +136,8 @@ describe('Страница "Очередь"', function() {
         checkAmountOfCircles('*[class^="circle_content_"]', 5);
 
         cy.wait(SHORT_DELAY_IN_MS);
-        cy.get('*[class^="circle_content_"]').eq(1).children().eq(1).invoke('attr', 'class').should('include', 'circle_default_');
+        // cy.get('*[class^="circle_content_"]').eq(1).children().eq(1).invoke('attr', 'class').should('include', 'circle_default_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(1).children().eq(1), 'circle_default_');
         cy.contains('button', 'Добавить по индексу').should('be.disabled');
     });
 
@@ -132,8 +147,10 @@ describe('Страница "Очередь"', function() {
 
         // cy.get('section[class^="list-page_listArea_"]').children().should('have.length', 4);
 
-        cy.get('*[class^="circle_content_"]').eq(0).children().last().children().eq(0).invoke('attr', 'class').should('include', 'circle_content_');
-        cy.get('*[class^="circle_content_"]').eq(0).children().last().children().eq(0).children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        // cy.get('*[class^="circle_content_"]').eq(0).children().last().children().eq(0).invoke('attr', 'class').should('include', 'circle_content_');
+        // cy.get('*[class^="circle_content_"]').eq(0).children().last().children().eq(0).children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(0).children().last().children().eq(0), 'circle_content_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(0).children().last().children().eq(0).children().eq(1), 'circle_changing_');
         cy.get('*[class^="circle_content_"]').eq(0).children().last().children().eq(0).children().eq(1).should('have.text', '0');
         cy.get('*[class^="circle_content_"]').eq(0).children().eq(1).should('have.text', '');
 
@@ -151,8 +168,10 @@ describe('Страница "Очередь"', function() {
 
         // cy.get('section[class^="list-page_listArea_"]').children().should('have.length', 4);
 
-        cy.get('*[class^="circle_content_"]').eq(3).children().last().children().eq(0).invoke('attr', 'class').should('include', 'circle_content_');
-        cy.get('*[class^="circle_content_"]').eq(4).children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        // cy.get('*[class^="circle_content_"]').eq(3).children().last().children().eq(0).invoke('attr', 'class').should('include', 'circle_content_');
+        // cy.get('*[class^="circle_content_"]').eq(4).children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(3).children().last().children().eq(0), 'circle_content_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(4).children().eq(1), 'circle_changing_');
         cy.get('*[class^="circle_content_"]').eq(4).children().eq(1).should('have.text', '1');
         cy.get('*[class^="circle_content_"]').eq(3).children().eq(1).should('have.text', '');
 
@@ -172,14 +191,19 @@ describe('Страница "Очередь"', function() {
 
         // cy.get('section[class^="list-page_listArea_"]').children().should('have.length', 4);
 
-        cy.get('*[class^="circle_content_"]').eq(0).children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        // cy.get('*[class^="circle_content_"]').eq(0).children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(0).children().eq(1), 'circle_changing_');
 
         cy.wait(SHORT_DELAY_IN_MS);
-        cy.get('*[class^="circle_content_"]').eq(0).children().eq(1).invoke('attr', 'class').should('include', 'circle_default_')
-        cy.get('*[class^="circle_content_"]').eq(1).children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        // cy.get('*[class^="circle_content_"]').eq(0).children().eq(1).invoke('attr', 'class').should('include', 'circle_default_')
+        // cy.get('*[class^="circle_content_"]').eq(1).children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(0).children().eq(1), 'circle_default_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(1).children().eq(1), 'circle_changing_');
         cy.get('*[class^="circle_content_"]').eq(1).children().eq(1).should('have.text', '');
-        cy.get('*[class^="circle_content_"]').eq(1).children().last().children().eq(0).invoke('attr', 'class').should('include', 'circle_content_');
-        cy.get('*[class^="circle_content_"]').eq(2).children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        // cy.get('*[class^="circle_content_"]').eq(1).children().last().children().eq(0).invoke('attr', 'class').should('include', 'circle_content_');
+        // cy.get('*[class^="circle_content_"]').eq(2).children().eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(1).children().last().children().eq(0), 'circle_content_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_content_"]').eq(2).children().eq(1), 'circle_changing_');
         cy.get('*[class^="circle_content_"]').eq(2).children().eq(1).should('have.text', '34');
 
         cy.wait(SHORT_DELAY_IN_MS);

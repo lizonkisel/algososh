@@ -10,4 +10,8 @@ function checkAmountOfCircles(selector: string, expectedAmount: number) {
     cy.get(selector).should('have.length', expectedAmount);
 }
 
-export {checkDisabledButton, checkEnabledButton, checkAmountOfCircles};
+function checkClassOfElementIncludes(element: Cypress.Chainable<JQuery<HTMLElement>>, partOfClassName: string) {
+    element.invoke('attr', 'class').should('include', partOfClassName);
+}
+
+export {checkDisabledButton, checkEnabledButton, checkAmountOfCircles, checkClassOfElementIncludes};

@@ -1,5 +1,5 @@
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
-import { checkDisabledButton, checkEnabledButton, checkAmountOfCircles  } from "./utils/utils";
+import { checkDisabledButton, checkEnabledButton, checkAmountOfCircles, checkClassOfElementIncludes } from "./utils/utils";
 
 describe('Страница "Стэк"', function() {
     beforeEach(() => {
@@ -21,7 +21,8 @@ describe('Страница "Стэк"', function() {
         cy.get('input[class*=text_type_input]').type('d');
         cy.contains('button', 'Добавить').click();
 
-        cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_changing_');
+        // cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_changing_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(0), 'circle_changing_');
         // cy.get('section[class^="stack-page_stackArea_"]').children().eq(0).get('[class^="stack-page_stack__top_"]').should('have.text', 'top');
         // cy.get('section[class^="stack-page_stackArea_"]').children().eq(0).get('div[class^="stack-page_stackArea__stack_"]').children().eq(2).should('have.text', '0');
         cy.get('[class^="stack-page_stack__top_"]').eq(0).should('have.text', 'top');
@@ -29,7 +30,8 @@ describe('Страница "Стэк"', function() {
         
 
         cy.wait(SHORT_DELAY_IN_MS);
-        cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_default_');
+        // cy.get('*[class^="circle_circle_"]').eq(0).invoke('attr', 'class').should('include', 'circle_default_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(0), 'circle_default_');
 
         // cy.get('section[class^="stack-page_stackArea_"]').children().should('have.length', 1);
         checkAmountOfCircles('*[class^="circle_content_"]', 1);
@@ -37,7 +39,8 @@ describe('Страница "Стэк"', function() {
         cy.get('input[class*=text_type_input]').type('a');
         cy.contains('button', 'Добавить').click();
 
-        cy.get('*[class^="circle_circle_"]').eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        // cy.get('*[class^="circle_circle_"]').eq(1).invoke('attr', 'class').should('include', 'circle_changing_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(1), 'circle_changing_');
         // cy.get('section[class^="stack-page_stackArea_"]').children().eq(0).get('[class^="stack-page_stack__top_"]').should('have.text', '');
         // cy.get('section[class^="stack-page_stackArea_"]').children().eq(1).get('[class^="stack-page_stack__top_"]').should('have.text', 'top');
         cy.get('[class^="stack-page_stack__top_"]').eq(0).should('have.text', '');
@@ -47,7 +50,8 @@ describe('Страница "Стэк"', function() {
 
 
         cy.wait(SHORT_DELAY_IN_MS);
-        cy.get('*[class^="circle_circle_"]').eq(1).invoke('attr', 'class').should('include', 'circle_default_');
+        // cy.get('*[class^="circle_circle_"]').eq(1).invoke('attr', 'class').should('include', 'circle_default_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(1), 'circle_default_');
 
         // cy.get('section[class^="stack-page_stackArea_"]').children().should('have.length', 2);
         checkAmountOfCircles('*[class^="circle_content_"]', 2);
@@ -56,7 +60,8 @@ describe('Страница "Стэк"', function() {
         cy.get('input[class*=text_type_input]').type('t');
         cy.contains('button', 'Добавить').click();
 
-        cy.get('*[class^="circle_circle_"]').eq(2).invoke('attr', 'class').should('include', 'circle_changing_');
+        // cy.get('*[class^="circle_circle_"]').eq(2).invoke('attr', 'class').should('include', 'circle_changing_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(2), 'circle_changing_');
         cy.get('[class^="stack-page_stack__top_"]').eq(0).should('have.text', '');
         cy.get('[class^="stack-page_stack__top_"]').eq(1).should('have.text', '');
         cy.get('[class^="stack-page_stack__top_"]').eq(2).should('have.text', 'top');
@@ -66,7 +71,8 @@ describe('Страница "Стэк"', function() {
 
 
         cy.wait(SHORT_DELAY_IN_MS);
-        cy.get('*[class^="circle_circle_"]').eq(2).invoke('attr', 'class').should('include', 'circle_default_');
+        // cy.get('*[class^="circle_circle_"]').eq(2).invoke('attr', 'class').should('include', 'circle_default_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(2), 'circle_default_');
 
         // cy.get('section[class^="stack-page_stackArea_"]').children().should('have.length', 3);
         checkAmountOfCircles('*[class^="circle_content_"]', 3);
@@ -75,7 +81,8 @@ describe('Страница "Стэк"', function() {
         cy.get('input[class*=text_type_input]').type('a');
         cy.contains('button', 'Добавить').click();
 
-        cy.get('*[class^="circle_circle_"]').eq(3).invoke('attr', 'class').should('include', 'circle_changing_');
+        // cy.get('*[class^="circle_circle_"]').eq(3).invoke('attr', 'class').should('include', 'circle_changing_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(3), 'circle_changing_');
         cy.get('[class^="stack-page_stack__top_"]').eq(0).should('have.text', '');
         cy.get('[class^="stack-page_stack__top_"]').eq(1).should('have.text', '');
         cy.get('[class^="stack-page_stack__top_"]').eq(2).should('have.text', '');
@@ -87,7 +94,8 @@ describe('Страница "Стэк"', function() {
 
 
         cy.wait(SHORT_DELAY_IN_MS);
-        cy.get('*[class^="circle_circle_"]').eq(3).invoke('attr', 'class').should('include', 'circle_default_');
+        // cy.get('*[class^="circle_circle_"]').eq(3).invoke('attr', 'class').should('include', 'circle_default_');
+        checkClassOfElementIncludes(cy.get('*[class^="circle_circle_"]').eq(3), 'circle_default_');
 
 
         // cy.wait(SHORT_DELAY_IN_MS);
