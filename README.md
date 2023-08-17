@@ -1,10 +1,10 @@
-# Fibonacci AlgoSchool (Study Project in [Yandex.Practicum](https://practicum.yandex.ru/))
+# Fibonacci AlgoSchool
 
 You can test the project [here](https://lizonkisel.github.io/algososh/)
 
 ## Description
 
-Algorithm visualiser with animated step-by-step display of algorithm operation.
+Algorithm visualiser with animated step-by-step display of algorithm operation. Study Project in [Yandex.Practicum](https://practicum.yandex.ru/)
 
 ## Stack
 
