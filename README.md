@@ -34,4 +34,6 @@ Algorithm visualiser with animated step-by-step display of algorithm operation.
 
 3. Do `npm run start` to view the project on your localhost 
 
-4. ...profit 
+4. ...profit!
+
+5. Also you can use `npm run cypress:open` to see e2e-tests
