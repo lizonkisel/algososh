@@ -28,6 +28,8 @@ Algorithm visualiser with animated step-by-step display of algorithm operation. 
 
 ## Install and start-up
 
+This project will works correctly with **node v16.16.0**
+
 1. Copy this project to you machine, using `git clone`
 
 2. Go to the folder with the project and do `npm i` to set up all needed dependencies
